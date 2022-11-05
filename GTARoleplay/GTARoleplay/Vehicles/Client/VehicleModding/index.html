@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" style="background: transparent !important;">
+
+<head>
+    <link href="C:\GTARoleplay\server-files\client_packages\gtaroleplay\WebResources\bootstrap.min.css" rel="stylesheet">
+    <script src="C:\GTARoleplay\server-files\client_packages\gtaroleplay\WebResources\jquery-3.6.0.min.js"></script>
+
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="./resources/ion.rangeSlider.min.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- <link href="../CEF_Tools/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../WebResources/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../WebResources/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="../WebResources/jquery-3.6.0.min.js"></script>
+
+    <!-- Functionality -->
+    <script src="./js/main.js"></script>
+
+    <!-- Spectrum used for the color wheel -->
+    <script src="./resources/spectrum.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./resources/spectrum.min.css"></link>
+
+    <link rel="stylesheet" type="text/css" href="./resources/modding.css"></link>
+
+    <!--Plugin JavaScript file-->
+    <script src="./resources/ion.rangeSlider.min.js"></script>
+</head>
+
+<!-- <body class="h-100" style="background-color: black;"> -->
+<body style="background: transparent !important;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mt-5" style="width: 350px;">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <h5>Customize Sultan</h5>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <button class="btn btn-danger" onclick="closeWindow();">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Use the dropdown menu to get started</h6>
+                        <div class="dropdown dropend mb-4">
+                            <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenu"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Color
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenu">
+                                <li><u>
+                                        <h6 class="dropdown-header">Outerior</h6>
+                                    </u></li>
+                                <li><a data-value="1" class="dropdown-item">Color</a></li>
+                                <li><a data-value="2" class="dropdown-item">Wheels</a></li>
+                                <li><a data-value="3" class="dropdown-item">Spoilers</a></li>
+                                <li><a data-value="4" class="dropdown-item">Bumpers</a></li>
+                                <li><a data-value="5" class="dropdown-item">Skirts &#38; exhausts</a></li>
+                                <li><a data-value="6" class="dropdown-item">Grille &#38; hoods</a></li>
+                                <li><a data-value="7" class="dropdown-item">Fenders</a></li>
+                                <li><a data-value="8" class="dropdown-item">Roofs</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><u>
+                                        <h6 class="dropdown-header">Interior</h6>
+                                    </u></li>
+                                <li><a data-value="9" class="dropdown-item">Frames</a></li>
+                                <li><a data-value="10" class="dropdown-item">Steeringwheels</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><u>
+                                        <h6 class="dropdown-header">Performance</h6>
+                                    </u></li>
+                                <li><a data-value="11" class="dropdown-item">Engines, boost &#38; turbo</a></li>
+                                <li><a data-value="12" class="dropdown-item">Brakes</a></li>
+                                <li><a data-value="13" class="dropdown-item">Transmissions</a></li>
+                                <li><a data-value="14" class="dropdown-item">Suspensions &#38; hydraulics</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><u>
+                                        <h6 class="dropdown-header">Misc</h6>
+                                    </u></li>
+                                <li><a data-value="15" class="dropdown-item">Horns</a></li>
+                                <li><a data-value="16" class="dropdown-item">Plates</a></li>
+                                <li><a data-value="17" class="dropdown-item">Armors &#38; windows</a></li>
+                            </ul>
+                        </div>
+                        <div id="content" class="overflow-auto" style="max-height: 750px;">
+                            <!-- Color tab -->
+                            <div id="child1" class="content-child">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <form>
+                                            <div class="form-group mr-sm-2">
+                                                <h4>Primary custom color</h4>
+                                                <input id="color-picker-primary" />
+                                                <div class="input-group-append">
+                                                    <button id="color-picker-primary-revert" type="button"
+                                                        class="btn btn-secondary m-1 btn-sm">Revert</button>
+                                                    <button id="color-picker-primary-purchase" type="button"
+                                                        class="btn btn-success m-1 btn-sm"
+                                                        onclick="purchasePrimaryColor();">Purchase</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <form">
+                                            <div class="form-group">
+                                                <h4>Secondary custom color</h4>
+                                                <input id="color-picker-secondary" />
+                                                <div class="input-group-append">
+                                                    <button id="color-picker-secondary-revert" type="button"
+                                                        class="btn btn-secondary m-1 btn-sm">Revert</button>
+                                                    <button id="color-picker-secondary-purchase" type="button"
+                                                        class="btn btn-success m-1 btn-sm"
+                                                        onclick="purchaseSecondaryColor();">Purchase</button>
+                                                </div>
+                                            </div>
+                                            </form>
+                                    </div>
+                                    <!-- <div class="p-2 bg-light border">Grid item 3</div> -->
+                                </div>
+                            </div>
+                            <!-- Wheels tab -->
+                            <div id="child2" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Wheel types</h4>
+                                        <form>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioSport" value="0">
+                                                <label class="form-check-label" for="inlineRadioSport">Sport</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioMuscle" value="1">
+                                                <label class="form-check-label" for="inlineRadioMuscle">Muscle</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioLowrider" value="2">
+                                                <label class="form-check-label"
+                                                    for="inlineRadioLowrider">Lowrider</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioSUV" value="3">
+                                                <label class="form-check-label" for="inlineRadioSUV">SUV</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioOffroad" value="4">
+                                                <label class="form-check-label" for="inlineRadioOffroad">Offroad</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioTuner" value="5">
+                                                <label class="form-check-label" for="inlineRadioTuner">Tuner</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioBikeWheels" value="6">
+                                                <label class="form-check-label" for="inlineRadioBikeWheels">Bike
+                                                    Wheels</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input wheel-type" type="radio"
+                                                    name="inlineRadioOptions" id="inlineRadioHighEnd" value="7">
+                                                <label class="form-check-label" for="inlineRadioHighEnd">High
+                                                    End</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Wheels</h4>
+                                        <div id="wheels" class="list-group">
+                                            <!-- Is filled dynamically based on the chosen wheel type -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button id="wheel-purchase" type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseWheel();">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Spoilers tab -->
+                            <div id="child3" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Spoilers</h4>
+                                        <div id="spoilers" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button id="spoiler-purchase" type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('0');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bumpers tab -->
+                            <div id="child4" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Front bumpers</h4>
+                                        <div id="frontBumpers" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button id="front-bumper-purchase" type="button"
+                                                class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('1');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Rear bumpers</h4>
+                                        <div id="rearBumpers" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button id="rear-bumper-purchase" type="button"
+                                                class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('2');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Skirts and exhausts tab -->
+                            <div id="child5" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Skirts</h4>
+                                        <div id="skirts" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('3');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Exhausts</h4>
+                                        <div id="exhauts" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('4');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grilles and hoods tab -->
+                            <div id="child6" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Grilles</h4>
+                                        <div id="grilles" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('6');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Hoods</h4>
+                                        <div id="hoods" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('7');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fenders tab -->
+                            <div id="child7" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Left fenders</h4>
+                                        <div id="leftFenders" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('8');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Right fenders</h4>
+                                        <div id="rightFenders" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('9');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Roofs tab -->
+                            <div id="child8" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Roofs</h4>
+                                        <div id="roofs" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('10');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Frames tab -->
+                            <div id="child9" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Frames</h4>
+                                        <div id="frames" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('5');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Steeringwheels tab -->
+                            <div id="child10" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Steering wheels</h4>
+                                        <div id="steeringWheels" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('33');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Engines, boost and turbo tab -->
+                            <div id="child11" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Engines</h4>
+                                        <div id="engines" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('11');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Boosts</h4>
+                                        <div id="boosts" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('40');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Turbos</h4>
+                                        <div id="turbos" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('18');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Brakes tab -->
+                            <div id="child12" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Brakes</h4>
+                                        <div id="brakes" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('12');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Transmissions tab -->
+                            <div id="child13" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Transmissions</h4>
+                                        <div id="transmissions" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('13');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Suspensions and hydraulics tab -->
+                            <div id="child14" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Suspensions</h4>
+                                        <div id="suspensions" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('15');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Hydraulics</h4>
+                                        <div id="hydraulics" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('38');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Horns tab -->
+                            <div id="child15" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Horns</h4>
+                                        <div id="horns" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('14');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Plates tab -->
+                            <div id="child16" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Plates</h4>
+                                        <div id="plates" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('53');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Armors and windows tab -->
+                            <div id="child17" class="content-child" style="display:none;">
+                                <div class="d-grid gap-3">
+                                    <div class="p-2 bg-light border">
+                                        <h4>Armors</h4>
+                                        <div id="armors" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('16');">Purchase</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-light border">
+                                        <h4>Windows</h4>
+                                        <div id="windows" class="list-group">
+                                            <!-- is filled dynamically based on the available mods -->
+                                        </div>
+                                        <div class="input-group-append justify-content-center d-flex">
+                                            <button type="button" class="btn btn-success btn-sm mt-2"
+                                                onclick="purchaseMod('46');">Purchase</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="z-index: -1;">
+            <div class="fixed-bottom d-flex justify-content-center">
+                <div class="form-group">
+                    <label for="rotateSlider" class="form-label stroke display-4">Rotate the vehicle</label>
+                    <input id="rotateSlider" type="text" class="js-range-slider" name="my_range" value="" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+#piemenu > svg { width: 100%; height: 100%; }
+#piemenu { height: 600px; width: 600px; margin:auto; }
+/* Whenever the screen has a max-width of 400px, change the dimensions of piemenu */
+@media (max-width: 400px) { #piemenu { height: 300px; width: 300px; } }
+
+/* Stroke on the title above the wheel */
+.stroke
+{
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+

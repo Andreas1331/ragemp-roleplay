@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" style="background: transparent !important;">
+
+<head>
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="./resources/ion.rangeSlider.min.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="../WebResources/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../WebResources/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="../WebResources/jquery-3.6.0.min.js"></script>
+
+    <!-- Functionality -->
+    <script src="./js/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./resources/modding.css"></link>
+
+    <!--Plugin JavaScript file-->
+    <script src="./resources/ion.rangeSlider.min.js"></script>
+</head>
+
+<body style="background: transparent !important;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mt-5" style="width: 350px;">
+                    <div class="card-header bg-primary">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <h5 style="color: white;">Clothes</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Modify your outfit</h3>
+                        <div id="content" class="overflow-auto p-2" style="max-height: 650px;">
+                            <div class="d-grid gap-3">
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/hat.svg" width="32" height="32" alt="logo"/>Hats</h5>
+                                    <input id="hatsSlider" type="text" class="js-range-slider"/>
+                                    <div class="text-center">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                        <button class="btn btn-primary btn-sm" onclick="decreaseSlider('hatsSlider');">&#8592;</button>
+                                        <button class="btn btn-primary btn-sm" onclick="increaseSlider('hatsSlider');">&#8594;</button>
+                                        <br>
+                                        <div class="input-group mt-3">
+                                          <label for="hatsSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="hatsSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="hatsSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="hatsSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                    <h5 class="mb-3"><img src="resources/icons/top.svg" width="32" height="32" alt="logo"/>Tops</h5>
+                                    <input id="topsSlider" type="text" class="js-range-slider"/>
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('topsSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('topsSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="topsSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="topsSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="topsSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="topsSliderTextureNext">&#8594;</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h5 class="mb-3"><img src="resources/icons/torso.svg" width="32" height="32" alt="logo"/>Torso</h5>
+                                    <input id="torsoSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('torsoSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('torsoSlider');">&#8594;</button>
+                                    </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/undershirt.svg" width="32" height="32" alt="logo"/>Undershirt</h5>
+                                    <input id="undershirtSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('undershirtSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('undershirtSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="undershirtSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="undershirtSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="undershirtSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="undershirtSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/leg.svg" width="32" height="32" alt="logo"/>Legs</h5>
+                                    <input id="legsSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('legsSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('legsSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="legsSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="legsSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="legsSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="legsSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/shoe.svg" width="32" height="32" alt="logo"/>Shoes</h5>
+                                    <input id="shoesSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('shoesSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('shoesSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="shoesSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="shoesSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="shoesSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="shoesSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/glasses.svg" width="32" height="32" alt="logo"/>Glasses</h5>
+                                    <input id="glassesSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('glassesSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('glassesSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="glassesSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="glassesSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="glassesSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="glassesSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                                <div class="p-2 bg-light border">
+                                  <h5 class="mb-3"><img src="resources/icons/ear.svg" width="32" height="32" alt="logo"/>Ears</h5>
+                                    <input id="earsSlider" type="text" class="js-range-slider" value="5" />
+                                    <div class="text-center mt-3">
+                                        <small class="text-muted">Use the arrows for finer control</small>
+                                        <br>
+                                          <button class="btn btn-primary btn-sm mr-2" onclick="decreaseSlider('earsSlider');">&#8592;</button>
+                                          <button class="btn btn-primary btn-sm" onclick="increaseSlider('earsSlider');">&#8594;</button>
+                                          <br>
+                                        <div class="input-group mt-3">
+                                          <label for="earsSliderTextureBox">Use the arrows to change the texture</label>
+                                          <button class="btn btn-primary btn-sm" type="button" id="earsSliderTexturePrevious">&#8592;</button>
+                                          <input disabled type="text" class="form-control" id="earsSliderTextureBox">
+                                          <button class="btn btn-primary btn-sm" type="button" id="earsSliderTextureNext">&#8594;</button>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-center">
+                      <div class="input-group-append">
+                        <button id="color-picker-primary-revert" type="button"
+                            class="btn btn-secondary m-1 btn-sm"
+                            onclick="closeWindow();">Close</button>
+                        <button id="color-picker-primary-purchase" type="button"
+                            class="btn btn-success m-1 btn-sm"
+                            onclick="purchaseOutfit();">Purchase &#38; save</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="fixed-bottom d-flex justify-content-center mb-3">
+              <div class="form-group" style="width: 300px;">
+                  <h2 class="stroke" style="color: white;">Rotate</h2>
+                  <input id="rotateSlider" type="text" class="js-range-slider" value="" />
+              </div>
+          </div>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" style="background: transparent !important;">
+
+<head>
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="./resources/ion.rangeSlider.min.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="../WebResources/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../WebResources/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery library -->
+    <script src="../WebResources/jquery-3.6.0.min.js"></script>
+
+    <link href="C:\GTARoleplay\server-files\client_packages\gtaroleplay\WebResources\bootstrap.min.css" rel="stylesheet">
+    <script src="C:\GTARoleplay\server-files\client_packages\gtaroleplay\WebResources\bootstrap.bundle.min.js"></script>
+    <script src="C:\GTARoleplay\server-files\client_packages\gtaroleplay\WebResources\jquery-3.6.0.min.js"></script>
+
+    <!-- Functionality -->
+    <script src="./js/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./resources/modding.css"></link>
+
+    <!--Plugin JavaScript file-->
+    <script src="./resources/ion.rangeSlider.min.js"></script>
+</head>
+
+<body class="h-100" style="background: transparent !important;">
+    <div class="container-fluid h-100">
+        <div class="row h-100"> 
+            <div class="col-sm-12 my-auto d-flex justify-content-center">
+              <div class="outter-container border border-dark rounded">
+                <div class="card shadow w-100 h-100" style="background-color: rgba(255, 255, 255, 0.75);">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2>
+                      Inventory
+                      <span class="spinner-border spinner-border-sm align-middle" role="status" aria-hidden="true" style="display: none;"></span>
+                    </h2>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="destroyInventory();">&#10008;</button>
+                  </div>
+                  <div class="card-body overflow-auto">
+                    <div class="row row-cols-1 row-cols-md-6 g-2" id="item_container">
+                      <!-- Is filled from dynamically from js -->
+                    </div>
+                  </div>
+                  <div class="card-footer text-center">
+                    <h5 id="weight" class="text-muted">
+                      <!-- Is set dynamically from js -->
+                    </h5>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</body>
+</html>

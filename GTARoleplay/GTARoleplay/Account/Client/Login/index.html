@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" style="background: transparent !important;">
+
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link href="../WebResources/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery library -->
+    <script src="../WebResources/jquery-3.6.0.min.js"></script>
+
+    <!-- Functionality -->
+    <script src="./js/main.js"></script>
+</head>
+
+<body class="h-100" style="background: transparent !important;">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-sm-12 my-auto d-flex justify-content-center">
+              <div class="card shadow bg-white rounded" style="width: 500px;">
+                <div class="card-header bg-primary text-white">
+                  Login
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Welcome to GTA Roleplay!</h5>
+                  <p class="card-text">Fill in your credentials to continue</p>
+                  <form>
+                    <div class="form-group">
+                      <label for="username">Email address or username:</label>
+                      <input type="email" class="form-control" id="username" placeholder="Enter email or username">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="password">Password:</label>
+                      <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <br>
+                    <a href="#" class="btn btn-success w-100" onclick="OnClickSubmit();">Login</a>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+</body>
+</html>

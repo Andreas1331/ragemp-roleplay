@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>C:\GTARoleplay\server-files\dotnet\resources\GTARoleplay\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Character\Client\CharCustomization\**" />
+    <EmbeddedResource Remove="Character\Client\CharCustomization\**" />
+    <None Remove="Character\Client\CharCustomization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Bootstrapper">
+      <HintPath>..\..\..\..\..\..\..\GTARoleplay\server-files\dotnet\runtime\Bootstrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Character\Client\ClothesSelector\" />
+    <Folder Include="Client_Misc\InstructionalButtons\" />
+    <Folder Include="Client_Misc\TimerBars\" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Client_Misc&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Account\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Character\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Casino\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;" />
+  </Target>
+
+</Project>

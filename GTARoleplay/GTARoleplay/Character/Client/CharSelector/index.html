@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" style="background: transparent !important;">
+
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link href="../WebResources/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery library -->
+    <script src="../WebResources/jquery-3.6.0.min.js"></script>
+    <!-- Functionality -->
+    <script src="./js/main.js"></script>
+</head>
+
+<body style="background: transparent !important;">
+    <div class="container-fluid">
+      <div class="row fixed-bottom d-flex justify-content-center">
+        <div style="width: 450px;">
+          <div class="input-group mb-3 w-100">
+            <button class="btn btn-primary" type="button" onclick="previousCharacter();">&#8592;</button>
+            <select class="form-select" id="characterdropdown">
+            </select>
+            <button class="btn btn-primary" type="button" onclick="nextCharacter();">&#8594;</button>
+          </div>
+          <div class="d-grid gap-1 mx-auto w-100 mb-3">
+            <button class="btn btn-primary" type="button" onclick="onCreateNewCharacter();">Create new character</button>
+            <button class="btn btn-success" type="button" onclick="onClickPlay();">Play</button>
+          </div>
+        </div>
+</body>
+</html>
+
