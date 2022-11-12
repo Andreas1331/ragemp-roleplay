@@ -8,7 +8,7 @@
     <br />
     <a href="https://github.com/Andreas1331/ragemp-roleplay/tree/main/GTARoleplay/GTARoleplay"><strong>Explore the code</strong></a>
     <br />
-    <p>Disclaimer: This is not affiliated nor endorsed by Take2 Entertainment.</p>
+    <p>Disclaimer: This is not affiliated nor endorsed by Take2.</p>
   </p>
 </div>
 
@@ -89,7 +89,7 @@ update-database
 ```
 Note this will create a Migrations folder to keep your database state consistent across the board if you are multiple developers with each their local database running. If everything ran smoothly you can use any schema viewer such as MySQL Workbench to open up your newly created schema and see that all of the tables have been successfully created according to the code.
 
-Next step, is to get our output paths in order inside Visual Studio so our client files and compiled C# project will go to the proper folder. So get yourself a copy of an RageMP server and place it wherever you like. I have mine at ```C:\GTARoleplay\server-files``` so with that done we will go back to Visual Studio. 
+Next step, is to get our output paths in order inside Visual Studio so our client files and compiled C# project will go to the proper folder. So get yourself a copy of a RageMP server and place it wherever you like. I have mine at ```C:\GTARoleplay\server-files``` so with that done we will go back to Visual Studio. 
 Right click the GTARoleplay project and change the output path to your server location:
 > Properties -> Build -> Output path:
 
