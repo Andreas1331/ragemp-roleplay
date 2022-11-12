@@ -76,7 +76,7 @@ To get your server up and running there's a few things we need to prepare first.
 * Change output paths in Visual Studio
 * Compile the project and start your server
 
-Let us start with the database. This is thankfully very easy to set up as we will us Entity Framework and rely on it to create our database schema and all related tables. Start by downloading an MySQL server v8.0.20 and install it. With the MySQL server running, open the Visual Studio solution. Now navigate to ```GTARoleplay/Database/DbConn.cs``` and alter the connection string so username, password, port, and password is correct. MySQL will default use port 3306 so you can probably leave that. If you want a different schema name for your database just change the database value in the string.
+Let us start with the database. This is thankfully very easy to set up as we will use Entity Framework and rely on it to create our database schema and all related tables. Start by downloading an MySQL server v8.0.20 and install it. With the MySQL server running, open the Visual Studio solution. Now navigate to ```GTARoleplay/Database/DbConn.cs``` and alter the connection string so username, password, port, and password is correct. MySQL will default use port 3306 so you can probably leave that. If you want a different schema name for your database just change the database value in the string.
 
 Now from within Visual Studio we will open the Package Manager Console:
 > View -> Other Windows -> Package Manager Console
