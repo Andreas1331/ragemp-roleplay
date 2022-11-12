@@ -141,7 +141,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Andreas  - adch18@student.aau.dk
+Andreas
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
