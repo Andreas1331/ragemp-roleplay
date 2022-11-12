@@ -30,7 +30,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-After being affiliated with other gaming communities as a developer I decided to try and create my own gamemode from scratch. The plan was however never to start up my own server, but rather release my take on a roleplay gamemode where I could try out things my way. The project is written in C# server-side and Javascript client-side. 
+After being affiliated with other gaming communities as a developer I decided to try and create my own gamemode from scratch. The plan was however never to start up my own server, but rather release my take on a roleplay gamemode where I could try out things my way. The project is written in C# server-side and JavaScript client-side. 
 
 At the current state the following is implemented:
 * Account system with CEF login screen
@@ -42,7 +42,7 @@ At the current state the following is implemented:
 * Clothing customizer using CEF
 * Vehicle tuning using CEF
 * System for interacting with any object in the gameworld
-* Interactionwheel to interact with objects or perform actions
+* Interactionwheel to interact with objects and perform actions
 * Binding server-side actions to keystrokes from clients
 * Playable roulette with multiple players
 * and more ...
