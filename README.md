@@ -8,7 +8,7 @@
     <br />
     <a href="https://github.com/Andreas1331/ragemp-roleplay/tree/main/GTARoleplay/GTARoleplay"><strong>Explore the code</strong></a>
     <br />
-    <p>Disclaimer: This is not affiliated nor endorsed by Take2 Entertainment.</p>
+    <p>Disclaimer: This is not affiliated nor endorsed by Take2.</p>
   </p>
 </div>
 
@@ -77,7 +77,7 @@ To get your server up and running there's a few things we need to prepare first.
 * Change output paths in Visual Studio
 * Compile the project and start your server
 
-Let us start with the database. This is thankfully very easy to set up as we will us Entity Framework and rely on it to create our database schema and all related tables. Start by downloading an MySQL server v8.0.20 and install it. With the MySQL server running, open the Visual Studio solution. Now navigate to ```GTARoleplay/Database/DbConn.cs``` and alter the connection string so username, password, port, and password is correct. MySQL will default use port 3306 so you can probably leave that. If you want a different schema name for your database just change the database value in the string.
+Let us start with the database. This is thankfully very easy to set up as we will use Entity Framework and rely on it to create our database schema and all related tables. Start by downloading an MySQL server v8.0.20 and install it. With the MySQL server running, open the Visual Studio solution. Now navigate to ```GTARoleplay/Database/DbConn.cs``` and alter the connection string so username, password, port, and password is correct. MySQL will default use port 3306 so you can probably leave that. If you want a different schema name for your database just change the database value in the string.
 
 Now from within Visual Studio we will open the Package Manager Console:
 > View -> Other Windows -> Package Manager Console
@@ -90,7 +90,7 @@ update-database
 ```
 Note this will create a Migrations folder to keep your database state consistent across the board if you are multiple developers with each their local database running. If everything ran smoothly you can use any schema viewer such as MySQL Workbench to open up your newly created schema and see that all of the tables have been successfully created according to the code.
 
-Next step, is to get our output paths in order inside Visual Studio so our client files and compiled C# project will go to the proper folder. So get yourself a copy of an RageMP server and place it wherever you like. I have mine at ```C:\GTARoleplay\server-files``` so with that done we will go back to Visual Studio. 
+Next step, is to get our output paths in order inside Visual Studio so our client files and compiled C# project will go to the proper folder. So get yourself a copy of a RageMP server and place it wherever you like. I have mine at ```C:\GTARoleplay\server-files``` so with that done we will go back to Visual Studio. 
 Right click the GTARoleplay project and change the output path to your server location:
 > Properties -> Build -> Output path:
 
