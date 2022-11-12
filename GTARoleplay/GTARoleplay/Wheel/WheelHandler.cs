@@ -9,7 +9,7 @@ namespace GTARoleplay.Wheel.Containers
         {
             if (player == null)
                 return;
-            
+
             if (player.HasData("WheelData"))
             {
                 PrimaryInteractionWheel wheel = player.GetData<PrimaryInteractionWheel>("WheelData");
