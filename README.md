@@ -153,5 +153,6 @@ Andreas
 * [The wheelnav.js by softwaretailoring.net](http://wheelnavjs.softwaretailoring.net/)
 * [Timerbars by root-cause to easily show native timer bars](https://github.com/root-cause/ragemp-timerbars)
 * [Logic for getting the minimap anchoring points by glitchdetector](https://github.com/glitchdetector/fivem-minimap-anchor)
+* [Proper torso combination for clothing by root-cause](https://github.com/root-cause/v-besttorso)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
