@@ -6,11 +6,11 @@ namespace GTARoleplay.Library
 {
     public class MapDataLibrary
     {
-        /* The defined map borders used when getting data from files and from the data files */
+        /* The defined map borders used when getting data from files and from the data file */
         private static Tuple<float, float> mapX = new Tuple<float, float>(-4100f, 4300f);
         private static Tuple<float, float> mapY = new Tuple<float, float>(-4300f, 7825f);
 
-        /* Data file names */
+        /* Data file */
         private const string HEIGHTDATA_FILE = @"data_files/GTAV_HeightMap_Data.data";
 
         public static float GetHeightAtXY(float posX, float posY)

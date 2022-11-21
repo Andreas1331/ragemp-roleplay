@@ -13,13 +13,11 @@ namespace GTARoleplay.AdminSystem
         public static bool HasPermission(Player player, StaffRank rankRequired, bool printMsg = true)
         {
             User pUser = player.GetUserData();
+            bool hasPermission = false;
             if (pUser == null || pUser.StaffData == null)
-            {
-                player.SendChatMessage(NO_PERM_STR);
-                return false;
-            }
+                return hasPermission;
 
-            bool hasPermission = pUser.StaffData.Rank >= rankRequired;
+            hasPermission = pUser.StaffData.Rank >= rankRequired;
             if(!hasPermission && printMsg)
                 player.SendChatMessage(NO_PERM_STR);
             
@@ -29,13 +27,12 @@ namespace GTARoleplay.AdminSystem
         public static bool HasPermission(Player player, StaffRank rankRequired, ExtraCommand extraPermissions, bool printMsg = true)
         {
             User pUser = player.GetUserData();
+            bool hasPermission = false;
             if (pUser == null || pUser.StaffData == null)
-            {
-                player.SendChatMessage(NO_PERM_STR);
-                return false;
-            }
+                return hasPermission;
 
-            bool hasPermission = pUser.StaffData.Rank >= rankRequired;
+            hasPermission = pUser.StaffData.Rank >= rankRequired;
+            // Check if the user has special permissions bypassing the regular ranks
             if (!hasPermission)
                 hasPermission = pUser.StaffData.SpecialPermissions.HasFlag(extraPermissions);
 
