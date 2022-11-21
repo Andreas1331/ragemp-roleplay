@@ -19,6 +19,7 @@
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#optional-heightmap">Optional: HeightMap</a></li>
     <li><a href="#screenshots">Screenshots</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -64,6 +65,7 @@ Make sure to have the following installed. Newer versions might be supported as 
 * Newtonsoft.Json v13.0.1
 * MySQL Server v8.0.20
 * RageMP server
+* Optional: RageMP HeightMap data file https://github.com/Andreas1331/ragemp-gtav-heightmap
 * Optional: MySQL Workbench v8.0.20
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -101,12 +103,53 @@ These commands will copy the entire folder of client files to your server folder
 
 Last step is to build the entire solution in Visual Studio. So hit CTRL + SHIFT + B and watch how it moves everything to your server folder. 
 
-If you wish to attach the debugger to the server you can use F5 instead to build and start the server automatically. For this however you must also edit the path for the debugger. So oncemore right click the GTARoleplay project:
+If you wish to attach the debugger to the server you can use F5 instead to build and start the server automatically. For this however you must also edit the path for the debugger. So once more right click the GTARoleplay project:
 > Properties -> Debug
 
 Edit the Executable and Working Directory to match your paths. For me they will be
 ```C:\GTARoleplay\server-files\ragemp-server.exe``` and ```C:\GTARoleplay\server-files``` respectively.
 
+![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `REMEMBER`: In your server folder open ```conf.json``` and change the variable "csharp" to "enabled" as such
+```
+{
+	...
+	"csharp" : "enabled",
+	...
+}
+```
+and after building the Visual Studio solution you must also set your server to use the produced .DLL file. Navigate to your server folder:
+> dotnet -> settings.xml
+
+Open it and set the following:
+```
+  ...
+  <resource src="GTARoleplay" />
+  ...
+```
+Afterwards navigate to:
+> dotnet -> resources -> GTARoleplay
+
+and add a new ```meta.xml``` file with the following content:
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+  <info name="GTA Roleplay" type="gamemode"/>
+  <!-- Gamemode library -->
+  <script src="netcoreapp3.1\GTARoleplay.dll" />
+</meta>
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- HEIGHTMAP -->
+## Optional: HeightMap
+
+You are welcome to grab my heightmap file from my other repository at 
+
+https://github.com/Andreas1331/ragemp-gtav-heightmap
+
+if you wish to make use of the file ```MapDataLibrary.cs``` in the gamemode. This file allows you to teleport the player to any given X,Y coordinate and setting his Z-value to fit the ground. In order to incoporate it into this project you'll need to download the folder ```data_file``` and place it in your server root folder.
+Once you've moved the folder to the root folder it should reside along side the ```ragemp-server.exe``` file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
