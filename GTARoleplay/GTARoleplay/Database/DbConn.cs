@@ -29,8 +29,8 @@ namespace GTARoleplay.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(
-                @"Server=localhost;database=gta_roleplay;user=root;password=root;", new MySqlServerVersion(new Version(8, 0, 36)));
+            optionsBuilder.UseNpgsql(
+                @"host=localhost;database=gta_roleplay;username=postgres;password=root;");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

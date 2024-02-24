@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GTARoleplay.FactionSystem
 {
@@ -21,11 +22,14 @@ namespace GTARoleplay.FactionSystem
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
-            using (var db = new DbConn())
+            Task.Run(async () =>
             {
-                AllFactions = db.Factions.Include(x => x.Ranks).ToList();
-                Console.WriteLine($"FactionHandler: all factions have been loaded ({AllFactions.Count})");
-            }
+                using (var db = new DbConn())
+                {
+                    AllFactions = await db.Factions.Include(x => x.Ranks).ToListAsync();
+                    Console.WriteLine($"FactionHandler: all factions have been loaded ({AllFactions.Count})");
+                }
+            });
         }
 
         public static Faction GetFactionByID(int id)
