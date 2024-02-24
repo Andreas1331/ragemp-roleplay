@@ -59,6 +59,7 @@ BenchmarkDotNet.Artifacts/
 #
 obj
 bin
+Migrations
 
 # .NET Core
 project.lock.json

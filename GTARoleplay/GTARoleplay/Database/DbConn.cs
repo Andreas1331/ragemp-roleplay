@@ -6,6 +6,7 @@ using GTARoleplay.ItemSystem.Items;
 using GTARoleplay.Character.Customization;
 using GTARoleplay.FactionSystem;
 using GTARoleplay.AdminSystem.Data;
+using System;
 
 namespace GTARoleplay.Database
 {
@@ -25,9 +26,11 @@ namespace GTARoleplay.Database
         public DbSet<FactionMember> FactionMembers { get; set; }
         public DbSet<FactionRank> FactionRanks { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;port=3306;database=gta_roleplay;user=root;password=1234;");
+            optionsBuilder.UseMySql(
+                @"Server=localhost;database=gta_roleplay;user=root;password=root;", new MySqlServerVersion(new Version(8, 0, 36)));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
