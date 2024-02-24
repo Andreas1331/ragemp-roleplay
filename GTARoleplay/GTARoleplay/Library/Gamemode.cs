@@ -30,7 +30,7 @@ namespace GTARoleplay.Library
         }
 
         [ServerEvent(Event.PlayerDisconnected)]
-        public void OnPlayerDisconnected(Player player)
+        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
         {
             PlayerHandler.RemovePlayerFromPlayerList(player);
         }

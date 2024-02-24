@@ -2,8 +2,8 @@
   "profiles": {
     "GTARoleplay": {
       "commandName": "Executable",
-      "executablePath": "C:\\GTARoleplay\\server-files\\ragemp-server.exe",
-      "workingDirectory": "C:\\GTARoleplay\\server-files"
+      "executablePath": "C:\\RAGEMP-Servers\\GTARoleplay\\server-files\\ragemp-server.exe",
+      "workingDirectory": "C:\\RAGEMP-Servers\\GTARoleplay\\server-files"
     }
   }
 }

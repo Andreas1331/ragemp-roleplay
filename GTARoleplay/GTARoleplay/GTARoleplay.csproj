@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>C:\GTARoleplay\server-files\dotnet\resources\GTARoleplay\</OutputPath>
+    <OutputPath>C:\RAGEMP-Servers\GTARoleplay\server-files\dotnet\resources\GTARoleplay\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ServerPath>C:\RAGEMP-Servers\GTARoleplay\server-files</ServerPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +23,6 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
-      <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
@@ -39,7 +42,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Client_Misc&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Account\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Character\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Casino\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;C:\GTARoleplay\server-files\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;" />
+    <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Client_Misc&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Account\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Character\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Casino\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;" />
   </Target>
 
 </Project>

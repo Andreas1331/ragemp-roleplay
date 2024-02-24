@@ -38,7 +38,7 @@ namespace GTARoleplay.AdminSystem
         }
 
         [ServerEvent(Event.PlayerDisconnected)]
-        public void OnPlayerDisconnected(Player player)
+        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
         {
             if (player == null)
                 return;
