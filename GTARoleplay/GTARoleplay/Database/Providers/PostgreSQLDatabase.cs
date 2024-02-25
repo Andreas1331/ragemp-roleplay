@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GTARoleplay.Database
+namespace GTARoleplay.Database.Providers
 {
     public class PostgreSQLDatabase : DatabaseBaseContext
     {

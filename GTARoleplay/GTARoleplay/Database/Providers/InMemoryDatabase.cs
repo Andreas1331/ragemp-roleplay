@@ -1,8 +1,7 @@
 ﻿using GTARoleplay.Account;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace GTARoleplay.Database
+namespace GTARoleplay.Database.Providers
 {
     /// <summary>
     /// If used, beaware that no data persists between each run.

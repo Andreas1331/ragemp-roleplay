@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace GTARoleplay.Database
+namespace GTARoleplay.Database.Providers
 {
     public class MySQLDatabase : DatabaseBaseContext
     {
