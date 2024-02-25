@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace GTARoleplay.Library
+namespace GTARoleplay.Provider
 {
     public static class ServicesContainer
     {

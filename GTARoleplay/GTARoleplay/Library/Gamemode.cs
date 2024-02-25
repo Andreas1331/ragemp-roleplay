@@ -2,8 +2,10 @@
 using GTARoleplay.Character;
 using GTARoleplay.Database;
 using GTARoleplay.Library.Extensions;
+using GTARoleplay.Provider;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Timers;
 
 namespace GTARoleplay.Library
@@ -20,6 +22,7 @@ namespace GTARoleplay.Library
         public void OnResourceStart()
         {
             ServicesContainer.Init();
+            DatabaseService.EnsureDatabaseIsCreated();
 
             NAPI.Server.SetGlobalServerChat(false);
             NAPI.Server.SetAutoRespawnAfterDeath(false);
