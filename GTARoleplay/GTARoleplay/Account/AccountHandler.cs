@@ -4,6 +4,7 @@ using GTARoleplay.Database;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,14 +38,12 @@ namespace GTARoleplay.Account
             }
 
             // Find the user and validate the password
-            User user = null;
-            using (DbConn db = new DbConn())
-            {
-                // Include the users Admin profile, if he's an admin
-                user = db.Users.Include(x => x.StaffData).Where(x => String.Equals(username, x.Username) 
-                                        || String.Equals(username, x.Email))
-                                        .FirstOrDefault();
-            }
+            // Include the users Admin profile, if he's an admin
+            User user = DatabaseService.GetDatabaseContext()
+                .Users
+                .Include(x => x.StaffData)
+                .Where(x => string.Equals(username, x.Username) || string.Equals(username, x.Email))
+                .FirstOrDefault();
             if (user == null)
             {
                 // User doesn't exist
@@ -66,13 +65,9 @@ namespace GTARoleplay.Account
                     player.TriggerEvent("DestroyLogin::Client");
                     user.PlayerData = player;
                     // Gather the users characters
-                    List<GTACharacter> characters = null;
-                    using (DbConn db = new DbConn())
-                    {
-                        // Don't track this list of characters as the purpose for now is just to display the current information, not change it
-                        characters = db.Characters.Include(x => x.FactionMemberData).Where(x => x.UserID.Equals(user.UserID)).AsNoTracking().ToList();
-                    }
-                    if(characters == null)
+                    // Don't track this list of characters as the purpose for now is just to display the current information, not change it
+                    List<GTACharacter> characters = DatabaseService.GetDatabaseContext().Characters.Include(x => x.FactionMemberData).Where(x => x.UserID.Equals(user.UserID)).AsNoTracking().ToList();
+                    if (characters == null)
                     {
                         // No characters found
                         player.SendChatMessage("You don't have any characters to play with!");

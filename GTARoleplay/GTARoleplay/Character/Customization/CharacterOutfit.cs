@@ -73,7 +73,7 @@ namespace GTARoleplay.Character.Customization
 
         public void Save()
         {
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 db.Outfits.Update(this);
                 db.SaveChanges();

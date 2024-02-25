@@ -37,7 +37,7 @@ namespace GTARoleplay.ItemSystem.Items
 
         public void DeleteFromDatabase()
         {
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 db.Items.Remove(this);
                 db.SaveChanges();
@@ -46,7 +46,7 @@ namespace GTARoleplay.ItemSystem.Items
 
         public static void AddItemToDatabase(Item itm)
         {
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 db.Items.Add(itm);
                 db.SaveChanges();
@@ -55,7 +55,7 @@ namespace GTARoleplay.ItemSystem.Items
 
         public static void AddItemsToDatabase(List<Item> itms)
         {
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 db.Items.AddRange(itms);
                 db.SaveChanges();

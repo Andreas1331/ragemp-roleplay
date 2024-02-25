@@ -19,6 +19,8 @@ namespace GTARoleplay.Library
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
+            ServicesContainer.Init();
+
             NAPI.Server.SetGlobalServerChat(false);
             NAPI.Server.SetAutoRespawnAfterDeath(false);
 
@@ -54,7 +56,7 @@ namespace GTARoleplay.Library
             }
 
             // Go and save their current data
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 db.UpdateRange(characters);
                 db.SaveChanges();

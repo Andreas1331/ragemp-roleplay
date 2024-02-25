@@ -70,11 +70,11 @@ namespace GTARoleplay.Character
             UserRef.PlayerData.Name = Fullname;
 
             // Load the players information
-            using (var db = new DbConn())
+            using (var db = DatabaseService.GetDatabaseContext())
             {
                 List<Item> items = db.Items.Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player)).ToList();
 
-                if(CurrentOutfitID > -1)
+                if (CurrentOutfitID > -1)
                 {
                     CharacterOutfit outfit = db.Outfits.Where(x => x.OutfitID == CurrentOutfitID).FirstOrDefault();
                     if (outfit != null)

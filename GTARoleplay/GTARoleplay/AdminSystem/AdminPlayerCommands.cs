@@ -236,11 +236,9 @@ namespace GTARoleplay.AdminSystem
 
                     string ipAddress = NAPI.Player.GetPlayerAddress(targetPly);
                     BanRecord record = new BanRecord(targetUser.UserID, adm.StaffName, reason, ipAddress, targetPly.SocialClubName, DateTime.Now);
-                    using (var db = new DbConn())
-                    {
-                        db.BanRecords.Add(record);
-                        db.SaveChanges();
-                    }
+                    var db = DatabaseService.GetDatabaseContext();
+                    db.BanRecords.Add(record);
+                    db.SaveChanges();
                     string message = $"~r~AdmCmd: {targetPly.Name} (ID: {PlayerHandler.GetIDFromPlayer(targetPly)}) was banned by {player.Name}. Reason: {reason}";
                     targetPly.Kick(message);
                     NAPI.Chat.SendChatMessageToAll(message);
