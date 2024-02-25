@@ -20,7 +20,7 @@ namespace GTARoleplay.Character.Customization
 
         [Column("owner_type")]
         public OwnerType OwnerType { get; set; }
-        
+
         [Column("torso")]
         public int Torso { get; set; }
         [Column("torso_texture")]
@@ -73,11 +73,9 @@ namespace GTARoleplay.Character.Customization
 
         public void Save()
         {
-            using (var db = DatabaseService.GetDatabaseContext())
-            {
-                db.Outfits.Update(this);
-                db.SaveChanges();
-            }
+            var db = DatabaseService.GetDatabaseContext();
+            db.Outfits.Update(this);
+            db.SaveChanges();
         }
     }
 }

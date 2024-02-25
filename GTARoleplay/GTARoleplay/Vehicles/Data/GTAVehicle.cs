@@ -101,11 +101,9 @@ namespace GTARoleplay.Vehicles.Data
 
         public void Save()
         {
-            using (var db = DatabaseService.GetDatabaseContext())
-            {
-                db.Vehicles.Update(this);
-                db.SaveChanges();
-            }
+            var db = DatabaseService.GetDatabaseContext();
+            db.Vehicles.Update(this);
+            db.SaveChanges();
         }
 
         public void ApplyVehicleMods()

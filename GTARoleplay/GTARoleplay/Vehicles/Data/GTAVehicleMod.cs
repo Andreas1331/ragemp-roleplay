@@ -121,12 +121,10 @@ namespace GTARoleplay.Vehicles.Data
 
         public void Save()
         {
-            using (var db = DatabaseService.GetDatabaseContext())
-            {
-                bool alreadyExists = db.VehicleMods.Any(x => x.VehicleModID == this.VehicleModID);
-                db.Entry(this).State = (alreadyExists ? EntityState.Modified : EntityState.Added);
-                db.SaveChanges();
-            }
+            var db = DatabaseService.GetDatabaseContext();
+            bool alreadyExists = db.VehicleMods.Any(x => x.VehicleModID == this.VehicleModID);
+            db.Entry(this).State = (alreadyExists ? EntityState.Modified : EntityState.Added);
+            db.SaveChanges();
         }
     }
 }

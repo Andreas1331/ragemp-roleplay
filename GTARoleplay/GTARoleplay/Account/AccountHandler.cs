@@ -64,9 +64,12 @@ namespace GTARoleplay.Account
                     // The player is logged in!
                     player.TriggerEvent("DestroyLogin::Client");
                     user.PlayerData = player;
-                    // Gather the users characters
                     // Don't track this list of characters as the purpose for now is just to display the current information, not change it
-                    List<GTACharacter> characters = DatabaseService.GetDatabaseContext().Characters.Include(x => x.FactionMemberData).Where(x => x.UserID.Equals(user.UserID)).AsNoTracking().ToList();
+                    List<GTACharacter> characters = DatabaseService.GetDatabaseContext()
+                        .Characters
+                        .Include(x => x.FactionMemberData)
+                        .Where(x => x.UserID.Equals(user.UserID))
+                        .AsNoTracking().ToList();
                     if (characters == null)
                     {
                         // No characters found

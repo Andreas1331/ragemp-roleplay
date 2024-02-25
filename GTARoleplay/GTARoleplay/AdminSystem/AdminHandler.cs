@@ -24,7 +24,8 @@ namespace GTARoleplay.AdminSystem
         {
             // TODO: Check if the player is Rockstar banned, IP banned etc.
             List<BanRecord> banRecords = DatabaseService.GetDatabaseContext()
-                .BanRecords.Where(
+                .BanRecords
+                .Where(
                     x => x.IpAddress.Equals(NAPI.Player.GetPlayerAddress(player)) ||
                     x.SocialClubName.Equals(player.SocialClubName))
                 .AsNoTracking().ToList();
@@ -79,7 +80,10 @@ namespace GTARoleplay.AdminSystem
             }
 
             // TODO: Check if the user is banned or not. 
-            List<BanRecord> banRecords = DatabaseService.GetDatabaseContext().BanRecords.Where(x => x.UserID.Equals(user.UserID)).AsNoTracking().ToList();
+            List<BanRecord> banRecords = DatabaseService.GetDatabaseContext()
+                .BanRecords
+                .Where(x => x.UserID.Equals(user.UserID))
+                .AsNoTracking().ToList();
             if (banRecords != null)
             {
                 if (banRecords.Any(x => x.IsActive))

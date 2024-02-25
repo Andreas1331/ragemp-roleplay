@@ -70,26 +70,35 @@ namespace GTARoleplay.Character
             UserRef.PlayerData.Name = Fullname;
 
             // Load the players information
-            using (var db = DatabaseService.GetDatabaseContext())
+            var db = DatabaseService.GetDatabaseContext();
+            List<Item> items = db
+                .Items
+                .Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player))
+                .ToList();
+
+            if (CurrentOutfitID > -1)
             {
-                List<Item> items = db.Items.Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player)).ToList();
-
-                if (CurrentOutfitID > -1)
+                CharacterOutfit outfit = db
+                    .Outfits
+                    .Where(x => x.OutfitID == CurrentOutfitID).FirstOrDefault();
+                if (outfit != null)
                 {
-                    CharacterOutfit outfit = db.Outfits.Where(x => x.OutfitID == CurrentOutfitID).FirstOrDefault();
-                    if (outfit != null)
-                    {
-                        CurrentOutfit = outfit;
-                        ApplyClothes(outfit);
-                    }
+                    CurrentOutfit = outfit;
+                    ApplyClothes(outfit);
                 }
-
-                List<GTAVehicle> vehicles = db.Vehicles.Include(x => x.Mods).Where(x => x.Owner.Equals(CharacterID) && x.OwnerType == OwnerType.Player).ToList();
-                Vehicles = vehicles;
-
-                List<Item> itms = db.Items.Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player)).ToList();
-                Inventory = new Inventory(itms);
             }
+
+            List<GTAVehicle> vehicles = db.Vehicles
+                .Include(x => x.Mods)
+                .Where(x => x.Owner.Equals(CharacterID) && x.OwnerType == OwnerType.Player)
+                .ToList();
+            Vehicles = vehicles;
+
+            List<Item> itms = db
+                .Items
+                .Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player))
+                .ToList();
+            Inventory = new Inventory(itms);
 
             PlayerHandler.AddPlayerToList(UserRef.PlayerData);
             SendUpdatedCashToPlayer();
