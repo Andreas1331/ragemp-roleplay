@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -7,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>C:\RAGEMP-Servers\GTARoleplay\server-files\dotnet\resources\GTARoleplay\</OutputPath>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -45,7 +44,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Client_Misc&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Account\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Character\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Casino\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;" />
+    <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Client_Misc&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Account\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Character\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Casino\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ServerPath)\dotnet\resources\GTARoleplay\&quot; &#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Configs\meta.xml&quot; &quot;$(ServerPath)\dotnet\resources\GTARoleplay\&quot; &#xD;&#xA;&#xD;&#xA;" />
   </Target>
 
 </Project>

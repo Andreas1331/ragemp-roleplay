@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<meta>
+  <info name="GTA Roleplay" type="gamemode"/>
+  <!-- Gamemode library -->
+  <script src="GTARoleplay.dll" />
+</meta>
