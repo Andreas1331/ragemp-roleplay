@@ -40,6 +40,7 @@ At the current state the following is implemented:
 * Advanced inventory & item system with item bases saved in the database
 * Inventory menu using CEF
 * Database system utilizing Entity Framework for ORM querying
+  * Multiple providers included out of the box (PostgreSQL, MySQL or InMemory)
 * Clothing customizer using CEF
 * Vehicle tuning using CEF
 * System for interacting with any object in the gameworld
@@ -48,9 +49,9 @@ At the current state the following is implemented:
 * Playable roulette with multiple players
 * and more ...
 
-I originally began development in 2021 and abandoned the project again due to time constraints. So do not expect more updates to be released. Also note that some references to SVG (specifically for item icons) files will be null pointers as the files are removed. This is due to copyright, even though they are free for commercial use I've removed them and you'll have to include your own. 
+I originally began development in 2021 and abandoned the project again due to time constraints, and I'm revisiting the project once in a while whenever I have the time for it. Also note that some references to SVG (specifically for item icons) files will be null pointers as the files are removed. This is due to copyright, even though they are free for commercial use I've removed them and you'll have to include your own. 
 
-The setup in Visual Studio abstracts away some of the tedious tasks, such as moving client files written in Javascript into the server folder everytime you wish to test something. This is achieved using post build commands inside Visual Studio to copy the files into wherever you have your server folder located. For the .DLL Visual Studio will output it to your server folder as well. You will need to edit the paths for your projects, but more on that in ```Getting Started```.
+The setup in Visual Studio abstracts away some of the tedious tasks, such as moving client files written in Javascript into the server folder everytime you wish to test something. This is achieved using post build commands inside Visual Studio to copy the files into wherever you have your server folder located. By default the project is using an InMemory Database Provider for Entity Framework so you do not have to setup any dedicated database to get started. Automation for copying the project after compiling is also done using post build commands, and every dependency is moved to the Rage runtime folder. For all of this to work you will need to instruct Visual Studio where your Rage server is located, but more on that in [Getting started](#Getting-Started).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -62,82 +63,94 @@ Make sure to have the following installed. Newer versions might be supported as 
 * BCrypt.Net-Next v4.0.2
 * Microsoft.EntityFrameworkCore.Tools v3.1.10
 * MySQL.Data.EntityFrameworkCore v8.0.22
+* Microsoft.EntityFrameworkCore.InMemory v5.0.17
+* Npgsql.EntityFrameworkCore.PostgreSQL v5.0.10
+* Pomelo.EntityFrameworkCore.MySql v5.0.4
 * Newtonsoft.Json v13.0.1
-* MySQL Server v8.0.20
 * RageMP server
-* Optional: RageMP HeightMap data file https://github.com/Andreas1331/ragemp-gtav-heightmap
-* Optional: MySQL Workbench v8.0.20
+* *Optional: RageMP HeightMap data file https://github.com/Andreas1331/ragemp-gtav-heightmap*
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Getting started
 
-To get your server up and running there's a few things we need to prepare first. This involves ensuring the database is ready, and the RageMP server contains the compiled gamemode.
-* Setup the database
-* Download an instance of RageMP server
-* Change output paths in Visual Studio
-* Compile the project and start your server
+To get your server up and running there's a few things we need to prepare first. This involves gettting the source-code of the project, getting a fresh copy of a Rage server etc. Refer to the checklist below to ensure you got everything ready.
+* Download the GitHub project
+* Download an instance of RageMP server ([Get a Rage Server](#Getting-a-Rage-server))
+* Setup Visual Studio ([Setup your Visual Studio project](#Setup-your-Visual-Studio-project))
+* *Optional: Set up a dedicated database* ([Setup a database](#Setup-a-database))
+* *Optional: Set up debugger in Visual Studio* ([Attach debugger](#Attach-debugger))
 
-Let us start with the database. This is thankfully very easy to set up as we will use Entity Framework and rely on it to create our database schema and all related tables. Start by downloading an MySQL server v8.0.20 and install it. With the MySQL server running, open the Visual Studio solution. Now navigate to ```GTARoleplay/Database/DbConn.cs``` and alter the connection string so username, password, port, and password is correct. MySQL will default use port 3306 so you can probably leave that. If you want a different schema name for your database just change the database value in the string.
 
-Now from within Visual Studio we will open the Package Manager Console:
-> View -> Other Windows -> Package Manager Console
+### Getting a Rage server
+The Rage installation no longer comes with the server files by default, and you will need to get them yourself. Navigate to your Rage installations folder and find the file ```config.xml```. In here you will find the property *channel*. It will most likely be *prerelease*, but you have to change this to *prerelease_server*. Now run the Rage client, and it should automatically download a fresh server folder for you. This will be called *server-files* inside your Rage installations folder.
+I recommend you copy the folder and put it somewhere else. It is up to you where. It does not matter.
 
-Run the following commands to create our initial migration and invoke it to have Entity Framework create our schema and tables.
-
+### Setup your Visual Studio project
+Next step, is to setup our output path inside Visual Studio so our client files and compiled C# project will go to the proper folder. We assume you already have your Rage server downloaded and ready at this point - otherwise go to [Get a Rage Server](#Getting-a-Rage-server).
+Right click the GTARoleplay project and select *Edit Project File*. Find the *ServerPath* variable. Change this to match where you put your Rage server folder. 
 ```
-add-migration InitialCreate
-update-database
+  <PropertyGroup>
+    <ServerPath>YOUR_RAGE_FOLDER_PATH_GOES_HERE</ServerPath>
+  </PropertyGroup>
 ```
-Note this will create a Migrations folder to keep your database state consistent across the board if you are multiple developers with each their local database running. If everything ran smoothly you can use any schema viewer such as MySQL Workbench to open up your newly created schema and see that all of the tables have been successfully created according to the code.
+My path example:
+```
+  <PropertyGroup>
+    <ServerPath>C:\RAGEMP-Servers\GTARoleplay\server-files</ServerPath>
+  </PropertyGroup>
+```
 
-Next step, is to get our output paths in order inside Visual Studio so our client files and compiled C# project will go to the proper folder. So get yourself a copy of a RageMP server and place it wherever you like. I have mine at ```C:\GTARoleplay\server-files``` so with that done we will go back to Visual Studio. 
-Right click the GTARoleplay project and change the output path to your server location:
-> Properties -> Build -> Output path:
+Now everytime you build the solution inside Visual Studio the .DLL is automatically placed in your server folder. If you go looking for it before building you will not find it. However, once Visual Studio builds the project, the DLL is placed here:
+```YOUR_RAGE_SERVER_FOLDER\dotnet\resources\GTARoleplay```
 
-For me this will be ```C:\GTARoleplay\server-files\dotnet\resources\GTARoleplay\```. Now everytime you build the solution inside Visual Studio the .DLL is automatically placed in your server folder. We will now ensure all client files are also moved to the server folder. So once more right click GTARoleplay in case you closed the window:
+To view what Visual Studio is doing for each time you build, right click the GTARoleplay project:
 > Properties -> Build Events -> Post-build event command line
 
-These commands will copy the entire folder of client files to your server folder. So change each of them to match your path. This is also where you will add new copy commands when you add your own client folders in the future. The reason for setting up the project this way was to have the server files and client files stored near their relevance when developing.
+Here you will see the instructions that are moving all client-files as well as server-files required for the gamemode to run. It is also ensuring to move the dependencies of the gamemode to the runtime folder of your Rage server folder. This is also where you will add new copy commands when you add your own client folders in the future. The reason for setting up the project this way was to have the server files and client files stored near their relevance when developing.
 
 Last step is to build the entire solution in Visual Studio. So hit CTRL + SHIFT + B and watch how it moves everything to your server folder. 
 
-If you wish to attach the debugger to the server you can use F5 instead to build and start the server automatically. For this however you must also edit the path for the debugger. So once more right click the GTARoleplay project:
+### Setup a database
+
+If you wish to use a dedicated database you will have to download one and host it either remote or locally. Once you have a running database such as either a MySQL or PostgreSQL it is thankfully very easy to set it up as we will use Entity Framework and rely on it to create our database schema and all related tables. Depending on whether you use MySQL or PostgreSQL you will need to make changes in the project to utilize your chosen database.<br/>
+**Open up the GTARoleplay solution using Visual Studio - then navigate to the database files**
+> GTARoleplay > Database -> Providers
+
+In here you will find one file per provider available. Open the one matching the database you are running and alter the credentials.
+Afterwards we will need to instruct our gamemode to use this provider throughout.
+> GTARoleplay > Provider -> ServicesContainer.cs
+
+Find the invocation of *AddDbContext(..)* and use the name of the class that matches the database you are running.
+
+#### Only applicable if you are NOT using InMemory
+With your new database running we will need to populate it, so once more open the Visual Studio solution. 
+
+Now from within Visual Studio we will open the Package Manager Console. Beaware if your Visual Studio for some reason didn't download the NuGet packages you will not be able to run the commands. Refer to the list of dependencies and versions mentioned previously. Otherwise navigate to:
+> View -> Other Windows -> Package Manager Console
+
+The command needs an argument instructing it which DbContext we are using. Either MySQL or PostgreSQL. Check the commands below and choose which suits your need. When you run the following commands your initial migration script is created based on our entities defined in the gamemode. When invoking the update, Entity Framework will execute the migration against your running database to create schema and tables.
+
+```
+add-migration InitialCreate -context MySQLDatabase
+update-database
+```
+or
+```
+add-migration InitialCreate -context PostgreSQLDatabase
+update-database
+```
+
+Note this will create a Migrations folder to keep your database state consistent across the board if you are multiple developers with each their local database running. If everything ran smoothly you can use any schema viewer such as MySQL Workbench or PgAdmin to open up your newly created schema and see that all of the tables have been successfully created according to the code.
+
+
+## Attach debugger
+If you wish to attach the debugger to the server you can use the shortcut F5 from Visual Studio, instead to build and start the server automatically. For this however you must also edit the path for the debugger. So once more right click the GTARoleplay project:
 > Properties -> Debug
 
 Edit the Executable and Working Directory to match your paths. For me they will be
 ```C:\GTARoleplay\server-files\ragemp-server.exe``` and ```C:\GTARoleplay\server-files``` respectively.
-
-![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `REMEMBER`: In your server folder open ```conf.json``` and change the variable "csharp" to "enabled" as such
-```
-{
-	...
-	"csharp" : "enabled",
-	...
-}
-```
-and after building the Visual Studio solution you must also set your server to use the produced .DLL file. Navigate to your server folder:
-> dotnet -> settings.xml
-
-Open it and set the following:
-```
-  ...
-  <resource src="GTARoleplay" />
-  ...
-```
-Afterwards navigate to:
-> dotnet -> resources -> GTARoleplay
-
-and add a new ```meta.xml``` file with the following content:
-```
-<?xml version="1.0" encoding="utf-8" ?>
-<meta>
-  <info name="GTA Roleplay" type="gamemode"/>
-  <!-- Gamemode library -->
-  <script src="netcoreapp3.1\GTARoleplay.dll" />
-</meta>
-```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -184,7 +197,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Andreas
+Discord andreas0290
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
