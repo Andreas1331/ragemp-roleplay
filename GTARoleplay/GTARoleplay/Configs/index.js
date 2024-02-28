@@ -1,0 +1,1 @@
+﻿require('gtaroleplay/index.js');
