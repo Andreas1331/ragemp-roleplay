@@ -1,4 +1,5 @@
 ﻿using GTARoleplay.Account;
+using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Character;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,21 +24,35 @@ namespace GTARoleplay.Database.Providers
         {
             base.OnModelCreating(builder);
 
-            var user = new User();
-            user.UserID = 1;
-            user.Username = "andreas";
-            user.Email = "myemail@google.com";
-            user.Password = BCrypt.Net.BCrypt.HashPassword("test");
+            var user = new User()
+            {
+                UserID = 1,
+                Username = "andreas",
+                Email = "myemail@google.com",
+                Password = BCrypt.Net.BCrypt.HashPassword("test")
+            };
+
             var character = new GTACharacter() {
                 CharacterID = 1,
                 Firstname = "Jack",
                 Lastname = "McClane",
+                LastX = 166.31f,
+                LastY = -1274.69f,
+                LastZ = 28.25f,
                 UserID = user.UserID,
             };
             character.GivePlayerMoney(999999);
 
+            var staff = new Staff()
+            {
+                StaffID = 1,
+                StaffName = "-Andreas",
+                Rank = StaffRank.Developer,
+            };
+
             builder.Entity<User>().HasData(user);
             builder.Entity<GTACharacter>().HasData(character);
+            builder.Entity<Staff>().HasData(staff);
         }
     }
 }

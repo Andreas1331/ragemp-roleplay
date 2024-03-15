@@ -22,7 +22,7 @@ namespace GTARoleplay.AdminSystem.Data
     {
         [Key]
         [Column("id")]
-        [ForeignKey("User")] // The string value is the property name, named 'User' of type 'User' as seen down below
+        [ForeignKey("User")] 
         public int StaffID { get; set; }
 
         [Column("staff_name")]

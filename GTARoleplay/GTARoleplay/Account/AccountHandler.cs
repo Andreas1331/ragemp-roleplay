@@ -94,9 +94,12 @@ namespace GTARoleplay.Account
                 return;
             }
 
-
-            GTACharacter selectedChar = pUser.Characters.FirstOrDefault(x => x.Fullname.Equals(characterName) && x.UserID.Equals(pUser.UserID));
-            if(selectedChar == null)
+            GTACharacter selectedChar = pUser
+                .Characters
+                .FirstOrDefault(x =>
+                x.Fullname.Equals(characterName)
+                && x.UserID.Equals(pUser.UserID));
+            if (selectedChar == null)
             {
                 // Somehow the user managed to send a character that he doesn't own
                 return;
