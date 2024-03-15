@@ -13,6 +13,10 @@
     <ServerPath>C:\RAGEMP-Servers\GTARoleplay\server-files</ServerPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Character\Client\CharCustomization\**" />
     <EmbeddedResource Remove="Character\Client\CharCustomization\**" />
