@@ -3,7 +3,7 @@ var itms = null;
 var maxWeight = null;
 
 mp.events.add('ShowInventory::Client', (maxWeightTmp, itmsTmp) => {
-    if (!mp.objects.exists(inventoryWindow)) {
+    if (!mp.browsers.exists(inventoryWindow)) {
         inventoryWindow = mp.browsers.new("package://gtaroleplay/Inventory/index.html");
         itms = itmsTmp;
         maxWeight = maxWeightTmp;
@@ -12,7 +12,7 @@ mp.events.add('ShowInventory::Client', (maxWeightTmp, itmsTmp) => {
 });
 
 mp.events.add('RefreshInventory::Client', (maxWeightTmp, itmsTmp) => {
-    if (mp.objects.exists(inventoryWindow)) {
+    if (mp.browsers.exists(inventoryWindow)) {
         itms = itmsTmp;
         maxWeight = maxWeightTmp;
         inventoryWindow.execute("clearItemsContainer();");
@@ -30,7 +30,7 @@ mp.events.add('browserDomReady', (browser) => {
 });
 
 mp.events.add('DestroyInventory::Client', () => {
-    if (mp.objects.exists(inventoryWindow)) {
+    if (mp.browsers.exists(inventoryWindow)) {
         inventoryWindow.destroy();
         mp.gui.chat.activate(true);
         mp.gui.cursor.show(false,false);

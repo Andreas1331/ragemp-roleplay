@@ -3,7 +3,7 @@ const library = require("gtaroleplay/library.js");
 var moddingWindow = null;
 
 mp.events.add('ShowClothingSelector::Client', () => {
-    if (!mp.objects.exists(moddingWindow)) {
+    if (!mp.browsers.exists(moddingWindow)) {
         moddingWindow = mp.browsers.new("package://gtaroleplay/ClothesSelector/index.html");
         mp.gui.chat.activate(false);
         mp.players.local.freezePosition(true);
@@ -117,7 +117,7 @@ mp.events.add('browserDomReady', (browser) => {
 });
 
 mp.events.add('DestroyClothingWindow::Client', () => {
-    if (mp.objects.exists(moddingWindow)) {
+    if (mp.browsers.exists(moddingWindow)) {
         moddingWindow.destroy();
         mp.gui.chat.activate(true);
         mp.gui.cursor.show(false,false);
@@ -167,7 +167,7 @@ mp.events.add('PurchaseOutfit::Client', (outfit) => {
 });
 
 mp.events.add('render', () => {
-    if (mp.objects.exists(moddingWindow)) {
+    if (mp.browsers.exists(moddingWindow)) {
         mp.players.local.clearTasksImmediately();
     }
 });

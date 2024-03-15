@@ -1,14 +1,14 @@
 ﻿var loginWindow = null;
 
 mp.events.add('ShowLogin::Client', () => {
-    if (!mp.objects.exists(loginWindow)) {
+    if (!mp.browsers.exists(loginWindow)) {
         loginWindow = mp.browsers.new("package://gtaroleplay/Login/index.html");
         mp.gui.chat.activate(false);
     }
 });
 
 mp.events.add('DestroyLogin::Client', () => {
-    if (mp.objects.exists(loginWindow)) {
+    if (mp.browsers.exists(loginWindow)) {
         loginWindow.destroy();
     }
 });

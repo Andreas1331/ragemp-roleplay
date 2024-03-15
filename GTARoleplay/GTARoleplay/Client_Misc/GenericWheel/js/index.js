@@ -3,7 +3,7 @@ let wheelDataHolder = null;
 let listenToKey = null;
 
 mp.events.add('ShowInteractionWheel::Client', (wheelData, tmpListenToKey) => {
-    if (!mp.objects.exists(wheelWindow)) {
+    if (!mp.browsers.exists(wheelWindow)) {
         mp.game.graphics.transitionToBlurred(250);
         wheelDataHolder = wheelData;
         listenToKey = tmpListenToKey;
@@ -34,7 +34,7 @@ mp.events.add('browserDomReady', (browser) => {
 });
 
 function destroyWheelBrowser(){
-    if (mp.objects.exists(wheelWindow)) {
+    if (mp.browsers.exists(wheelWindow)) {
         wheelWindow.destroy();
         mp.gui.cursor.show(false, false);
         mp.gui.chat.activate(true);

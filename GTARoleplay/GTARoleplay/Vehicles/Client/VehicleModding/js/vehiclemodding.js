@@ -6,7 +6,7 @@ var vehicleToMod = null;
 var availableModsData = {};
 
 mp.events.add('ShowVehicleModding::Client', (vehID) => {
-    if (!mp.objects.exists(moddingWindow)) {
+    if (!mp.browsers.exists(moddingWindow)) {
         moddingWindow = mp.browsers.new("package://gtaroleplay/VehicleModding/index.html");
         mp.gui.chat.activate(false);
         vehicleToMod = mp.vehicles.atRemoteId(vehID);
@@ -56,7 +56,7 @@ mp.events.add('browserDomReady', (browser) => {
 });
 
 mp.events.add('DestroyVehicleModding::Client', () => {
-    if (mp.objects.exists(moddingWindow)) {
+    if (mp.browsers.exists(moddingWindow)) {
         moddingWindow.destroy();
         mp.gui.chat.activate(true);
         mp.gui.cursor.show(false,false);

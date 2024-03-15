@@ -2,7 +2,7 @@
 var charactersLst = null;
 
 mp.events.add('ShowCharSelector::Client', (characters) => {
-    if (!mp.objects.exists(charSelectorWindow)) {
+    if (!mp.browsers.exists(charSelectorWindow)) {
         charSelectorWindow = mp.browsers.new("package://gtaroleplay/CharSelector/index.html");
         charactersLst = JSON.parse(characters);
         mp.gui.chat.activate(false);
@@ -10,7 +10,7 @@ mp.events.add('ShowCharSelector::Client', (characters) => {
 });
 
 mp.events.add('DestroyCharSelector::Client', () => {
-    if (mp.objects.exists(charSelectorWindow)) {
+    if (mp.browsers.exists(charSelectorWindow)) {
         charSelectorWindow.destroy();
         mp.gui.chat.activate(true);
         mp.gui.cursor.show(false,false);

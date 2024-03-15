@@ -70,7 +70,7 @@ namespace GTARoleplay.Account
                         .Include(x => x.FactionMemberData)
                         .Where(x => x.UserID.Equals(user.UserID))
                         .AsNoTracking().ToList();
-                    if (characters == null)
+                    if (!characters.Any())
                     {
                         // No characters found
                         player.SendChatMessage("You don't have any characters to play with!");
