@@ -13,18 +13,7 @@ namespace GTARoleplay.Account
 {
     public class AccountHandler : Script
     {
-        private const string WELCOME_MESSAGE = "Welcome to GTA Roleplay!";
-
         public static readonly string USER_DATA = "UserData";
-
-        [ServerEvent(Event.PlayerConnected)]
-        public void OnPlayerConnected(Player player)
-        {
-            player.SendChatMessage(WELCOME_MESSAGE);
-            player.TriggerEvent("ShowLogin::Client");
-            player.TriggerEvent("EnableHUD::Client", false);
-            player.Freeze(true);
-        }
 
         [RemoteEvent("OnLoginSubmitted::Server")]
         public void AuthenticateLogin(Player player, string username, string password)
@@ -69,7 +58,8 @@ namespace GTARoleplay.Account
                         .Characters
                         .Include(x => x.FactionMemberData)
                         .Where(x => x.UserID.Equals(user.UserID))
-                        .AsNoTracking().ToList();
+                        .AsNoTracking()
+                        .ToList();
                     if (!characters.Any())
                     {
                         // No characters found

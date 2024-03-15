@@ -39,7 +39,7 @@ namespace GTARoleplay.Character
         public float LastZ { get; set; }
 
         [Column("money")]
-        public int Money { get; set; }
+        public int Money { get; private set; }
 
         // One-to-many relationship
         [ForeignKey("UserRef")]
@@ -68,6 +68,7 @@ namespace GTARoleplay.Character
             UserRef.ActiveCharacter = this;
             UserRef.PlayerData.Position = LastKnownPos;
             UserRef.PlayerData.Name = Fullname;
+            UserRef.PlayerData.Transparency = 255;
 
             // Load the players information
             var db = DatabaseService.GetDatabaseContext();
@@ -121,7 +122,7 @@ namespace GTARoleplay.Character
             SendUpdatedCashToPlayer();
         }
 
-        public void GivePlayerMoney(int amount, bool saveToDatabase = true)
+        public void GivePlayerMoney(int amount)
         {
             Money += amount;
             SendUpdatedCashToPlayer();

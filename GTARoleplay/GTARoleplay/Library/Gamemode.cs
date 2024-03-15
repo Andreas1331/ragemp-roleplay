@@ -13,6 +13,7 @@ namespace GTARoleplay.Library
     public class Gamemode : Script
     {
         public static readonly string VERSION = "0.0.2-alpha";
+        private const string WELCOME_MESSAGE = "Welcome to GTA Roleplay!";
         public static readonly CultureInfo ServerCulture = new CultureInfo("en-us");
 
         private Timer hourlyTimer = null;
@@ -40,6 +41,16 @@ namespace GTARoleplay.Library
             PlayerHandler.RemovePlayerFromPlayerList(player);
         }
 
+        [ServerEvent(Event.PlayerConnected)]
+        public void OnPlayerConnected(Player player)
+        {
+            player.SendChatMessage(WELCOME_MESSAGE);
+            player.TriggerEvent("ShowLogin::Client");
+            player.TriggerEvent("EnableHUD::Client", false);
+            player.Freeze(true);
+            player.Transparency = 0;
+        }
+
         public static void OnHourPassed(object source, ElapsedEventArgs e)
         {
             // Give a payday to everyone
@@ -49,7 +60,7 @@ namespace GTARoleplay.Library
                 GTACharacter charData = ply.GetUserData()?.ActiveCharacter;
                 if(charData != null)
                 {
-                    charData.Money += 2000;
+                    charData.GivePlayerMoney(2000);
                     characters.Add(charData);
                     NAPI.Task.Run(() =>
                     {
@@ -64,7 +75,6 @@ namespace GTARoleplay.Library
                 db.UpdateRange(characters);
                 db.SaveChanges();
             }
-
         }
     }
 

@@ -4,7 +4,7 @@ using GTARoleplay.Character;
 
 namespace GTARoleplay.Library.Extensions
 {
-    public class ScriptExtended  : Script
+    public class ScriptExtended : Script
     {
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()

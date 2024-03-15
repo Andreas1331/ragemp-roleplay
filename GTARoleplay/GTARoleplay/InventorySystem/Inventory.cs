@@ -67,13 +67,10 @@ namespace GTARoleplay.InventorySystem
                 return;
 
             List<InventoryItem> itms = GetInventoryItemsFormatted();
-            if(itms != null)
-            {
-                itms.ForEach(itm =>
+            itms?.ForEach(itm =>
                 {
                     player.SendChatMessage($"({itms.IndexOf(itm) + 1}) {itm.Name} - Amount: {itm.Amount}");
                 });
-            }
         }
 
         public void ShowInventory(Player player)

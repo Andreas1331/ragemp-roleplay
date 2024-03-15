@@ -337,10 +337,5 @@ namespace GTARoleplay.AdminSystem
                 }
             }
         }
-
-        public override void OnCharacterSpawned(GTACharacter character, Player player)
-        {
-            player.SendChatMessage("You just spawned!");
-        }
     }
 }
