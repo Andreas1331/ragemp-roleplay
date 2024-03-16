@@ -1,5 +1,4 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Character;
 using GTARoleplay.Database;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Extensions;
@@ -156,7 +155,7 @@ namespace GTARoleplay.Vehicles.Data
         {
             // The player is either the direct owner, or part of the owning faction
             // TODO: Faction logic later
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             return (charData != null) ? (charData.CharacterID.Equals(Owner) && OwnerType.Equals(OwnerType.Player)) : false;
         }
 

@@ -1,6 +1,5 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.AdminSystem.Data;
-using GTARoleplay.Character;
 using GTARoleplay.InventorySystem;
 using GTARoleplay.ItemSystem.Items;
 using GTARoleplay.ItemSystem.Items.Factory;
@@ -28,7 +27,7 @@ namespace GTARoleplay.AdminSystem
                 if (targetPly != null)
                 {
                     // Get the targets inventory
-                    GTACharacter targetCharData = targetPly.GetUserData()?.ActiveCharacter;
+                    var targetCharData = targetPly.GetUserData()?.ActiveCharacter;
                     if (targetCharData == null)
                         return;
                     Inventory inv = targetCharData.Inventory;

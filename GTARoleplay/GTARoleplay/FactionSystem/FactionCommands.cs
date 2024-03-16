@@ -1,5 +1,4 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Character;
 using GTARoleplay.Library.Chat;
 using GTARoleplay.Library.Extensions;
 
@@ -10,7 +9,7 @@ namespace GTARoleplay.FactionSystem
         [Command("faction", Alias = "f,fchat", GreedyArg = true)]
         public void SendFactionMessage(Player player, string message)
         {
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             if (charData == null || charData.FactionMemberData == null)
                 return;
 
@@ -25,7 +24,7 @@ namespace GTARoleplay.FactionSystem
             {
                 if (ply == null)
                     continue;
-                GTACharacter tmpCharData = ply.GetUserData()?.ActiveCharacter;
+                var tmpCharData = ply.GetUserData()?.ActiveCharacter;
                 if (tmpCharData == null || tmpCharData.FactionMemberData == null || tmpCharData.FactionMemberData == null)
                     continue;
 

@@ -1,6 +1,5 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Animations;
-using GTARoleplay.Character;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Chat;
 using GTARoleplay.Library.Extensions;
@@ -15,7 +14,7 @@ namespace GTARoleplay.FactionSystem.Police
             if (player == null)
                 return;
 
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             if (charData == null || charData.FactionMemberData == null)
                 return;
 
@@ -52,7 +51,7 @@ namespace GTARoleplay.FactionSystem.Police
             if (player == null)
                 return;
 
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             if (charData == null || charData.FactionMemberData == null)
                 return;
 
@@ -75,7 +74,7 @@ namespace GTARoleplay.FactionSystem.Police
                     MessageFunctions.SendMessageToPlayersInRadiusColored(player, ChatDistances.ME_DST, message, ChatColors.ME_COLOR, excludingSelf: false);
 
                     // Remove the cuff object, by re-applying the players entire outfit
-                    GTACharacter targetCharData = targetPly.GetUserData()?.ActiveCharacter;
+                    var targetCharData = targetPly.GetUserData()?.ActiveCharacter;
                     targetCharData?.ApplyClothes();
                 }
             }

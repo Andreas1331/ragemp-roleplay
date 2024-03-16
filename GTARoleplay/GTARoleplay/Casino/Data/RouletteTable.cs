@@ -1,17 +1,14 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Animations;
-using GTARoleplay.Character;
 using GTARoleplay.Library.Attachments;
 using GTARoleplay.Library.Attachments.Data;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Library.Tasks;
 using GTARoleplay.Library.Tasks.Data;
 using GTARoleplay.Money;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GTARoleplay.Casino.Data
 {
@@ -186,7 +183,7 @@ namespace GTARoleplay.Casino.Data
                 if (totalEarnings > 0)
                 {
                     // The player won
-                    GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+                    var charData = player.GetUserData()?.ActiveCharacter;
                     MoneyHandler.GivePlayerMoney(charData, totalEarnings);
                     player.SendChatMessage($"You won ~g~${totalEarnings} ~s~ from roulette!");
                 }
@@ -211,7 +208,7 @@ namespace GTARoleplay.Casino.Data
             if (isSpinning || !isBettingAllowed || bettingAmount > maxSingleBetAmount)
                 return;
 
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             if (MoneyHandler.HasEnoughMoney(charData, bettingAmount))
             {
                 MoneyHandler.TakePlayerMoney(charData, bettingAmount);

@@ -1,5 +1,4 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Account;
 using GTARoleplay.Account.Data;
 using GTARoleplay.Character.Customization;
 using GTARoleplay.Database;
@@ -16,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace GTARoleplay.Character
+namespace GTARoleplay.Character.Data
 {
     [Table("characters")]
     public class GTACharacter

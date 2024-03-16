@@ -4,6 +4,7 @@ using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Authentication;
 using GTARoleplay.Character;
 using GTARoleplay.Character.Customization;
+using GTARoleplay.Character.Data;
 using GTARoleplay.Money;
 using Microsoft.EntityFrameworkCore;
 

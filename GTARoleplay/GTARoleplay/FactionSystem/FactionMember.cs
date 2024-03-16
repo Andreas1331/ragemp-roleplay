@@ -1,9 +1,6 @@
-﻿using GTARoleplay.Character;
-using System;
-using System.Collections.Generic;
+﻿using GTARoleplay.Character.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace GTARoleplay.FactionSystem
 {

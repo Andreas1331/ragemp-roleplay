@@ -35,7 +35,7 @@ namespace GTARoleplay.Vehicles
             if (player == null || veh == null)
                 return;
 
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
+            var character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
                 if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
@@ -61,7 +61,7 @@ namespace GTARoleplay.Vehicles
             if (player == null || veh == null)
                 return;
 
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
+            var character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
                 if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
@@ -87,7 +87,7 @@ namespace GTARoleplay.Vehicles
             if (player == null || veh == null)
                 return;
 
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
+            var character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
                 if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
@@ -209,7 +209,7 @@ namespace GTARoleplay.Vehicles
             if (player == null || veh == null)
                 return;
             player.TriggerEvent("EnableHUD::Client", true);
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
+            var character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
                 // Get the vehicle data

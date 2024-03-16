@@ -1,4 +1,4 @@
-﻿using GTARoleplay.Character;
+﻿using GTARoleplay.Character.Data;
 using GTARoleplay.Library;
 
 namespace GTARoleplay.Money

@@ -1,6 +1,5 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Casino;
-using GTARoleplay.Character;
 using GTARoleplay.Character.Customization;
 using GTARoleplay.Events;
 using GTARoleplay.Interactions.Data;
@@ -73,7 +72,7 @@ namespace GTARoleplay.Interactions
 
         public void ShowGenericWheel(Player player)
         {
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
+            var character = player.GetUserData()?.ActiveCharacter;
             if (character == null)
                 return;
 

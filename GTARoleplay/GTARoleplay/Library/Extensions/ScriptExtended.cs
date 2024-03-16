@@ -1,7 +1,7 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Account;
 using GTARoleplay.Account.Data;
-using GTARoleplay.Character;
+using GTARoleplay.Character.Data;
 
 namespace GTARoleplay.Library.Extensions
 {

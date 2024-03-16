@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Character;
+using GTARoleplay.Character.Data;
 using GTARoleplay.Database;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Money;

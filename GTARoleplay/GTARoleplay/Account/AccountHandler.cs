@@ -1,7 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Account.Data;
 using GTARoleplay.Authentication;
-using GTARoleplay.Character;
 using GTARoleplay.Database;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Extensions;
@@ -41,7 +40,7 @@ namespace GTARoleplay.Account
                 player.TriggerEvent("DestroyLogin::Client");
                 user.PlayerData = player;
                 // Don't track this list of characters as the purpose for now is just to display the current information, not change it
-                List<GTACharacter> characters = DatabaseService.GetDatabaseContext()
+                var characters = DatabaseService.GetDatabaseContext()
                     .Characters
                     .Include(x => x.FactionMemberData)
                     .Include(x => x.OutfitData)
@@ -76,8 +75,8 @@ namespace GTARoleplay.Account
                 return;
             }
 
-            User pUser = player.GetUserData();
-            GTACharacter selectedChar = pUser
+            var pUser = player.GetUserData();
+            var selectedChar = pUser
                 .Characters
                 .FirstOrDefault(x =>
                 x.Fullname.Equals(characterName));

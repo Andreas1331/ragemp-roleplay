@@ -12,8 +12,8 @@ namespace GTARoleplay.Character.Customization
             if (outfitObj == null)
                 return;
 
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-            CharacterOutfit currentOutfit = charData?.OutfitData;
+            var charData = player.GetUserData()?.ActiveCharacter;
+            var currentOutfit = charData?.OutfitData;
 
             var outfit = NAPI.Util.FromJson<OutfitContainer>(outfitObj);
             foreach (KeyValuePair<int, OutfitObject> kp in outfit.ClothesAndAccessories)
@@ -80,7 +80,7 @@ namespace GTARoleplay.Character.Customization
                 return;
 
             player.TriggerEvent("EnableHUD::Client", true);
-            GTACharacter charData = player.GetUserData()?.ActiveCharacter;
+            var charData = player.GetUserData()?.ActiveCharacter;
             charData.ApplyClothes();
         }
     }

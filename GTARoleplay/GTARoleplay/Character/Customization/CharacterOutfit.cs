@@ -1,7 +1,5 @@
-﻿using GTARoleplay.Database;
-using GTARoleplay.Library;
-using System;
-using System.Collections.Generic;
+﻿using GTARoleplay.Character.Data;
+using GTARoleplay.Database;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
