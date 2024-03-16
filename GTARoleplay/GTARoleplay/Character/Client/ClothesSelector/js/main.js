@@ -22,20 +22,21 @@ function setupSliders(tmpData){
             min: data[i].min,
             max: data[i].max - 1,
             step: 1,
-            grid: false
-        });
-        // Whenever one of our sliders changes value, we will update the outfit to purchase
-        $(document).on('input', '#'+data[i].id, function() {
-            let val = $("#"+data[i].id).val();
-            let textureVal = $('#'+data[i].id+"TextureBox").attr("index");
-            if(textureVal === null || textureVal === undefined)
-                textureVal = 0;
+            grid: false,
+            // Whenever one of our sliders changes value, we will update the outfit to purchase
+            onChange: function (newSliderData) {
+                let val = newSliderData.from;
+                let textureVal = $('#'+data[i].id+"TextureBox").attr("index");
+                if(textureVal === null || textureVal === undefined)
+                    textureVal = 0;
 
-            outfitToPurchase['clothesAndAccessories'][String(data[i].componentSlot)] =
-            {"Drawable": parseInt(val), "Texture": parseInt(textureVal)};
-            mp.trigger("GetDrawableMaxTexture::Client", data[i].id, data[i].isAccessory, data[i].componentSlot, val);
-            mp.trigger("SetPlayerClothes::Client", data[i].isAccessory, data[i].componentSlot, val, textureVal);
+                outfitToPurchase['clothesAndAccessories'][String(data[i].componentSlot)] =
+                {"Drawable": parseInt(val), "Texture": parseInt(textureVal)};
+                mp.trigger("GetDrawableMaxTexture::Client", data[i].id, data[i].isAccessory, data[i].componentSlot, val);
+                mp.trigger("SetPlayerClothes::Client", data[i].isAccessory, data[i].componentSlot, val, textureVal);
+            }
         });
+        
         setupTextureInput(data[i].id, data[i].isAccessory, data[i].componentSlot);
         updateMaxTextures(data[i].id, data[i].componentSlot, data[i].initialMaxTexture, data[i].currentTexture, false);
     }
@@ -68,6 +69,10 @@ function updateMaxTextures(componentID, componentSlot, maxTextures, currentTextu
 }
 
 function setTorsoElements(drawable, texture){
+    let torsoRange = $("#torsoSlider").data("ionRangeSlider");
+    torsoRange.update({
+        from: Number(drawable)
+    });  
     outfitToPurchase['clothesAndAccessories'][3] = {"Drawable": parseInt(drawable), "Texture": parseInt(texture)};
 }
 
@@ -82,20 +87,22 @@ function closeWindow(){
 }
 
 // For interaction with the sliders
-function increaseSlider(slider){
-    let current = Number($("#"+slider).val());
-    let range = $("#"+slider).data("ionRangeSlider");
-    range.update({
-        from: current + 1
+function increaseSlider(slider) {
+    let current = Number($("#"+slider).val()) + 1;
+    let ionSlider = $("#"+slider).data("ionRangeSlider");
+    ionSlider.update({
+        from: current
     });  
+    ionSlider.options.onChange.call(ionSlider, { from: current });
 }
 
 function decreaseSlider(slider){
-    var current = Number($("#"+slider).val());
-    let range = $("#"+slider).data("ionRangeSlider");
-    range.update({
-        from: current - 1
-    });  
+    var current = Number($("#"+slider).val()) - 1;
+    let ionSlider = $("#"+slider).data("ionRangeSlider");
+    ionSlider.update({
+        from: current
+    }); 
+    ionSlider.options.onChange.call(ionSlider, { from: current });
 }
 
 function setupTextureInput(componentID, isAccessory, componentSlot){
