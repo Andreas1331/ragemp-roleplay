@@ -1,4 +1,4 @@
-﻿using GTARoleplay.Account;
+﻿using GTARoleplay.Account.Data;
 using static BCrypt.Net.BCrypt;
 
 namespace GTARoleplay.Authentication

@@ -1,4 +1,4 @@
-﻿using GTARoleplay.Account;
+﻿using GTARoleplay.Account.Data;
 using GTARoleplay.Authentication;
 using Xunit;
 

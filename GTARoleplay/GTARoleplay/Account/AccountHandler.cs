@@ -1,4 +1,5 @@
 ﻿using GTANetworkAPI;
+using GTARoleplay.Account.Data;
 using GTARoleplay.Authentication;
 using GTARoleplay.Character;
 using GTARoleplay.Database;

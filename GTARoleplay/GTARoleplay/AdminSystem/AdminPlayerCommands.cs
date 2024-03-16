@@ -19,7 +19,7 @@ namespace GTARoleplay.AdminSystem
         [Command("adminweapon", Alias = "awep")]
         public void SpawnAdminVehicle(Player player, string weaponName, int ammo = 100)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Developer))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Developer))
             {
                 WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(weaponName);
                 if (weaponHash > 0)
@@ -33,7 +33,7 @@ namespace GTARoleplay.AdminSystem
         [Command("goto", "~y~USAGE: ~w~/goto [Target Name / ID]", GreedyArg = true)]
         public void GotoPlayer(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
@@ -51,7 +51,7 @@ namespace GTARoleplay.AdminSystem
         [Command("gethere", "~y~USAGE: ~w~/gethere [Target Name / ID]", GreedyArg = true)]
         public void GetPlayerHere(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
@@ -69,7 +69,7 @@ namespace GTARoleplay.AdminSystem
         [Command("slap", "~y~USAGE: ~w~/slap [Target Name / ID]", GreedyArg = true)]
         public void SlapPlayer(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
@@ -87,9 +87,9 @@ namespace GTARoleplay.AdminSystem
         [Command("arevive", "~y~USAGE: ~w~/arevive [Target Name / ID]", GreedyArg = true)]
         public void RevivePlayer(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level2))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
-                Player targetPly = PlayerHandler.GetPlayer(target);
+                var targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
                 {
                     if (targetPly.Dead)
@@ -105,12 +105,12 @@ namespace GTARoleplay.AdminSystem
         [Command("kick", "~y~USAGE: ~w~/kick [Target Name / ID] [reason]", Alias = "kickplayer", GreedyArg = true)]
         public void KickPlayer(Player player, string target, string reason)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
-                Player targetPly = PlayerHandler.GetPlayer(target);
+                var targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
                 {
-                    Staff adm = player.GetUserData()?.StaffData;
+                    var adm = player.GetUserData()?.StaffData;
                     if (adm == null)
                         return;
 
@@ -126,16 +126,16 @@ namespace GTARoleplay.AdminSystem
         [Command("silentkick", "~y~USAGE: ~w~/silentkick [Target Name / ID] [reason]", Alias = "skick", Group = "Level1", GreedyArg = true)]
         public void SilentlyKickPlayer(Player player, string target, string reason)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
                 {
-                    Staff adm = player.GetUserData()?.StaffData;
+                    var adm = player.GetUserData()?.StaffData;
                     if (adm == null)
                         return;
 
-                    string kickMessage = $"~r~AdmCmd: {targetPly.Name} was kicked by {adm.StaffName} Reason: ({reason})";
+                    var kickMessage = $"~r~AdmCmd: {targetPly.Name} was kicked by {adm.StaffName} Reason: ({reason})";
                     targetPly.Kick(kickMessage);
                     // TODO: print to all admins or staff
                     //CMDUsedToAllAdmins("~y~AdmCmd: ~w~" + player.name.Replace("_", " ") + " ((" + player.handle + ")) silent kicked " + playerToKick.name.Replace("_", " ") + " ((" + playerToKick.handle + ")) Reason: " + reason);
@@ -148,7 +148,7 @@ namespace GTARoleplay.AdminSystem
         [Command("ooc", "~y~USAGE: ~w~/ooc [text]", Group = "Level2", Alias = "o", GreedyArg = true)]
         public void PrintOOC(Player player, string text)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level2))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
                 Staff adm = player.GetUserData()?.StaffData;
                 if (adm == null)
@@ -162,7 +162,7 @@ namespace GTARoleplay.AdminSystem
         [Command("spectate", "~y~USAGE: ~w~/(spec)tate [Target Name / ID]", Group = "Level1", Alias = "spec", GreedyArg = true)]
         public void SpectatePlayer(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
@@ -175,7 +175,7 @@ namespace GTARoleplay.AdminSystem
 
                     player.TriggerEvent("StartSpectatingTarget::Client", targetPly);
                     NAPI.Entity.SetEntityTransparency(player, 0);
-                    player.SetData<Vector3>("OldSpectatePosition", player.Position);
+                    player.SetData("OldSpectatePosition", player.Position);
 
                     player.SendAdminCommandMessage($"You're now spectating {targetPly.Name} ID {PlayerHandler.GetIDFromPlayer(targetPly)}!");
                     player.SendChatMessage("Use /unspectate to stop spectating this player.");
@@ -186,7 +186,7 @@ namespace GTARoleplay.AdminSystem
         [Command("unspectate", Group = "Level1", Alias = "stopspec")]
         public void StopSpectatePlayer(Player player)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 player.TriggerEvent("StopSpectatingTarget::Client");
                 NAPI.Entity.SetEntityTransparency(player, 255);
@@ -218,7 +218,7 @@ namespace GTARoleplay.AdminSystem
         [Command("ban", "~y~USAGE: ~w~/ban [Target Name / ID] [reason]", Group = "Level2", GreedyArg = true)]
         public void BanPlayer(Player player, string target, string reason)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level2))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
@@ -229,8 +229,8 @@ namespace GTARoleplay.AdminSystem
                         return;
                     }
 
-                    Staff adm = player.GetUserData()?.StaffData;
-                    User targetUser = targetPly.GetUserData();
+                    var adm = player.GetUserData()?.StaffData;
+                    var targetUser = targetPly.GetUserData();
                     if (adm == null || targetUser == null)
                         return;
 
@@ -276,7 +276,7 @@ namespace GTARoleplay.AdminSystem
         [Command("viewhelpmes", Alias = "vhm", Group = "Moderator")]
         public void PrintHelpmes(Player player)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Moderator))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
                 player.SendChatMessage("~y~Displaying avaliable helpme's. Use /accepthelpme(ahm) [helpmeID] to accept, or /trashhelpme [helpmeID] to trash.");
                 helpmes?.Values.ToList().ForEach(helpme =>
@@ -293,7 +293,7 @@ namespace GTARoleplay.AdminSystem
         [Command("trashhelpme", "~y~USAGE: ~w~/trashhelpme [HelpmeID]", Group = "Moderator")]
         public void TrashHelpme(Player player, int helpmeid)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Moderator))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
                 if (helpmes.ContainsKey(helpmeid))
                 {
@@ -319,7 +319,7 @@ namespace GTARoleplay.AdminSystem
         [Command("accepthelpme", "~y~USAGE: ~w~/accepthelpme(/ahm) [HelpmeID] to accept a helpme.", Alias = "ahm", Group = "Moderator")]
         public void AcceptHelpme(Player player, int helpmeID)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Moderator))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
                 if (helpmes.ContainsKey(helpmeID))
                 {

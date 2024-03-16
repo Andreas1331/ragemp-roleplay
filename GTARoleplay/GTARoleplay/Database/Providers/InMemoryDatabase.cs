@@ -1,4 +1,5 @@
 ﻿using GTARoleplay.Account;
+using GTARoleplay.Account.Data;
 using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Authentication;
 using GTARoleplay.Character;

@@ -12,7 +12,7 @@ namespace GTARoleplay.AdminSystem
         [Command("spawnadminvehicle", Alias ="acar,aveh")]
         public void SpawnAdminVehicle(Player player, string vehicleName)
         {
-            if(AdminAuthentication.HasPermission(player, StaffRank.Level2))
+            if(AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
                 VehicleHash vehicle = NAPI.Util.VehicleNameToModel(vehicleName);
                 if(vehicle > 0)
@@ -27,7 +27,7 @@ namespace GTARoleplay.AdminSystem
         [Command("mypos")]
         public void PrintMyPosition(Player player)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Vector3 pos = player.Position;
                 player.SendChatMessage($"Your position ({pos.X}, {pos.Y}, {pos.Z})");

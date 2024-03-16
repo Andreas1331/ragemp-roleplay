@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Account;
+using GTARoleplay.Account.Data;
 using GTARoleplay.Character.Customization;
 using GTARoleplay.Database;
 using GTARoleplay.FactionSystem;

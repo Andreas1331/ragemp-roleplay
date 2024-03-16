@@ -5,7 +5,6 @@ using GTARoleplay.Library.Extensions;
 using GTARoleplay.Provider;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Timers;
 
 namespace GTARoleplay.Library
@@ -36,7 +35,7 @@ namespace GTARoleplay.Library
         }
 
         [ServerEvent(Event.PlayerDisconnected)]
-        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
+        public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
         {
             PlayerHandler.RemovePlayerFromPlayerList(player);
         }
@@ -54,27 +53,25 @@ namespace GTARoleplay.Library
         public static void OnHourPassed(object source, ElapsedEventArgs e)
         {
             // Give a payday to everyone
-            List<GTACharacter> characters = new List<GTACharacter>();
-            foreach(Player ply in NAPI.Pools.GetAllPlayers())
+            var characters = new List<GTACharacter>();
+            foreach(var ply in NAPI.Pools.GetAllPlayers())
             {
-                GTACharacter charData = ply.GetUserData()?.ActiveCharacter;
+                var charData = ply.GetUserData()?.ActiveCharacter;
                 if(charData != null)
                 {
-                    charData.GivePlayerMoney(2000);
                     characters.Add(charData);
                     NAPI.Task.Run(() =>
                     {
+                        charData.GivePlayerMoney(2000);
                         ply.SendChatMessage("Payday: You've been given $2000!");
                     });
                 }
             }
 
             // Go and save their current data
-            using (var db = DatabaseService.GetDatabaseContext())
-            {
-                db.UpdateRange(characters);
-                db.SaveChanges();
-            }
+            var db = DatabaseService.GetDatabaseContext();
+            db.UpdateRange(characters);
+            db.SaveChanges();
         }
     }
 

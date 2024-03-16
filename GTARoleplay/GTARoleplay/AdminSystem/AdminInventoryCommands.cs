@@ -15,7 +15,7 @@ namespace GTARoleplay.AdminSystem
         [Command("admingiveitem", Alias = "agive,agiveitem", GreedyArg = true)]
         public void AdminGivePlayerItem(Player player, string target, int amount, string item)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level2))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
                 if(amount <= 0)
                 {
@@ -73,7 +73,7 @@ namespace GTARoleplay.AdminSystem
         [Command("checkitems", Alias = "acheckitem,admincheckitems", GreedyArg = true)]
         public void CheckPlayerItems(Player player, string target)
         {
-            if (AdminAuthentication.HasPermission(player, StaffRank.Level1))
+            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
                 Player targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)

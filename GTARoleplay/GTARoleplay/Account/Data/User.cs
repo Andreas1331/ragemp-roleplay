@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GTARoleplay.Account
+namespace GTARoleplay.Account.Data
 {
     [Table("accounts")]
     public class User
