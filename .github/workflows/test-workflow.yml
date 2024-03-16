@@ -14,7 +14,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Test_Project_Path: GTARoleplay/GTARoleplayTest.csproj
+      Test_Project_Path: ./GTARoleplay/GTARoleplayTest/GTARoleplayTest.csproj
 
     steps:
     - name: Checkout
