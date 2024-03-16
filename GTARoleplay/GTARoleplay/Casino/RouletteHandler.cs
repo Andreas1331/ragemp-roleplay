@@ -59,7 +59,7 @@ namespace GTARoleplay.Casino
         {
             RouletteTable rTable = GetRouletteTableFromObj(tableObj);
 
-            PrimaryInteractionWheel wheel = new PrimaryInteractionWheel(0, "Roulette table", keyToBind: "e");
+            PrimaryInteractionWheel wheel = new PrimaryInteractionWheel(0, "Roulette table", ConsoleKey.E);
             List<object> slices = new List<object>()
                 {
                     new WheelSliceAction("Join", () => {

@@ -4,11 +4,10 @@ let listenToKey = null;
 
 mp.events.add('ShowInteractionWheel::Client', (wheelData, tmpListenToKey) => {
     if (!mp.browsers.exists(wheelWindow)) {
-        mp.game.graphics.transitionToBlurred(250);
         wheelDataHolder = wheelData;
         listenToKey = tmpListenToKey;
         createWheelBrowser();
-    }
+    } 
 });
 
 function createWheelBrowser(){
@@ -17,7 +16,6 @@ function createWheelBrowser(){
 }
 
 mp.events.add('DestroyWheel::Client', () => {
-    mp.game.graphics.transitionFromBlurred(0);
     destroyWheelBrowser();
 });
 
@@ -29,11 +27,18 @@ mp.events.add('browserDomReady', (browser) => {
     if(browser !== wheelWindow)
         return;
 
-    wheelWindow.execute(`initWheel('${wheelDataHolder}', '${listenToKey}');`);
-    mp.gui.cursor.show(true, true);
+    if (mp.keys.isDown(listenToKey) === true) {
+        wheelWindow.execute(`initWheel('${wheelDataHolder}', ${listenToKey});`);
+        mp.game.graphics.transitionToBlurred(250);
+        mp.gui.cursor.show(true, true);
+    } else {
+        destroyWheelBrowser();
+	}
 });
 
 function destroyWheelBrowser(){
+    mp.game.graphics.transitionFromBlurred(0);
+
     if (mp.browsers.exists(wheelWindow)) {
         wheelWindow.destroy();
         mp.gui.cursor.show(false, false);

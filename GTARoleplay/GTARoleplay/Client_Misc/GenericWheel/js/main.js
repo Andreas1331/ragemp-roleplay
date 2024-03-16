@@ -15,22 +15,27 @@ const spreaderTitleInOutAttr = { fill: '#ffffff', stroke: '#000000', 'stroke-wid
 let iconsDict = null;
 
 function setupIcons(){
-    iconsDict = {"icon.car": icon.car, "icon.lock": icon.lock, 
-                "icon.key": icon.key, "icon.power": icon.power,
+    iconsDict = {"icon.car": icon.car,
+                "icon.lock": icon.lock, 
+                "icon.key": icon.key,
+                "icon.power": icon.power,
                 "icon.inventory": "imgsrc:resources/icons/inventory.svg",
-                "icon.arrowleft": icon.arrowleft2, "icon.list": icon.list,
+                "icon.arrowleft": icon.arrowleft2,
+                "icon.list": icon.list,
                 "icon.play": icon.play,
-                "icon.wrench": icon.wrench, "icon.cross": icon.cross, "icon.palm": icon.palm};
+                "icon.wrench": icon.wrench,
+                "icon.cross": icon.cross,
+                "icon.palm": icon.palm};
 }
 
-function initWheel(wheelData, key){
+function initWheel(wheelData, keyCode){
     allWheelsData = JSON.parse(wheelData);
     setupIcons();
     createWheel(allWheelsData[0]);    
     
     window.addEventListener("keyup", function onEvent(event) {
         // Destroy the wheel when the key is released
-        if (event.key === key) {
+        if (event.keyCode === keyCode) {
             destroyEverything();
         }
     });

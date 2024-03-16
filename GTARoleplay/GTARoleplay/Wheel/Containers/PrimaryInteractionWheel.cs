@@ -1,4 +1,5 @@
 ﻿using GTANetworkAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -12,11 +13,11 @@ namespace GTARoleplay.Wheel.Containers
         public List<InteractionWheel> SubWheels { get; } = new List<InteractionWheel>();
 
         [JsonIgnore]
-        public string KeyToBind { get; }
+        public ConsoleKey KeyToBind { get; }
 
-        public PrimaryInteractionWheel(int id, string title, string keyToBind) : base(id, title)
+        public PrimaryInteractionWheel(int id, string title, ConsoleKey keyToBind) : base(id, title)
         {
-            KeyToBind = keyToBind.ToLower();
+            KeyToBind = keyToBind;
         }
 
         public void AddSubWheel(InteractionWheel wheel) 
@@ -31,13 +32,13 @@ namespace GTARoleplay.Wheel.Containers
         public void Display(Player player)
         {
             // We make sure the primary wheel is the first element of the list
-            List<object> wheelsForDisplay = new List<object>() {
+            var wheelsForDisplay = new List<object>() {
                 this,
             };
             wheelsForDisplay.AddRange(this.SubWheels);
-            string wheelsStr = JsonSerializer.Serialize<object>(wheelsForDisplay);
-            player.TriggerEvent("ShowInteractionWheel::Client", wheelsStr, KeyToBind);
-            player.SetData<PrimaryInteractionWheel>("WheelData", this);
+            var wheels = JsonSerializer.Serialize<object>(wheelsForDisplay);
+            player.TriggerEvent("ShowInteractionWheel::Client", wheels, KeyToBind);
+            player.SetData("WheelData", this);
         }
 
         public void InvokeSliceAction(int wheelID, int sliceIndex)

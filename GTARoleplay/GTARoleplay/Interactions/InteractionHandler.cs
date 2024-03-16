@@ -12,6 +12,7 @@ using GTARoleplay.Vehicles.Data;
 using GTARoleplay.Vehicles.Streaming;
 using GTARoleplay.Wheel;
 using GTARoleplay.Wheel.Containers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -58,7 +59,7 @@ namespace GTARoleplay.Interactions
                     break;
                 case 3: // Objects
                     // figure out which object the player is interacting with
-                    Object obj = NAPI.Pools.GetAllObjects().FirstOrDefault(x => x.Value.Equals(entityValue));
+                    var obj = NAPI.Pools.GetAllObjects().FirstOrDefault(x => x.Value.Equals(entityValue));
                     if(obj != null)
                     {
                         if (obj.Model == 3021682919) // vw_prop_casino_roulette_01b
@@ -76,12 +77,12 @@ namespace GTARoleplay.Interactions
             if (character == null)
                 return;
 
-            string primaryTitle = $"{player.Name} [{PlayerHandler.GetIDFromPlayer(player)}]";
-            PrimaryInteractionWheel wheel = new PrimaryInteractionWheel(0, primaryTitle, keyToBind: "c");
-            InteractionWheel vehicleWheel = new InteractionWheel(1, "Your vehicle(s)");
-            InteractionWheel extraWheel = new InteractionWheel(2, "Walkingstyle");
-            wheel.AddSubWheel(vehicleWheel);
-            wheel.AddSubWheel(extraWheel);
+            var primaryTitle = $"{player.Name} [{PlayerHandler.GetIDFromPlayer(player)}]";
+            var primaryWheel = new PrimaryInteractionWheel(0, primaryTitle, ConsoleKey.C);
+            var vehicleWheel = new InteractionWheel(1, "Your vehicle(s)");
+            var extraWheel = new InteractionWheel(2, "Walkingstyle");
+            primaryWheel.AddSubWheel(vehicleWheel);
+            primaryWheel.AddSubWheel(extraWheel);
 
             List<object> slices = new List<object>()
                 {
@@ -93,9 +94,9 @@ namespace GTARoleplay.Interactions
                     new WheelSliceSubMenu("icon.car", vehicleWheel.ID),
                     new WheelSliceSubMenu("icon.list", extraWheel.ID),
                 };
-            wheel.Slices = slices;
+            primaryWheel.Slices = slices;
 
-            // Fill the vehilce slices list based on the players available vehicles
+            // Fill the vehicle slices list based on the players available vehicles
             // TODO: Create a submenu for each vehicle, where there's options like: Spawn/Despawn
             // TODO: Don't let a player spawn a vehicle that is already spawned
             List<object> vehicleSlices = new List<object>();
@@ -105,7 +106,7 @@ namespace GTARoleplay.Interactions
                 foreach (GTAVehicle veh in character.Vehicles)
                 {
                     InteractionWheel vehWheel = new InteractionWheel(vehicleWheelID, "Vehicle");
-                    wheel.AddSubWheel(vehWheel);
+                    primaryWheel.AddSubWheel(vehWheel);
                     var spawnSlice = new WheelSliceAction("icon.palm", () => veh.SpawnVehicle());
                     var despawnSlice = new WheelSliceAction("icon.cross", () => veh.DespawnVehicle());
                     var backSlice = new WheelSliceSubMenu("icon.arrowleft", vehicleWheel.ID);
@@ -118,7 +119,7 @@ namespace GTARoleplay.Interactions
                     vehicleWheelID++;
                 }
             }
-            vehicleSlices.Add(new WheelSliceSubMenu("icon.arrowleft", wheel.ID));
+            vehicleSlices.Add(new WheelSliceSubMenu("icon.arrowleft", primaryWheel.ID));
             vehicleWheel.Slices = vehicleSlices;
 
             List<object> extraSlices = new List<object>()
@@ -136,10 +137,10 @@ namespace GTARoleplay.Interactions
                 new WheelSliceAction("Sad", () => player.SetSharedData("walkingStyle", "Sad")),
                 new WheelSliceAction("Tough", () => player.SetSharedData("walkingStyle", "Tough"))
             };
-            extraSlices.Add(new WheelSliceSubMenu("icon.arrowleft", wheel.ID));
+            extraSlices.Add(new WheelSliceSubMenu("icon.arrowleft", primaryWheel.ID));
             extraWheel.Slices = extraSlices;
 
-            wheel.Display(player);
+            primaryWheel.Display(player);
         }
 
         private void CreateVehicleInteractionWheel(Player ply, int entityVal)
@@ -149,7 +150,7 @@ namespace GTARoleplay.Interactions
             if (veh == null)
                 return;
 
-            PrimaryInteractionWheel wheel = new PrimaryInteractionWheel(0, "Vehicle", keyToBind: "e");
+            PrimaryInteractionWheel wheel = new PrimaryInteractionWheel(0, "Vehicle", ConsoleKey.E);
             List<object> slices = new List<object>()
                 {
                     new WheelSliceAction("icon.key", () => {
