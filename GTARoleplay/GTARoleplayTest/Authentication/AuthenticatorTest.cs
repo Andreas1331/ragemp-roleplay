@@ -1,8 +1,5 @@
 ﻿using GTARoleplay.Account;
 using GTARoleplay.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GTARoleplayTest.Authentication
