@@ -13,6 +13,9 @@ jobs:
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
+    env:
+      Test_Project_Path: test/GTARoleplayTest/GTARoleplayTest.csproj
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -31,5 +34,4 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test
-
+      run: dotnet test --configuration Release --verbosity normal ${{ env.Test_Project_Path }}
