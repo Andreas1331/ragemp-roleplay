@@ -24,13 +24,15 @@ function setupSliders(tmpData){
             step: 1,
             grid: false
         });
+        // Whenever one of our sliders changes value, we will update the outfit to purchase
         $(document).on('input', '#'+data[i].id, function() {
             let val = $("#"+data[i].id).val();
             let textureVal = $('#'+data[i].id+"TextureBox").attr("index");
             if(textureVal === null || textureVal === undefined)
                 textureVal = 0;
 
-            outfitToPurchase['clothesAndAccessories'][String(data[i].componentSlot)] = {"Drawable": parseInt(val), "Texture": parseInt(textureVal)};
+            outfitToPurchase['clothesAndAccessories'][String(data[i].componentSlot)] =
+            {"Drawable": parseInt(val), "Texture": parseInt(textureVal)};
             mp.trigger("GetDrawableMaxTexture::Client", data[i].id, data[i].isAccessory, data[i].componentSlot, val);
             mp.trigger("SetPlayerClothes::Client", data[i].isAccessory, data[i].componentSlot, val, textureVal);
         });
@@ -52,23 +54,22 @@ function setupSliders(tmpData){
     });
 }
 
-function updateMaxTextures(componentID, componentSlot, maxTextures, currentTexture, updateOutfit = true){
+// Every time the player moves a slider, we will have to gather the max. texture available for this drawable.
+function updateMaxTextures(componentID, componentSlot, maxTextures, currentTexture, updateOutfit = true) {
     maxTexturesForComponents[componentSlot] = maxTextures;
+    currentTexture = parseInt(currentTexture);
+
     let textureBox = $('#'+componentID+"TextureBox");
     textureBox.val("Texture " + (currentTexture+1) + "/" + maxTextures); 
-    textureBox.attr("index", parseInt(currentTexture));
+    textureBox.attr("index", currentTexture);
+    
     if(updateOutfit)
-        outfitToPurchase['clothesAndAccessories'][String(componentSlot)]["Texture"] = currentIndex;
+        outfitToPurchase['clothesAndAccessories'][String(componentSlot)]["Texture"] = currentTexture;
 }
 
 function setTorsoElements(drawable, texture){
-    let torsoRange = $("#torsoSlider").data("ionRangeSlider");
-    torsoRange.update({
-        from: Number(drawable)
-    });  
     outfitToPurchase['clothesAndAccessories'][3] = {"Drawable": parseInt(drawable), "Texture": parseInt(texture)};
 }
-
 
 function purchaseOutfit(){
     if(!outfitToPurchase)

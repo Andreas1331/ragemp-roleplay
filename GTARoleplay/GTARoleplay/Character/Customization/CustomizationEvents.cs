@@ -14,11 +14,8 @@ namespace GTARoleplay.Character.Customization
 
             GTACharacter charData = player.GetUserData()?.ActiveCharacter;
             CharacterOutfit currentOutfit = charData?.OutfitData;
-            if (currentOutfit == null)
-                return;
 
-            OutfitContainer outfit = NAPI.Util.FromJson<OutfitContainer>(outfitObj);
-            // Check accessories first
+            var outfit = NAPI.Util.FromJson<OutfitContainer>(outfitObj);
             foreach (KeyValuePair<int, OutfitObject> kp in outfit.ClothesAndAccessories)
             {
                 switch (kp.Key)

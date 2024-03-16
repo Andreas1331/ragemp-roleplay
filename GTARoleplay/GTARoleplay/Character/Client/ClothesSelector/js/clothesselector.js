@@ -1,6 +1,6 @@
 ﻿const torsoDataMale = require("gtaroleplay/ClothesSelector/resources/besttorso_male.js");
 const library = require("gtaroleplay/library.js");
-var moddingWindow = null;
+let moddingWindow = null;
 
 mp.events.add('ShowClothingSelector::Client', () => {
     if (!mp.browsers.exists(moddingWindow)) {
@@ -136,7 +136,7 @@ mp.events.add('SetPlayerClothes::Client', (isAccessory, componentSlot, drawable,
         if (componentSlot === 11 && torsoDataMale[drawable] !== undefined && torsoDataMale[drawable][texture] !== undefined) {
             let betterTorso = torsoDataMale[drawable][texture];
             if (betterTorso.BestTorsoDrawable != -1) {
-                moddingWindow.execute(`setTorsoElements(${betterTorso.BestTorsoDrawable}, ${betterTorso.BestTorsoTexture});`);
+                moddingWindow.execute(`setTorsoElements('${betterTorso.BestTorsoDrawable}', '${betterTorso.BestTorsoTexture}');`);
                 mp.players.local.setComponentVariation(3, betterTorso.BestTorsoDrawable, betterTorso.BestTorsoTexture, 2);
             }
         }
@@ -153,7 +153,6 @@ mp.events.add('GetDrawableMaxTexture::Client', (id, isAccessory, componentSlot, 
         let maxTextures = mp.players.local.getNumberOfTextureVariations(parseInt(componentSlot), parseInt(drawable));
         moddingWindow.execute(`updateMaxTextures('${id}', '${componentSlot}', '${maxTextures}', 0);`);
     }
-
 });
 
 mp.events.add('SetPlayerRotation::Client', (rotation) => {
