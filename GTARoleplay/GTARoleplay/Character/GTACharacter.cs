@@ -7,6 +7,7 @@ using GTARoleplay.FactionSystem;
 using GTARoleplay.InventorySystem;
 using GTARoleplay.ItemSystem.Items;
 using GTARoleplay.Library;
+using GTARoleplay.Money;
 using GTARoleplay.Vehicles.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,7 +41,7 @@ namespace GTARoleplay.Character
         public float LastZ { get; set; }
 
         [Column("money")]
-        public int Money { get; private set; }
+        public int Money { get; set; }
 
         // One-to-many relationship
         [ForeignKey("UserRef")]
@@ -92,36 +93,9 @@ namespace GTARoleplay.Character
             Inventory = new Inventory(itms);
 
             PlayerHandler.AddPlayerToList(UserRef.PlayerData);
-            SendUpdatedCashToPlayer();
+            MoneyHandler.SendUpdatedCashToPlayer(this);
 
             OnCharacterSpawned?.Invoke(this, UserRef.PlayerData);
-        }
-
-        public bool HasEnoughMoney(int amount, bool printMsg = true)
-        {
-            bool hasEnough = Money >= amount;
-            if (!hasEnough && printMsg)
-                UserRef?.PlayerData?.SendChatMessage("~r~You don't have enough money to perform this action");
-
-            return hasEnough;
-        }
-
-        public void TakePlayerMoney(int amount)
-        {
-            Money -= amount;
-            SendUpdatedCashToPlayer();
-        }
-
-        public void GivePlayerMoney(int amount)
-        {
-            Money += amount;
-            SendUpdatedCashToPlayer();
-        }
-
-        private void SendUpdatedCashToPlayer()
-        {
-            // TODO: Add bank details
-            UserRef?.PlayerData.TriggerEvent("UpdateCashStats::Client", Money.ToString("C2", Gamemode.ServerCulture), 1000);
         }
 
         public void ApplyClothes()

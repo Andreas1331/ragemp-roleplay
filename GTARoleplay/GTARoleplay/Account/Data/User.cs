@@ -1,7 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Character;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

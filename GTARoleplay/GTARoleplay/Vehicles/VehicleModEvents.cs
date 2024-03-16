@@ -1,6 +1,7 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Character;
 using GTARoleplay.Library.Extensions;
+using GTARoleplay.Money;
 using GTARoleplay.Vehicles.Data;
 
 namespace GTARoleplay.Vehicles
@@ -37,7 +38,7 @@ namespace GTARoleplay.Vehicles
             GTACharacter character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
-                if (character.HasEnoughMoney(MOD_PRICE))
+                if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
                 {
                     // Get the vehicle data
                     GTAVehicle vehData = veh.GetVehicleData();
@@ -63,7 +64,7 @@ namespace GTARoleplay.Vehicles
             GTACharacter character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
-                if (character.HasEnoughMoney(MOD_PRICE))
+                if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
                 {
                     // Get the vehicle data
                     GTAVehicle vehData = veh.GetVehicleData();
@@ -89,7 +90,7 @@ namespace GTARoleplay.Vehicles
             GTACharacter character = player.GetUserData()?.ActiveCharacter;
             if (character != null)
             {
-                if (character.HasEnoughMoney(MOD_PRICE))
+                if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
                 {
                     // Get the vehicle data
                     GTAVehicle vehData = veh.GetVehicleData();
@@ -115,92 +116,89 @@ namespace GTARoleplay.Vehicles
             if (player == null || veh == null)
                 return;
 
-            GTACharacter character = player.GetUserData()?.ActiveCharacter;
-            if (character != null)
+            var character = player.GetUserData()?.ActiveCharacter;
+            if (MoneyHandler.HasEnoughMoney(character, MOD_PRICE))
             {
-                if (character.HasEnoughMoney(MOD_PRICE))
+                // Get the vehicle data
+                GTAVehicle vehData = veh.GetVehicleData();
+                if (vehData != null)
                 {
-                    // Get the vehicle data
-                    GTAVehicle vehData = veh.GetVehicleData();
-                    if (vehData != null)
-                    {
-                        GTAVehicleMod mods = vehData.Mods ?? new GTAVehicleMod();
+                    GTAVehicleMod mods = vehData.Mods ?? new GTAVehicleMod();
 
-                        switch (modType)
-                        {
-                            case 0:
-                                mods.Spoiler = modValue;
-                                break;
-                            case 1:
-                                mods.FrontBumper = modValue;
-                                break;
-                            case 2:
-                                mods.RearBumper = modValue;
-                                break;
-                            case 3:
-                                mods.SideSkirt = modValue;
-                                break;
-                            case 4:
-                                mods.Exhaust = modValue;
-                                break;
-                            case 5:
-                                mods.Frame = modValue;
-                                break;
-                            case 6:
-                                mods.Grille = modValue;
-                                break;
-                            case 7:
-                                mods.Hood = modValue;
-                                break;
-                            case 8:
-                                mods.Fender = modValue;
-                                break;
-                            case 9:
-                                mods.RighFender = modValue;
-                                break;
-                            case 10:
-                                mods.Roof = modValue;
-                                break;
-                            case 11:
-                                mods.Engine = modValue;
-                                break;
-                            case 12:
-                                mods.Brakes = modValue;
-                                break;
-                            case 13:
-                                mods.Transmission = modValue;
-                                break;
-                            case 14:
-                                mods.Horns = modValue;
-                                break;
-                            case 15:
-                                mods.Suspension = modValue;
-                                break;
-                            case 16:
-                                mods.Armor = modValue;
-                                break;
-                            case 18:
-                                mods.Turbo = modValue;
-                                break;
-                            case 33:
-                                mods.SteeringWheel = modValue;
-                                break;
-                            case 38:
-                                mods.Hydraulics = modValue;
-                                break;
-                            case 40:
-                                mods.Boost = modValue;
-                                break;
-                            case 46:
-                                mods.WindowTint = modValue;
-                                break;
-                            case 53:
-                                mods.Plate = modValue;
-                                break;
-                        }
-                        mods.Save();
-                        // Deduct money .... 
+                    switch (modType)
+                    {
+                        case 0:
+                            mods.Spoiler = modValue;
+                            break;
+                        case 1:
+                            mods.FrontBumper = modValue;
+                            break;
+                        case 2:
+                            mods.RearBumper = modValue;
+                            break;
+                        case 3:
+                            mods.SideSkirt = modValue;
+                            break;
+                        case 4:
+                            mods.Exhaust = modValue;
+                            break;
+                        case 5:
+                            mods.Frame = modValue;
+                            break;
+                        case 6:
+                            mods.Grille = modValue;
+                            break;
+                        case 7:
+                            mods.Hood = modValue;
+                            break;
+                        case 8:
+                            mods.Fender = modValue;
+                            break;
+                        case 9:
+                            mods.RighFender = modValue;
+                            break;
+                        case 10:
+                            mods.Roof = modValue;
+                            break;
+                        case 11:
+                            mods.Engine = modValue;
+                            break;
+                        case 12:
+                            mods.Brakes = modValue;
+                            break;
+                        case 13:
+                            mods.Transmission = modValue;
+                            break;
+                        case 14:
+                            mods.Horns = modValue;
+                            break;
+                        case 15:
+                            mods.Suspension = modValue;
+                            break;
+                        case 16:
+                            mods.Armor = modValue;
+                            break;
+                        case 18:
+                            mods.Turbo = modValue;
+                            break;
+                        case 33:
+                            mods.SteeringWheel = modValue;
+                            break;
+                        case 38:
+                            mods.Hydraulics = modValue;
+                            break;
+                        case 40:
+                            mods.Boost = modValue;
+                            break;
+                        case 46:
+                            mods.WindowTint = modValue;
+                            break;
+                        case 53:
+                            mods.Plate = modValue;
+                            break;
                     }
+                    mods.Save();
+                    // Deduct money .... 
                 }
             }
         }

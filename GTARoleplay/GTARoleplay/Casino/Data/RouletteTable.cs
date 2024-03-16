@@ -6,6 +6,7 @@ using GTARoleplay.Library.Attachments.Data;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Library.Tasks;
 using GTARoleplay.Library.Tasks.Data;
+using GTARoleplay.Money;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
@@ -186,7 +187,7 @@ namespace GTARoleplay.Casino.Data
                 {
                     // The player won
                     GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-                    charData?.GivePlayerMoney(totalEarnings);
+                    MoneyHandler.GivePlayerMoney(charData, totalEarnings);
                     player.SendChatMessage($"You won ~g~${totalEarnings} ~s~ from roulette!");
                 }
                 else
@@ -210,14 +211,10 @@ namespace GTARoleplay.Casino.Data
             if (isSpinning || !isBettingAllowed || bettingAmount > maxSingleBetAmount)
                 return;
 
-            // Assume he has the money .. for now
             GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-            if (charData == null)
-                return;
-
-            if (charData.HasEnoughMoney(bettingAmount))
+            if (MoneyHandler.HasEnoughMoney(charData, bettingAmount))
             {
-                charData.TakePlayerMoney(bettingAmount);
+                MoneyHandler.TakePlayerMoney(charData, bettingAmount);
                 RouletteBet bet = new RouletteBet(player, bettingAmount, bettingFields, betFlag);
                 rouletteBets.Add(bet);
             }
@@ -231,10 +228,9 @@ namespace GTARoleplay.Casino.Data
             // Find the roulettebet in question using the betting fields provided
             if(rouletteBets.Any(x => x.BettingFields.SequenceEqual(bettingFields) && x.Better.Equals(player)))
             {
-                RouletteBet bet = rouletteBets.FirstOrDefault(x => x.BettingFields.SequenceEqual(bettingFields) && x.Better.Equals(player));
-                // Give the player his money back
-                GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-                charData.GivePlayerMoney(bet.Amount);
+                var bet = rouletteBets.FirstOrDefault(x => x.BettingFields.SequenceEqual(bettingFields) && x.Better.Equals(player));
+                var charData = player.GetUserData()?.ActiveCharacter;
+                MoneyHandler.GivePlayerMoney(charData, bet.Amount);
                 rouletteBets.Remove(bet);
             }
         }

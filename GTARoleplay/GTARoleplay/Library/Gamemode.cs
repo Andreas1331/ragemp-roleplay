@@ -2,6 +2,7 @@
 using GTARoleplay.Character;
 using GTARoleplay.Database;
 using GTARoleplay.Library.Extensions;
+using GTARoleplay.Money;
 using GTARoleplay.Provider;
 using System.Collections.Generic;
 using System.Globalization;
@@ -62,7 +63,7 @@ namespace GTARoleplay.Library
                     characters.Add(charData);
                     NAPI.Task.Run(() =>
                     {
-                        charData.GivePlayerMoney(2000);
+                        MoneyHandler.GivePlayerMoney(charData, 2000);
                         ply.SendChatMessage("Payday: You've been given $2000!");
                     });
                 }

@@ -4,6 +4,7 @@ using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Authentication;
 using GTARoleplay.Character;
 using GTARoleplay.Character.Customization;
+using GTARoleplay.Money;
 using Microsoft.EntityFrameworkCore;
 
 namespace GTARoleplay.Database.Providers
@@ -44,7 +45,7 @@ namespace GTARoleplay.Database.Providers
                 LastZ = 28.25f,
                 UserID = user.UserID,
             };
-            character.GivePlayerMoney(999999);
+            MoneyHandler.GivePlayerMoney(character, 999999);
 
             var outfit = new CharacterOutfit()
             {
