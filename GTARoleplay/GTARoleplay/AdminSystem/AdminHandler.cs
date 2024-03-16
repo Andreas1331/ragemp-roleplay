@@ -71,7 +71,7 @@ namespace GTARoleplay.AdminSystem
         public override void OnUserLoggedIn(Player player, User user)
         {
             // A new user has logged in, if he's an admin add him to the list
-            if (user != null && user.StaffData != null)
+            if (user?.StaffData != null)
             {
                 if (user.StaffData.Rank.Equals(StaffRank.Moderator))
                     AllModerators.Add(player, user.StaffData);
@@ -83,13 +83,11 @@ namespace GTARoleplay.AdminSystem
             List<BanRecord> banRecords = DatabaseService.GetDatabaseContext()
                 .BanRecords
                 .Where(x => x.UserID.Equals(user.UserID))
-                .AsNoTracking().ToList();
-            if (banRecords != null)
+                .AsNoTracking()
+                .ToList();
+            if (banRecords.Any(x => x.IsActive))
             {
-                if (banRecords.Any(x => x.IsActive))
-                {
-                    player.KickSilent("~r~You're banned from this server!");
-                }
+                player.KickSilent("~r~You're banned from this server!");
             }
         }
 

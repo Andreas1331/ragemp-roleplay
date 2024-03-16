@@ -1,5 +1,6 @@
 ﻿using GTARoleplay.Account;
 using GTARoleplay.AdminSystem.Data;
+using GTARoleplay.Authentication;
 using GTARoleplay.Character;
 using GTARoleplay.Character.Customization;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace GTARoleplay.Database.Providers
                 UserID = 1,
                 Username = "andreas",
                 Email = "myemail@google.com",
-                Password = BCrypt.Net.BCrypt.HashPassword("123")
+                Password = Authenticator.GetHashedPassword("123")
             };
 
             var character = new GTACharacter() {

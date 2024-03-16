@@ -10,7 +10,7 @@ namespace GTARoleplay.Library.Extensions
         public void OnResourceStart()
         {
             GTACharacter.OnCharacterSpawned += OnCharacterSpawned;
-            User.OnUserLoggedIn += OnUserLoggedIn;
+            AccountHandler.OnUserLoggedIn += OnUserLoggedIn;
         }
 
         public virtual void OnCharacterSpawned(GTACharacter character, Player player) { }

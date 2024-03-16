@@ -41,20 +41,10 @@ namespace GTARoleplay.Account
             }
             set
             {
-                value.SetData<User>(AccountHandler.USER_DATA, this);
+                value.SetData(AccountHandler.USER_DATA, this);
                 playerData = value;
             }
         }
         private Player playerData;
-
-        public static event Action<Player, User> OnUserLoggedIn;
-
-        public bool VerifyPassword(Player player, string password)
-        {
-            bool isPassValid = BCrypt.Net.BCrypt.Verify(password, Password);
-            if (isPassValid)
-                OnUserLoggedIn?.Invoke(player, this);
-            return isPassValid;
-        }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GTARoleplay", "GTARoleplay\GTARoleplay.csproj", "{B1E6D47E-5315-4C0C-BC2B-214B503CDF41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTARoleplayTest", "GTARoleplayTest\GTARoleplayTest.csproj", "{9FC16079-4095-4590-B830-F03338F5A826}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B1E6D47E-5315-4C0C-BC2B-214B503CDF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1E6D47E-5315-4C0C-BC2B-214B503CDF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1E6D47E-5315-4C0C-BC2B-214B503CDF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC16079-4095-4590-B830-F03338F5A826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC16079-4095-4590-B830-F03338F5A826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC16079-4095-4590-B830-F03338F5A826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC16079-4095-4590-B830-F03338F5A826}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
