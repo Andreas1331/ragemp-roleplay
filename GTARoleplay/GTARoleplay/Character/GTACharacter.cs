@@ -47,19 +47,15 @@ namespace GTARoleplay.Character
         public int UserID { get; set; }
         public User UserRef { get; set; }
 
-        [Column("current_outfit")]
-        public int CurrentOutfitID { get; set; } = -1;
-
-        // The faction member table has a foreignkey to the character if the character is in a faction
         public FactionMember FactionMemberData { get; set; }
+        public CharacterOutfit OutfitData { get; set; }
 
         public string Fullname => Firstname + " " + Lastname;
         public Vector3 LastKnownPos => new Vector3(LastX, LastY, LastZ);
 
         public List<GTAVehicle> Vehicles;
         public Inventory Inventory;
-        public CharacterOutfit CurrentOutfit;
-
+  
         public static event Action<GTACharacter, Player> OnCharacterSpawned;
 
         public void SpawnCharacter(User user)
@@ -77,16 +73,9 @@ namespace GTARoleplay.Character
                 .Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player))
                 .ToList();
 
-            if (CurrentOutfitID > -1)
+            if (OutfitData != null)
             {
-                CharacterOutfit outfit = db
-                    .Outfits
-                    .Where(x => x.OutfitID == CurrentOutfitID).FirstOrDefault();
-                if (outfit != null)
-                {
-                    CurrentOutfit = outfit;
-                    ApplyClothes(outfit);
-                }
+                ApplyClothes();
             }
 
             List<GTAVehicle> vehicles = db.Vehicles
@@ -134,25 +123,22 @@ namespace GTARoleplay.Character
             UserRef?.PlayerData.TriggerEvent("UpdateCashStats::Client", Money.ToString("C2", Gamemode.ServerCulture), 1000);
         }
 
-        public void ApplyClothes(CharacterOutfit outfit)
-        {
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 3, outfit.Torso, outfit.TorsoTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 4, outfit.Leg, outfit.LegTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 6, outfit.Feet, outfit.FeetTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 7, outfit.Accessories, outfit.AccessoriesTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 8, outfit.Undershirt, outfit.UndershirtTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 9, outfit.BodyArmor, outfit.BodyArmorTexture);
-            NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 11, outfit.Top, outfit.TopTexture);
-
-            NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 0, outfit.Hat, outfit.HatTexture);
-            NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 1, outfit.Glasses, outfit.GlassesTexture);
-            NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 2, outfit.Ears, outfit.EarsTexture);
-        }
-
         public void ApplyClothes()
         {
-            if (CurrentOutfit != null)
-                ApplyClothes(CurrentOutfit);
+            if (OutfitData != null)
+            {
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 3, OutfitData.Torso, OutfitData.TorsoTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 4, OutfitData.Leg, OutfitData.LegTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 6, OutfitData.Feet, OutfitData.FeetTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 7, OutfitData.Accessories, OutfitData.AccessoriesTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 8, OutfitData.Undershirt, OutfitData.UndershirtTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 9, OutfitData.BodyArmor, OutfitData.BodyArmorTexture);
+                NAPI.Player.SetPlayerClothes(UserRef.PlayerData, 11, OutfitData.Top, OutfitData.TopTexture);
+
+                NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 0, OutfitData.Hat, OutfitData.HatTexture);
+                NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 1, OutfitData.Glasses, OutfitData.GlassesTexture);
+                NAPI.Player.SetPlayerAccessory(UserRef.PlayerData, 2, OutfitData.Ears, OutfitData.EarsTexture);
+            }
         }
     }
 }

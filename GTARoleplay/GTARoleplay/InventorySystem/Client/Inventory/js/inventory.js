@@ -1,6 +1,6 @@
-﻿var inventoryWindow = null;
-var itms = null;
-var maxWeight = null;
+﻿let inventoryWindow = null;
+let itms = null;
+let maxWeight = null;
 
 mp.events.add('ShowInventory::Client', (maxWeightTmp, itmsTmp) => {
     if (!mp.browsers.exists(inventoryWindow)) {
@@ -20,7 +20,6 @@ mp.events.add('RefreshInventory::Client', (maxWeightTmp, itmsTmp) => {
         mp.gui.cursor.show(true, true);
     }
 });
-
 
 mp.events.add('browserDomReady', (browser) => {
     if(browser !== inventoryWindow)

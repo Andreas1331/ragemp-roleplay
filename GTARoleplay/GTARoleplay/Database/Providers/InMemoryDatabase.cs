@@ -1,6 +1,7 @@
 ﻿using GTARoleplay.Account;
 using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Character;
+using GTARoleplay.Character.Customization;
 using Microsoft.EntityFrameworkCore;
 
 namespace GTARoleplay.Database.Providers
@@ -29,7 +30,7 @@ namespace GTARoleplay.Database.Providers
                 UserID = 1,
                 Username = "andreas",
                 Email = "myemail@google.com",
-                Password = BCrypt.Net.BCrypt.HashPassword("test")
+                Password = BCrypt.Net.BCrypt.HashPassword("123")
             };
 
             var character = new GTACharacter() {
@@ -43,6 +44,11 @@ namespace GTARoleplay.Database.Providers
             };
             character.GivePlayerMoney(999999);
 
+            var outfit = new CharacterOutfit()
+            {
+                OutfitID = 1,
+            };
+
             var staff = new Staff()
             {
                 StaffID = 1,
@@ -52,6 +58,7 @@ namespace GTARoleplay.Database.Providers
 
             builder.Entity<User>().HasData(user);
             builder.Entity<GTACharacter>().HasData(character);
+            builder.Entity<CharacterOutfit>().HasData(outfit);
             builder.Entity<Staff>().HasData(staff);
         }
     }

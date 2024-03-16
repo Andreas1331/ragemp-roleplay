@@ -22,7 +22,8 @@ namespace GTARoleplay.Provider
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
-            services.AddDbContext<DatabaseBaseContext, InMemoryDatabase>();
+            services.AddDbContext<DatabaseBaseContext, InMemoryDatabase>(
+                contextLifetime: ServiceLifetime.Transient, optionsLifetime: ServiceLifetime.Singleton);
 
             return services;
         }

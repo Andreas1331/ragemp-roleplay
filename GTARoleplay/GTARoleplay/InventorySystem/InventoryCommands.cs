@@ -6,14 +6,17 @@ namespace GTARoleplay.InventorySystem
     public class InventoryCommands : Script
     {
         [Command("myitems", Alias = "myinventory,inventory,inv")]
-        public void CheckPlayerItems(Player player)
+        public void ShowPlayerInventory(Player player)
         {
-            player.SendChatMessage($"Showing the inventory of {player.Name}");
-            player.SendChatMessage("___________________________________________");
             Inventory inv = player.GetUserData()?.ActiveCharacter?.Inventory;
-            if (inv != null)
-                inv.PrintInventory(player);
-            player.SendChatMessage("___________________________________________");
+            inv?.ShowInventory(player);
+        }
+
+        [Command("printitems")]
+        public void PrintPlayerItems(Player player)
+        {
+            Inventory inv = player.GetUserData()?.ActiveCharacter?.Inventory;
+            inv?.PrintInventory(player);
         }
     }
 }

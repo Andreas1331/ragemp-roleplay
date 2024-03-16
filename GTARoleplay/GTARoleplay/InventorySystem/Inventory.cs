@@ -63,14 +63,14 @@ namespace GTARoleplay.InventorySystem
 
         public void PrintInventory(Player player)
         {
-            if (player == null)
-                return;
-
-            List<InventoryItem> itms = GetInventoryItemsFormatted();
+            player.SendChatMessage($"Showing the inventory of {player.Name}");
+            player.SendChatMessage("___________________________________________");
+            var itms = GetInventoryItemsFormatted();
             itms?.ForEach(itm =>
                 {
                     player.SendChatMessage($"({itms.IndexOf(itm) + 1}) {itm.Name} - Amount: {itm.Amount}");
                 });
+            player.SendChatMessage("___________________________________________");
         }
 
         public void ShowInventory(Player player)
@@ -78,11 +78,8 @@ namespace GTARoleplay.InventorySystem
             if (player == null)
                 return;
 
-            List<InventoryItem> itmsToView = GetInventoryItemsFormatted();
-            if(itmsToView != null)
-            {
-                player.TriggerEvent("ShowInventory::Client", MaxWeight, NAPI.Util.ToJson(itmsToView));
-            }
+            var itmsToView = GetInventoryItemsFormatted();
+            player.TriggerEvent("ShowInventory::Client", MaxWeight, NAPI.Util.ToJson(itmsToView));
         }
 
         public void RefreshInventory(Player player)

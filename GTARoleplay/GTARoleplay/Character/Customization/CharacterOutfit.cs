@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace GTARoleplay.Character.Customization
 {
@@ -13,13 +12,8 @@ namespace GTARoleplay.Character.Customization
     {
         [Key]
         [Column("id")]
+        [ForeignKey("Character")]
         public int OutfitID { get; set; }
-
-        [Column("owner")]
-        public int Owner { get; set; }
-
-        [Column("owner_type")]
-        public OwnerType OwnerType { get; set; }
 
         [Column("torso")]
         public int Torso { get; set; }
@@ -70,6 +64,8 @@ namespace GTARoleplay.Character.Customization
         public int Ears { get; set; }
         [Column("ears_texture")]
         public int EarsTexture { get; set; }
+
+        public virtual GTACharacter Character { get; set; }
 
         public void Save()
         {

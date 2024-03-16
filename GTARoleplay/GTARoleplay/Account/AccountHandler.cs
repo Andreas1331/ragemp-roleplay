@@ -57,6 +57,7 @@ namespace GTARoleplay.Account
                     List<GTACharacter> characters = DatabaseService.GetDatabaseContext()
                         .Characters
                         .Include(x => x.FactionMemberData)
+                        .Include(x => x.OutfitData)
                         .Where(x => x.UserID.Equals(user.UserID))
                         .AsNoTracking()
                         .ToList();
@@ -69,7 +70,8 @@ namespace GTARoleplay.Account
                     else
                     {
                         user.Characters = characters;
-                        List<string> characterNames = new List<string>(from character in user.Characters select character.Fullname);
+                        var characterNames = new List<string>
+                            (from character in user.Characters select character.Fullname);
                         player.TriggerEvent("ShowCharSelector::Client", NAPI.Util.ToJson(characterNames));
                     }
                 }

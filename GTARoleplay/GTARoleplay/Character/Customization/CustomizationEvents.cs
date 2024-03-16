@@ -13,7 +13,7 @@ namespace GTARoleplay.Character.Customization
                 return;
 
             GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-            CharacterOutfit currentOutfit = charData?.CurrentOutfit;
+            CharacterOutfit currentOutfit = charData?.OutfitData;
             if (currentOutfit == null)
                 return;
 
@@ -84,11 +84,7 @@ namespace GTARoleplay.Character.Customization
 
             player.TriggerEvent("EnableHUD::Client", true);
             GTACharacter charData = player.GetUserData()?.ActiveCharacter;
-            CharacterOutfit currentOutfit = charData?.CurrentOutfit;
-            if (currentOutfit != null)
-            {
-                charData.ApplyClothes(currentOutfit);
-            }
+            charData.ApplyClothes();
         }
     }
 }
