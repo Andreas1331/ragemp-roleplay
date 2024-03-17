@@ -1,10 +1,9 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Character;
 using GTARoleplay.Library.Extensions;
 
 namespace GTARoleplay.InventorySystem
 {
-    public class InventoryHandler : Script
+    public static class InventoryHandler
     {
         public static void ShowInventory(Player player)
         {

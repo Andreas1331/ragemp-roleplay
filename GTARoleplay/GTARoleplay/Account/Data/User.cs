@@ -36,6 +36,7 @@ namespace GTARoleplay.Account.Data
         {
             get
             {
+                
                 return playerData;
             }
             set

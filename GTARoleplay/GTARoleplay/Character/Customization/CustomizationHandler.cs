@@ -2,7 +2,7 @@
 
 namespace GTARoleplay.Character.Customization
 {
-    public class CustomizationHandler : Script
+    public class CustomizationHandler
     {
         public static void ShowClothesWindow(Player player)
         {
