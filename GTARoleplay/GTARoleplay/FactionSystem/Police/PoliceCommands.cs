@@ -18,7 +18,7 @@ namespace GTARoleplay.FactionSystem.Police
             if (charData == null || charData.FactionMemberData == null)
                 return;
 
-            Faction faction = FactionHandler.GetFactionByID(charData.FactionMemberData.FactionID);
+            var faction = FactionHandler.GetFactionByID(charData.FactionMemberData.FactionID);
             if (faction == null)
                 return;
 
@@ -55,7 +55,7 @@ namespace GTARoleplay.FactionSystem.Police
             if (charData == null || charData.FactionMemberData == null)
                 return;
 
-            Faction faction = FactionHandler.GetFactionByID(charData.FactionMemberData.FactionID);
+            var faction = FactionHandler.GetFactionByID(charData.FactionMemberData.FactionID);
             if (faction == null)
                 return;
 

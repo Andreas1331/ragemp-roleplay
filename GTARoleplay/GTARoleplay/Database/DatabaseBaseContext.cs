@@ -2,7 +2,7 @@
 using GTARoleplay.Vehicles.Data;
 using GTARoleplay.ItemSystem.Items;
 using GTARoleplay.Character.Customization;
-using GTARoleplay.FactionSystem;
+using GTARoleplay.FactionSystem.Data;
 using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Account.Data;
 using GTARoleplay.Character.Data;

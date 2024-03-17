@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Database;
+using GTARoleplay.FactionSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

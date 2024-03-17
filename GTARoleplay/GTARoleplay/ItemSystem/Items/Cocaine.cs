@@ -42,7 +42,7 @@ namespace GTARoleplay.ItemSystem.Items
         {
             if(itm is Cocaine itmCocaine)
             {
-                return (this.Strength.Equals(itmCocaine.Strength));
+                return (Strength.Equals(itmCocaine.Strength));
             }
             return false;
         }

@@ -4,8 +4,6 @@ namespace GTARoleplay.Events
 {
     public class PlayerEvents : Script
     {
-        //TODO: Make the delegate a func instead, so each method returns if they succeeded or not. If they didn't,
-        // we'll continue the invoke of the next method in line. Also make each subscriber tell if it blocks functions.
         public delegate void KeyPressed(Player player);
         public delegate void InteractionKeyPressed(Player player, int entityType, int entityHandle);
 

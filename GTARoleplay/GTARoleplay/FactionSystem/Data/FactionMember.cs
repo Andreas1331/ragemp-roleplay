@@ -1,8 +1,9 @@
 ﻿using GTARoleplay.Character.Data;
+using GTARoleplay.FactionSystem.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GTARoleplay.FactionSystem
+namespace GTARoleplay.FactionSystem.Data
 {
     [Table("faction_members")]
     public class FactionMember

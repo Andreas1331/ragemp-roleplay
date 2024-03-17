@@ -29,7 +29,7 @@ namespace GTARoleplay.ItemSystem.Items
 
             if (ItemFlag.HasFlag(ItemFlags.IsUsable))
             {
-                player.SendChatMessage("You've used cocaine!");
+                player.SendChatMessage("You drank a water bottle!");
 
                 // If the item is a one-time usage, then get the players inventory and remove the item
                 if (ItemFlag.HasFlag(ItemFlags.IsOneTimeUsage))

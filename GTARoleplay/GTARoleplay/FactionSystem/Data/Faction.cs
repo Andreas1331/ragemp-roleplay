@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace GTARoleplay.FactionSystem
+namespace GTARoleplay.FactionSystem.Data
 {
     [Table("factions")]
     public class Faction

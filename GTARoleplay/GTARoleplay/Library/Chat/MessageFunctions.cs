@@ -13,26 +13,26 @@ namespace GTARoleplay.Library.Chat
 
         public static void SendMessageToPlayersInRadiusColored(Player player, float radius, string message, string color, bool excludingSelf = true)
         {
-            List<Player> playersNearby = NAPI.Player.GetPlayersInRadiusOfPlayer(radius, player);
+            var playersNearby = NAPI.Player.GetPlayersInRadiusOfPlayer(radius, player);
             if (excludingSelf)
                 playersNearby.RemoveAt(playersNearby.IndexOf(player));
 
-            foreach(Player ply in playersNearby)
+            playersNearby.ForEach(ply =>
             {
                 ply.SendChatMessage(color + message);
-            }
+            });
         }
 
         public static void SendMessageToPlayersInRadius(Player player, float radius, string message, bool excludingSelf = false)
         {
-            List<Player> playersNearby = NAPI.Player.GetPlayersInRadiusOfPlayer(radius, player);
+            var playersNearby = NAPI.Player.GetPlayersInRadiusOfPlayer(radius, player);
             if (excludingSelf)
                 playersNearby.RemoveAt(playersNearby.IndexOf(player));
 
-            foreach (Player ply in playersNearby)
+            playersNearby.ForEach(ply =>
             {
                 ply.SendChatMessage(message);
-            }
+            });
         }
     }
 }

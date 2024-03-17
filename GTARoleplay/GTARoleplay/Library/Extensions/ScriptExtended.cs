@@ -16,6 +16,5 @@ namespace GTARoleplay.Library.Extensions
 
         public virtual void OnCharacterSpawned(GTACharacter character, Player player) { }
         public virtual void OnUserLoggedIn(Player player, User user) { }
-
     }
 }

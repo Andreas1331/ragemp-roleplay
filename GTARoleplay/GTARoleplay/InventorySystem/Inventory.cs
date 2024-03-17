@@ -93,29 +93,14 @@ namespace GTARoleplay.InventorySystem
 
         public void AddItem(Item itm)
         {
-            if (itm == null)
-                return;
-            if (Items == null)
-                Items = new List<Item>();
-
             if(CurrentWeight + itm.Weight <= MaxWeight)
-            {
                 Items.Add(itm);
-            }
         }
 
         public void AddItems(List<Item> itms)
         {
-            if (itms == null)
-                return;
-            if (Items == null)
-                Items = new List<Item>();
-
-            // Add all or nothing
             if (CurrentWeight + itms.Sum(x => x.Weight) <= MaxWeight)
-            {
                 Items.AddRange(itms);
-            }
         }
 
         public void RemoveItem(Item itm, bool deleteFromDB = true)

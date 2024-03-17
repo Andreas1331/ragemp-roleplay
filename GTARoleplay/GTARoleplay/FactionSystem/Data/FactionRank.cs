@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GTARoleplay.FactionSystem.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace GTARoleplay.FactionSystem
+namespace GTARoleplay.FactionSystem.Data
 {
     public enum FactionPerm { Core = 1, Overseer }
 
