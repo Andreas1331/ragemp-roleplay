@@ -1,0 +1,54 @@
+name: Create tag and update csproj
+
+on:
+  push:
+    branches:
+      - main  
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Get current released tag
+        id: current_tag_step
+        run: echo "current_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+ 
+      - name: Get next version
+        id: new_tag_step
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          bump_each_commit: true
+          bump_each_commit_patch_pattern: "(PATCH)"
+        
+      - name: Compare tags
+        id: compare_tags_step
+        run: echo "tags_changed=${{ steps.new_tag_step.outputs.version_tag != steps.current_tag_step.outputs.current_tag }}" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        if: ${{ steps.compare_tags_step.outputs.tags_changed == 'true' }}
+        uses: EndBug/latest-tag@latest
+        with:
+          ref: ${{ steps.versioning.outputs.version_tag }}
+
+      - name: Update csproj version
+        if: ${{ steps.compare_tags.outputs.tags_changed == 'true' }}
+        run: |
+          sed -i "s|<Version>.*</Version>|<Version>${{ steps.new_tag_step.outputs.version_tag }}</Version>|" ./GTARoleplay/GTARoleplay/GTARoleplay.csproj
+          
+      - name: Commit changes
+        if: ${{ steps.compare_tags_step.outputs.tags_changed == 'true' }}
+        run: |
+          git config --global user.email "noreply@github.com"
+          git config --global user.name "GitHub Actions"
+          git add ./GTARoleplay/GTARoleplay/GTARoleplay.csproj
+          git commit -m "Update version number via GitHub Actions"
+          git push
