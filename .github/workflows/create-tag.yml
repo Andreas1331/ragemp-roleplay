@@ -34,7 +34,6 @@ jobs:
         run: echo "tags_changed=${{ steps.new_tag_step.outputs.version_tag != steps.current_tag_step.outputs.current_tag }}" >> $GITHUB_OUTPUT
 
       - name: Create tag
-        if: ${{ steps.compare_tags_step.outputs.tags_changed == 'true' }}
         uses: EndBug/latest-tag@latest
         with:
           ref: ${{ steps.versioning.outputs.version_tag }}
