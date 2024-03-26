@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Database;
+using GTARoleplay.Events;
 using GTARoleplay.FactionSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace GTARoleplay.FactionSystem
 {
-    public class FactionHandler : Script
+    public class FactionHandler
     {
         // Permanent, AKA reserved faction names
         public static readonly string LSPD_FACTION_NAME = "Los Santos Police Department";
@@ -19,10 +20,18 @@ namespace GTARoleplay.FactionSystem
 
         public static List<Faction> AllFactions = new List<Faction>();
 
-        [ServerEvent(Event.ResourceStart)]
+        private readonly DatabaseBaseContext dbx;
+
+        public FactionHandler(DatabaseBaseContext dbx)
+        {
+            this.dbx = dbx;
+
+            EventsHandler.Instance.OnResourceStart += OnResourceStart;
+        }
+
         public void OnResourceStart()
         {
-            AllFactions = DatabaseService.GetDatabaseContext().Factions.Include(x => x.Ranks).ToList();
+            AllFactions = dbx.Factions.Include(x => x.Ranks).ToList();
             Console.WriteLine($"FactionHandler: all factions have been loaded ({AllFactions.Count})");
         }
 

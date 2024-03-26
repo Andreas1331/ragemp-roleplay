@@ -1,12 +1,36 @@
 ﻿using GTANetworkAPI;
+using GTARoleplay.Events;
+using GTARoleplay.Library.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GTARoleplay.Library
 {
-    public static class PlayerHandler 
+    public class PlayerHandler 
     {
+        private const string WELCOME_MESSAGE = "Welcome to GTA Roleplay!";
+
         public static readonly Dictionary<int, Player> PlayerList = new Dictionary<int, Player>();
+
+        public PlayerHandler()
+        {
+            EventsHandler.Instance.OnPlayerDisconnected += OnPlayerDisconnected;
+            EventsHandler.Instance.OnPlayerConnected += OnPlayerConnected;
+        }
+
+        public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
+        {
+            RemovePlayerFromPlayerList(player);
+        }
+
+        public void OnPlayerConnected(Player player)
+        {
+            player.SendChatMessage(WELCOME_MESSAGE);
+            player.TriggerEvent("ShowLogin::Client");
+            player.TriggerEvent("EnableHUD::Client", false);
+            player.Freeze(true);
+            player.Transparency = 0;
+        }
 
         public static void AddPlayerToList(Player player)
         {

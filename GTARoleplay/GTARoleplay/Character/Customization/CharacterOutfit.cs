@@ -64,12 +64,5 @@ namespace GTARoleplay.Character.Customization
         public int EarsTexture { get; set; }
 
         public virtual GTACharacter Character { get; set; }
-
-        public void Save()
-        {
-            var db = DatabaseService.GetDatabaseContext();
-            db.Outfits.Update(this);
-            db.SaveChanges();
-        }
     }
 }

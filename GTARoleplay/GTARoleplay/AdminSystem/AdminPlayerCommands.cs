@@ -1,7 +1,5 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Account;
 using GTARoleplay.AdminSystem.Data;
-using GTARoleplay.Character;
 using GTARoleplay.Database;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Chat;
@@ -12,11 +10,107 @@ using System.Linq;
 
 namespace GTARoleplay.AdminSystem
 {
-    public class AdminPlayerCommands : ScriptExtended
+    public class AdminPlayerCommands 
     {
-        public Dictionary<int, string> helpmes = new Dictionary<int, string>();
+        private readonly DatabaseBaseContext dbx;
 
-        [Command("adminweapon", Alias = "awep")]
+        public AdminPlayerCommands(DatabaseBaseContext dbx)
+        {
+            this.dbx = dbx;
+
+            NAPI.Command.Register<Player, string, int>(
+                new RuntimeCommandInfo("adminweapon")
+                {
+                    Alias = "awep",
+                    ClassInstance = this
+                }, SpawnAdminVehicle);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("goto", "~y~USAGE: ~w~/goto [Target Name / ID]")
+                {
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, GotoPlayer);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("gethere", "~y~USAGE: ~w~/gethere [Target Name / ID]")
+                {
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, GotoPlayer);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("slap", "~y~USAGE: ~w~/slap [Target Name / ID]")
+                {
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, SlapPlayer);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("arevive", "~y~USAGE: ~w~/arevive [Target Name / ID]")
+                {
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, RevivePlayer);
+
+            NAPI.Command.Register<Player, string, string>(
+                new RuntimeCommandInfo("kick", "~y~USAGE: ~w~/kick [Target Name / ID] [reason]")
+                {
+                    Alias = "kickplayer",
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, KickPlayer);
+
+            NAPI.Command.Register<Player, string, string>(
+                new RuntimeCommandInfo("silentkick", "~y~USAGE: ~w~/silentkick [Target Name / ID] [reason]")
+                {
+                    Alias = "skick",
+                    GreedyArg = true,
+                    ClassInstance = this,
+                    Group = "Level1"
+                }, SilentlyKickPlayer);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("ooc", "~y~USAGE: ~w~/ooc [text]")
+                {
+                    Alias = "o",
+                    GreedyArg = true,
+                    ClassInstance = this,
+                    Group = "Level2"
+                }, PrintOOC);
+
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("spectate", "~y~USAGE: ~w~/(spec)tate [Target Name / ID]")
+                {
+                    Alias = "spec",
+                    GreedyArg = true,
+                    ClassInstance = this,
+                    Group = "Level1"
+                }, SpectatePlayer);
+
+            NAPI.Command.Register<Player>(
+                new RuntimeCommandInfo("unspectate")
+                {
+                    Alias = "stopspec,unspec",
+                    ClassInstance = this,
+                }, StopSpectatePlayer);
+
+            NAPI.Command.Register<Player>(
+                new RuntimeCommandInfo("admins")
+                {
+                    Alias = "aonline,adminsonline",
+                    ClassInstance = this,
+                }, PrintAdminsOnline);
+
+            NAPI.Command.Register<Player, string, string>(
+                new RuntimeCommandInfo("ban", "~y~USAGE: ~w~/ban [Target Name / ID] [reason]")
+                {
+                    Group = "Level2",
+                    GreedyArg = true,
+                    ClassInstance = this,
+                }, BanPlayer);
+        }
+
         public void SpawnAdminVehicle(Player player, string weaponName, int ammo = 100)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Developer))
@@ -30,7 +124,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("goto", "~y~USAGE: ~w~/goto [Target Name / ID]", GreedyArg = true)]
         public void GotoPlayer(Player player, string target)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -48,7 +141,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("gethere", "~y~USAGE: ~w~/gethere [Target Name / ID]", GreedyArg = true)]
         public void GetPlayerHere(Player player, string target)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -66,7 +158,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("slap", "~y~USAGE: ~w~/slap [Target Name / ID]", GreedyArg = true)]
         public void SlapPlayer(Player player, string target)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -84,7 +175,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("arevive", "~y~USAGE: ~w~/arevive [Target Name / ID]", GreedyArg = true)]
         public void RevivePlayer(Player player, string target)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
@@ -102,7 +192,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("kick", "~y~USAGE: ~w~/kick [Target Name / ID] [reason]", Alias = "kickplayer", GreedyArg = true)]
         public void KickPlayer(Player player, string target, string reason)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -123,7 +212,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("silentkick", "~y~USAGE: ~w~/silentkick [Target Name / ID] [reason]", Alias = "skick", Group = "Level1", GreedyArg = true)]
         public void SilentlyKickPlayer(Player player, string target, string reason)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -145,7 +233,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("ooc", "~y~USAGE: ~w~/ooc [text]", Group = "Level2", Alias = "o", GreedyArg = true)]
         public void PrintOOC(Player player, string text)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
@@ -159,7 +246,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("spectate", "~y~USAGE: ~w~/(spec)tate [Target Name / ID]", Group = "Level1", Alias = "spec", GreedyArg = true)]
         public void SpectatePlayer(Player player, string target)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -183,7 +269,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("unspectate", Group = "Level1", Alias = "stopspec")]
         public void StopSpectatePlayer(Player player)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
@@ -201,7 +286,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("admins", Alias = "aonline,adminsonline")]
         public void PrintAdminsOnline(Player player)
         {
             player.SendChatMessage("~y~======== Administrators available ========");
@@ -215,12 +299,11 @@ namespace GTARoleplay.AdminSystem
             player.SendChatMessage("~y~=====================================");
         }
 
-        [Command("ban", "~y~USAGE: ~w~/ban [Target Name / ID] [reason]", Group = "Level2", GreedyArg = true)]
         public void BanPlayer(Player player, string target, string reason)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
-                Player targetPly = PlayerHandler.GetPlayer(target);
+                var targetPly = PlayerHandler.GetPlayer(target);
                 if (targetPly != null)
                 {
                     if (targetPly == player)
@@ -231,109 +314,16 @@ namespace GTARoleplay.AdminSystem
 
                     var adm = player.GetUserData()?.StaffData;
                     var targetUser = targetPly.GetUserData();
-                    if (adm == null || targetUser == null)
+                    if (targetUser == null)
                         return;
 
-                    string ipAddress = NAPI.Player.GetPlayerAddress(targetPly);
-                    BanRecord record = new BanRecord(targetUser.UserID, adm.StaffName, reason, ipAddress, targetPly.SocialClubName, DateTime.Now);
-                    var db = DatabaseService.GetDatabaseContext();
-                    db.BanRecords.Add(record);
-                    db.SaveChanges();
+                    var ipAddress = NAPI.Player.GetPlayerAddress(targetPly);
+                    var record = new BanRecord(targetUser.UserID, adm.StaffName, reason, ipAddress, targetPly.SocialClubName, DateTime.Now);
+                    dbx.BanRecords.Add(record);
+                    dbx.SaveChanges();
                     string message = $"~r~AdmCmd: {targetPly.Name} (ID: {PlayerHandler.GetIDFromPlayer(targetPly)}) was banned by {player.Name}. Reason: {reason}";
                     targetPly.Kick(message);
                     NAPI.Chat.SendChatMessageToAll(message);
-                }
-            }
-        }
-
-        [Command("helpme", "~y~USAGE: ~w~/helpme [question] to submit a ticket to our staff team.", GreedyArg = true)]
-        public void SubmitPlayerHelpme(Player player, string question)
-        {
-            if (player == null)
-                return;
-
-            int playerID = PlayerHandler.GetIDFromPlayer(player);
-            if (!helpmes.ContainsKey(playerID))
-            {
-                if (String.IsNullOrEmpty(question))
-                {
-                    player.SendErrorMessage("Please submit a valid question.");
-                    return;
-                }
-
-                string formattedHelpme = $"~g~HELPME: ~s~From ((ID:{playerID})) {player.Name}: {question}";
-                // If there's no moderators online, show the helpme to the admin team
-                if (AdminHandler.AllModerators.Count <= 0)
-                    AdminHandler.PrintMessageToAdmins(formattedHelpme);
-                else
-                    AdminHandler.PrintMessageToModerators(formattedHelpme);
-                helpmes.Add(playerID, formattedHelpme);
-                player.SendChatMessage("~y~Your helpme has now been submitted, standby as a staff member responds.");
-            } else
-                player.SendErrorMessage("You already have a pending helpme.");
-        }
-
-        [Command("viewhelpmes", Alias = "vhm", Group = "Moderator")]
-        public void PrintHelpmes(Player player)
-        {
-            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
-            {
-                player.SendChatMessage("~y~Displaying avaliable helpme's. Use /accepthelpme(ahm) [helpmeID] to accept, or /trashhelpme [helpmeID] to trash.");
-                helpmes?.Values.ToList().ForEach(helpme =>
-                {
-                    player.SendChatMessage(helpme);
-                });
-                if (helpmes?.Count <= 0)
-                {
-                    player.SendErrorMessage("There's no pending helpme's!");
-                }
-            }
-        }
-
-        [Command("trashhelpme", "~y~USAGE: ~w~/trashhelpme [HelpmeID]", Group = "Moderator")]
-        public void TrashHelpme(Player player, int helpmeid)
-        {
-            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
-            {
-                if (helpmes.ContainsKey(helpmeid))
-                {
-                    helpmes.Remove(helpmeid);
-                    Player submittedBy = PlayerHandler.GetPlayer(helpmeid);
-
-                    if (submittedBy != null)
-                    {
-                        Staff staff = player.GetUserData()?.StaffData;
-                        if (staff != null)
-                        {
-                            submittedBy.SendErrorMessage($"Your helpme has been trashed by {staff.StaffName}", "INFO");
-                        }
-                    }
-
-                    player.SendModeratorCommandMessage($"You successfully trashed the helpme with ID: {helpmeid}");
-                }
-                else
-                    player.SendErrorMessage($"There's no helpme with the ID: {helpmeid}");
-            }
-        }
-
-        [Command("accepthelpme", "~y~USAGE: ~w~/accepthelpme(/ahm) [HelpmeID] to accept a helpme.", Alias = "ahm", Group = "Moderator")]
-        public void AcceptHelpme(Player player, int helpmeID)
-        {
-            if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
-            {
-                if (helpmes.ContainsKey(helpmeID))
-                {
-                    Player submittedBy = PlayerHandler.GetPlayer(helpmeID);
-                    if(submittedBy != null)
-                    {
-                        Staff staffData = player.GetUserData()?.StaffData;
-                        if (staffData == null)
-                            return;
-
-                        submittedBy.SendChatMessage($"~g~INFO: ~w~Your helpme has been accepted by: {staffData.StaffName} ((ID:{PlayerHandler.GetIDFromPlayer(player)}))");
-                        player.SendModeratorCommandMessage($"Helpme accepted! submitted by: {submittedBy.Name} ((ID:{helpmeID}))");
-                        helpmes.Remove(helpmeID);
-                    }
                 }
             }
         }

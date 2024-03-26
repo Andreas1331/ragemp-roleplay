@@ -1,14 +1,27 @@
 ﻿using GTANetworkAPI;
+using GTARoleplay.Database;
+using GTARoleplay.Events;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Vehicles.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GTARoleplay.Vehicles
 {
-    public class VehicleHandler : Script
+    public class VehicleHandler 
     {
         public static readonly string VEHICLE_DATA = "VehicleData";
 
-        [ServerEvent(Event.VehicleDeath)]
+        private readonly DatabaseBaseContext dbx;
+
+        public VehicleHandler(DatabaseBaseContext dbx)
+        {
+            this.dbx = dbx;
+
+            EventsHandler.Instance.OnVehicleDeath += OnVehicleDeath;
+            EventsHandler.Instance.OnPlayerEnteredVehicle += OnPlayerEnterVehicle;
+        }
+
         public void OnVehicleDeath(Vehicle vehicle)
         {
             if (vehicle == null)
@@ -20,7 +33,6 @@ namespace GTARoleplay.Vehicles
                 vehData.IsSpawned = false;
         }
 
-        [ServerEvent(Event.PlayerEnterVehicle)]
         public void OnPlayerEnterVehicle(Player player, Vehicle vehicle, sbyte seatID)
         {
             if (vehicle == null || player == null)
@@ -28,6 +40,19 @@ namespace GTARoleplay.Vehicles
 
             GTAVehicle vehData = vehicle.GetVehicleData();
             vehData?.SendVehicleStatsToPlayer(player);
+        }
+
+        public void Save(GTAVehicle gtaVehicle)
+        {
+            dbx.Vehicles.Update(gtaVehicle);
+            dbx.SaveChanges();
+        }
+
+        public void Save(GTAVehicleMod gtaVehicleMod)
+        {
+            var alreadyExists = dbx.VehicleMods.Any(x => x.VehicleModID == gtaVehicleMod.VehicleModID);
+            dbx.Entry(gtaVehicleMod).State = (alreadyExists ? EntityState.Modified : EntityState.Added);
+            dbx.SaveChanges();
         }
 
         public static Vehicle GetClosestVehicleToPlayer(Player player)

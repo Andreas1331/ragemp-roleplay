@@ -107,8 +107,6 @@ namespace GTARoleplay.InventorySystem
         {
             if(Items.Contains(itm))
                 Items.Remove(itm);
-            if(deleteFromDB)
-                itm.DeleteFromDatabase();
         }
     }
 }

@@ -98,13 +98,6 @@ namespace GTARoleplay.Vehicles.Data
             }
         }
 
-        public void Save()
-        {
-            var db = DatabaseService.GetDatabaseContext();
-            db.Vehicles.Update(this);
-            db.SaveChanges();
-        }
-
         public void ApplyVehicleMods()
         {
             // The vehicle doesn't have any mods

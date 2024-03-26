@@ -27,9 +27,8 @@ namespace GTARoleplay.Database
         {
             builder.Entity<Cocaine>();
             builder.Entity<WaterBottle>();
+
             base.OnModelCreating(builder);
         }
-
-        public virtual bool IsRelational() { return true; }
     }
 }

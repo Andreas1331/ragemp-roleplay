@@ -3,16 +3,16 @@ using GTARoleplay.Account;
 using GTARoleplay.Account.Data;
 using GTARoleplay.AdminSystem.Data;
 using GTARoleplay.Database;
+using GTARoleplay.Events;
 using GTARoleplay.Library.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GTARoleplay.AdminSystem
 {
-    public class AdminHandler : ScriptExtended
+    public class AdminHandler
     {
         public static readonly Dictionary<Player, Staff> AllAdmins = new Dictionary<Player, Staff>();
         public static readonly Dictionary<Player, Staff> AllModerators = new Dictionary<Player, Staff>();
@@ -20,11 +20,22 @@ namespace GTARoleplay.AdminSystem
         public static readonly List<string> LEVEL_1_COMMANDS = new List<string>();
         public static readonly List<string> LEVEL_2_COMMANDS = new List<string>();
 
-        [ServerEvent(Event.PlayerConnected)]
+        private readonly DatabaseBaseContext dbx;
+
+        public AdminHandler(DatabaseBaseContext dbx)
+        {
+            this.dbx = dbx;
+
+            EventsHandler.Instance.OnPlayerConnected += OnPlayerConnected;
+            EventsHandler.Instance.OnPlayerDisconnected += OnPlayerDisconnected;
+            EventsHandler.Instance.OnResourceStartEx += OnResourceStartEx;
+            EventsHandler.Instance.OnUserLoggedIn += OnUserLoggedIn;
+        }
+
         public void OnPlayerConnected(Player player)
         {
             // TODO: Check if the player is Rockstar banned, IP banned etc.
-            List<BanRecord> banRecords = DatabaseService.GetDatabaseContext()
+            List<BanRecord> banRecords = dbx
                 .BanRecords
                 .Where(
                     x => x.IpAddress.Equals(NAPI.Player.GetPlayerAddress(player)) ||
@@ -40,7 +51,6 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
         {
             if (player == null)
@@ -52,7 +62,6 @@ namespace GTARoleplay.AdminSystem
                 AllModerators.Remove(player);
         }
 
-        [ServerEvent(Event.ResourceStartEx)]
         public void OnResourceStartEx(string resourceName)
         {
             CommandInfo[] cmds = NAPI.Resource.GetResourceCommandInfos(resourceName);
@@ -69,7 +78,7 @@ namespace GTARoleplay.AdminSystem
             LEVEL_2_COMMANDS.AddRange(LEVEL_1_COMMANDS);
         }
 
-        public override void OnUserLoggedIn(Player player, User user)
+        public void OnUserLoggedIn(Player player, User user)
         {
             // A new user has logged in, if he's an admin add him to the list
             if (user?.StaffData != null)
@@ -81,7 +90,7 @@ namespace GTARoleplay.AdminSystem
             }
 
             // TODO: Check if the user is banned or not. 
-            List<BanRecord> banRecords = DatabaseService.GetDatabaseContext()
+            List<BanRecord> banRecords = dbx
                 .BanRecords
                 .Where(x => x.UserID.Equals(user.UserID))
                 .AsNoTracking()

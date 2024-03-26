@@ -9,13 +9,35 @@ using System.Collections.Generic;
 
 namespace GTARoleplay.AdminSystem
 {
-    public class AdminInventoryCommands : Script
+    public class AdminInventoryCommands
     {
-        [Command("admingiveitem", Alias = "agive,agiveitem", GreedyArg = true)]
+        private readonly ItemHandler itemHandler;
+
+        public AdminInventoryCommands(ItemHandler itemHandler)
+        {
+            this.itemHandler = itemHandler;
+
+            NAPI.Command.Register<Player, string, int, string>(new RuntimeCommandInfo("admingiveitem")
+            {
+                Alias = "agive,agiveitem",
+                GreedyArg = true,
+                ClassInstance = this
+            }, AdminGivePlayerItem);
+
+            NAPI.Command.Register<Player, string>(new RuntimeCommandInfo("checkitems")
+            {
+                Alias = "acheckitem,admincheckitems",
+                GreedyArg = true,
+                ClassInstance = this
+            }, CheckPlayerItems);
+
+        }
+
         public void AdminGivePlayerItem(Player player, string target, int amount, string item)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level2))
             {
+                
                 if(amount <= 0)
                 {
                     player.SendChatMessage("~r~Please provide a valid amount!");
@@ -40,7 +62,7 @@ namespace GTARoleplay.AdminSystem
                             if(itm != null)
                             {
                                 inv.AddItem(itm);
-                                Item.AddItemToDatabase(itm);
+                                itemHandler.AddItemToDatabase(itm);
                                 targetPly.SendChatMessage($"You were given {amount} {itm.Name}");
                                 player.SendChatMessage($"You gave {amount} {itm.Name} to {targetPly.Name}");
                             }
@@ -55,7 +77,7 @@ namespace GTARoleplay.AdminSystem
                             if (itms != null)
                             {
                                 inv.AddItems(itms);
-                                Item.AddItemsToDatabase(itms);
+                                itemHandler.AddItemsToDatabase(itms);
                                 targetPly.SendChatMessage($"You were given {amount} {itms[0].Name}");
                                 player.SendChatMessage($"You gave {amount} {itms[0].Name} to {targetPly.Name}");
                             }
@@ -69,20 +91,16 @@ namespace GTARoleplay.AdminSystem
             }
         }
 
-        [Command("checkitems", Alias = "acheckitem,admincheckitems", GreedyArg = true)]
-        public void CheckPlayerItems(Player player, string target)
+        public void CheckPlayerItems(Player player, string targetd)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
             {
-                Player targetPly = PlayerHandler.GetPlayer(target);
+                Player targetPly = PlayerHandler.GetPlayer(targetd);
                 if (targetPly != null)
                 {
-                    player.SendChatMessage($"Showing the inventory of {targetPly.Name}:");
-                    player.SendChatMessage("___________________________________________");
                     Inventory inv = targetPly.GetUserData()?.ActiveCharacter?.Inventory;
                     if (inv != null)
                         inv.PrintInventory(player);
-                    player.SendChatMessage("___________________________________________");
                 }
                 else 
                     player.SendChatMessage("~r~ERROR: ~w~Player not found.");

@@ -1,16 +1,37 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Character;
+using GTARoleplay.Database;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Money;
 using GTARoleplay.Vehicles.Data;
 
 namespace GTARoleplay.Vehicles
 {
-    public class VehicleModEvents : Script
+    public class VehicleModEventHandler 
     {
         private const int MOD_PRICE = 1000;
 
-        [RemoteEvent("VehicleTravelled::Server")]
+        private readonly DatabaseBaseContext dbx;
+        private readonly VehicleHandler vehicleHandler;
+
+        public VehicleModEventHandler(DatabaseBaseContext dbx, VehicleHandler vehicleHandler)
+        {
+            this.dbx = dbx;
+            this.vehicleHandler = vehicleHandler;
+
+            NAPI.ClientEvent.Register<Player, float>(
+                "VehicleTravelled::Server", this, UpdateVehicleStats);
+            NAPI.ClientEvent.Register<Player, Vehicle, int, int, int>(
+                "PurchasePrimaryVehicleColor::Server", this, PurchasePrimaryVehicleColor);
+            NAPI.ClientEvent.Register<Player, Vehicle, int, int, int>(
+                "PurchaseSecondaryVehicleColor::Server", this, PurchaseSecondaryVehicleColor);
+            NAPI.ClientEvent.Register<Player, Vehicle, int, int, int>(
+                "PurchaseVehicleWheel::Server", this, PurchaseVehicleWheel);
+            NAPI.ClientEvent.Register<Player, Vehicle, int, int>(
+                "PurchaseVehicleMod::Server", this, PurchaseVehicleMod);
+            NAPI.ClientEvent.Register<Player, Vehicle>(
+                "RequestResyncOfVehicle::Server", this, RequestResyncOfVehicle);
+        }
+
         public void UpdateVehicleStats(Player player, float distance)
         {
             if (player == null || player.Vehicle == null)
@@ -24,12 +45,11 @@ namespace GTARoleplay.Vehicles
                     // Update the vehicles distance travelled, and deduct fuel
                     vehData.DistanceTravelled += distance;
                     vehData.SendVehicleStatsToPlayer(player);
-                    vehData.Save();
+                    vehicleHandler.Save(vehData);
                 }
             }
         }
 
-        [RemoteEvent("PurchasePrimaryVehicleColor::Server")]
         public void PurchasePrimaryVehicleColor(Player player, Vehicle veh, int r, int g, int b)
         {
             if (player == null || veh == null)
@@ -48,14 +68,13 @@ namespace GTARoleplay.Vehicles
                         vehData.PrimColorG = g;
                         vehData.PrimColorB = b;
                         veh.CustomPrimaryColor = vehData.PrimaryColor;
-                        vehData.Save();
+                        vehicleHandler.Save(vehData);
                         // Deduct money .. 
                     }
                 }
             }
         }
 
-        [RemoteEvent("PurchaseSecondaryVehicleColor::Server")]
         public void PurchaseSecondaryVehicleColor(Player player, Vehicle veh, int r, int g, int b)
         {
             if (player == null || veh == null)
@@ -74,14 +93,13 @@ namespace GTARoleplay.Vehicles
                         vehData.SecondColorG = g;
                         vehData.SecondColorB = b;
                         veh.CustomSecondaryColor = vehData.SecondaryColor;
-                        vehData.Save();
+                        vehicleHandler.Save(vehData);
                         // Deduct money .. 
                     }
                 }
             }
         }
 
-        [RemoteEvent("PurchaseVehicleWheel::Server")]
         public void PurchaseVehicleWheel(Player player, Vehicle veh, int modType, int wheelType, int wheelValue)
         {
             if (player == null || veh == null)
@@ -103,14 +121,13 @@ namespace GTARoleplay.Vehicles
                             mods.FrontWheels = wheelValue;
                         else if (modType == 24)
                             mods.BackWheels = wheelValue;
-                        mods.Save();
+                        vehicleHandler.Save(mods);
                         // Deduct money .. 
                     }
                 }
             }
         }
 
-        [RemoteEvent("PurchaseVehicleMod::Server")]
         public void PurchaseVehicleMod(Player player, Vehicle veh, int modType, int modValue)
         {
             if (player == null || veh == null)
@@ -197,13 +214,12 @@ namespace GTARoleplay.Vehicles
                             mods.Plate = modValue;
                             break;
                     }
-                    mods.Save();
+                    vehicleHandler.Save(mods);
                     // Deduct money .... 
                 }
             }
         }
 
-        [RemoteEvent("RequestResyncOfVehicle::Server")]
         public void RequestResyncOfVehicle(Player player, Vehicle veh)
         {
             if (player == null || veh == null)

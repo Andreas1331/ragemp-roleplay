@@ -56,46 +56,6 @@ namespace GTARoleplay.Character.Data
 
         public List<GTAVehicle> Vehicles;
         public Inventory Inventory;
-  
-        public static event Action<GTACharacter, Player> OnCharacterSpawned;
-
-        public void SpawnCharacter(User user)
-        {
-            UserRef = user;
-            UserRef.ActiveCharacter = this;
-            UserRef.PlayerData.Position = LastKnownPos;
-            UserRef.PlayerData.Name = Fullname;
-            UserRef.PlayerData.Transparency = 255;
-
-            // Load the players information
-            var db = DatabaseService.GetDatabaseContext();
-            List<Item> items = db
-                .Items
-                .Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player))
-                .ToList();
-
-            if (OutfitData != null)
-            {
-                ApplyClothes();
-            }
-
-            List<GTAVehicle> vehicles = db.Vehicles
-                .Include(x => x.Mods)
-                .Where(x => x.Owner.Equals(CharacterID) && x.OwnerType == OwnerType.Player)
-                .ToList();
-            Vehicles = vehicles;
-
-            List<Item> itms = db
-                .Items
-                .Where(x => x.OwnerID.Equals(CharacterID) && x.OwnerType.Equals(OwnerType.Player))
-                .ToList();
-            Inventory = new Inventory(itms);
-
-            PlayerHandler.AddPlayerToList(UserRef.PlayerData);
-            MoneyHandler.SendUpdatedCashToPlayer(this);
-
-            OnCharacterSpawned?.Invoke(this, UserRef.PlayerData);
-        }
 
         public void ApplyClothes()
         {

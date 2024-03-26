@@ -17,10 +17,9 @@ using System.Linq;
 
 namespace GTARoleplay.Interactions
 {
-    public class InteractionHandler : Script
+    public class InteractionHandler 
     {
-        [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
+        public InteractionHandler()
         {
             // When E is pressed
             PlayerEvents.EKeyPressed += ShowWheelOnE;
@@ -40,14 +39,10 @@ namespace GTARoleplay.Interactions
             /* Check if the player has any player actions stored */
             if (player.HasData(PlayerActionHandler.PLAYER_ACTIONS))
             {
-                PlayerActionStorage storage = player.GetData<PlayerActionStorage>(PlayerActionHandler.PLAYER_ACTIONS);
-                if(storage != null)
-                {
-                    storage.InvokeChildren();
-                }
+                var storage = player.GetData<PlayerActionStorage>(PlayerActionHandler.PLAYER_ACTIONS);
+                storage?.InvokeChildren();
             }
         }
-
 
         public void ShowWheelOnE(Player player, int entityType, int entityValue)
         {

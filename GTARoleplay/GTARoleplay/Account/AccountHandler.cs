@@ -1,28 +1,38 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Account.Data;
 using GTARoleplay.Authentication;
+using GTARoleplay.Character;
 using GTARoleplay.Database;
+using GTARoleplay.Events;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GTARoleplay.Account
 {
-    public class AccountHandler : Script
+    public class AccountHandler 
     {
         public static readonly string USER_DATA = "UserData";
 
-        public static event Action<Player, User> OnUserLoggedIn;
+        private readonly DatabaseBaseContext _dbx;
+        private readonly CharacterHandler _characterHandler;
 
-        [RemoteEvent("OnLoginSubmitted::Server")]
+        public AccountHandler(DatabaseBaseContext dbx, CharacterHandler characterHandler)
+        {
+            _dbx = dbx;
+            _characterHandler = characterHandler;
+
+            NAPI.ClientEvent.Register<Player, string, string>("OnLoginSubmitted::Server", this, AuthenticateLogin);
+            NAPI.ClientEvent.Register<Player, string>("OnCharacterSelected::Server", this, OnCharacterSelected);
+        }
+
         public void AuthenticateLogin(Player player, string username, string password)
         {
             // Find the user and validate the password
             // Include the users Admin profile, if he's an admin
-            User user = DatabaseService.GetDatabaseContext()
+            User user = _dbx
                 .Users
                 .Include(x => x.StaffData)
                 .Where(x => string.Equals(username, x.Username) || string.Equals(username, x.Email))
@@ -36,11 +46,11 @@ namespace GTARoleplay.Account
             }
             if (Authenticator.VerfiyPasswordAgainstUser(user, password))
             {
-                OnUserLoggedIn?.Invoke(player, user);
+                EventsHandler.Instance.UserLoggedIn(player, user);
                 player.TriggerEvent("DestroyLogin::Client");
                 user.PlayerData = player;
                 // Don't track this list of characters as the purpose for now is just to display the current information, not change it
-                var characters = DatabaseService.GetDatabaseContext()
+                var characters = _dbx
                     .Characters
                     .Include(x => x.FactionMemberData)
                     .Include(x => x.OutfitData)
@@ -64,17 +74,8 @@ namespace GTARoleplay.Account
             }
         }
 
-        [RemoteEvent("OnCharacterSelected::Server")]
         public void OnCharacterSelected(Player player, string characterName)
         {
-            // The user didn't send a valid character
-            if (String.IsNullOrWhiteSpace(characterName))
-            {
-                // Invalid input
-                player.SendChatMessage("Invalid input!");
-                return;
-            }
-
             var pUser = player.GetUserData();
             var selectedChar = pUser
                 .Characters
@@ -90,7 +91,7 @@ namespace GTARoleplay.Account
             player.TriggerEvent("EnableHUD::Client", true);
             player.TriggerEvent("SetVersion::Client", Gamemode.VERSION);
 
-            selectedChar.SpawnCharacter(pUser);
+            _characterHandler.SpawnCharacter(pUser, selectedChar);
             pUser.Characters.Clear();
             pUser.Characters = null;
 

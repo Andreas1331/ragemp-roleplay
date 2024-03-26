@@ -1,30 +1,27 @@
 ﻿using GTANetworkAPI;
-using GTARoleplay.Character;
 using GTARoleplay.Character.Data;
 using GTARoleplay.Database;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Money;
-using GTARoleplay.Provider;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Timers;
 
 namespace GTARoleplay.Library
 {
-    public class Gamemode : Script
+    public class Gamemode 
     {
         public static readonly string VERSION = "0.0.2-alpha";
-        private const string WELCOME_MESSAGE = "Welcome to GTA Roleplay!";
         public static readonly CultureInfo ServerCulture = new CultureInfo("en-us");
 
         private Timer hourlyTimer = null;
         private const double hourlyInterval = 3600000; // 1-hour
 
-        [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
+        private readonly DatabaseBaseContext dbx;
+
+        public Gamemode(DatabaseBaseContext dbx)
         {
-            ServicesContainer.Init();
-            DatabaseService.EnsureDatabaseIsCreated();
+            this.dbx = dbx;
 
             NAPI.Server.SetGlobalServerChat(false);
             NAPI.Server.SetAutoRespawnAfterDeath(false);
@@ -36,23 +33,7 @@ namespace GTARoleplay.Library
             hourlyTimer.Start();
         }
 
-        [ServerEvent(Event.PlayerDisconnected)]
-        public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
-        {
-            PlayerHandler.RemovePlayerFromPlayerList(player);
-        }
-
-        [ServerEvent(Event.PlayerConnected)]
-        public void OnPlayerConnected(Player player)
-        {
-            player.SendChatMessage(WELCOME_MESSAGE);
-            player.TriggerEvent("ShowLogin::Client");
-            player.TriggerEvent("EnableHUD::Client", false);
-            player.Freeze(true);
-            player.Transparency = 0;
-        }
-
-        public static void OnHourPassed(object source, ElapsedEventArgs e)
+        public void OnHourPassed(object source, ElapsedEventArgs e)
         {
             // Give a payday to everyone
             var characters = new List<GTACharacter>();
@@ -71,9 +52,8 @@ namespace GTARoleplay.Library
             }
 
             // Go and save their current data
-            var db = DatabaseService.GetDatabaseContext();
-            db.UpdateRange(characters);
-            db.SaveChanges();
+            dbx.UpdateRange(characters);
+            dbx.SaveChanges();
         }
     }
 

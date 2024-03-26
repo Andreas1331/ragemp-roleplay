@@ -4,9 +4,18 @@ using System.Collections.Generic;
 
 namespace GTARoleplay.Character.Customization
 {
-    public class CustomizationEvents : Script
+    public class CustomizationEvents 
     {
-        [RemoteEvent("PurchaseOutfit::Server")]
+        private readonly CustomizationHandler customizationHandler;
+
+        public CustomizationEvents(CustomizationHandler customizationHandler)
+        {
+            this.customizationHandler = customizationHandler;
+
+            NAPI.ClientEvent.Register<Player, object>("PurchaseOutfit::Server", this, PurchaseOutfit);
+            NAPI.ClientEvent.Register<Player>("RequestResyncOfPlayerClothes::Server", this, RequestResyncOfPlayerClothes);
+        }
+
         public void PurchaseOutfit(Player player, object outfitObj)
         {
             if (outfitObj == null)
@@ -69,11 +78,10 @@ namespace GTARoleplay.Character.Customization
                         break;
                 }
             }
-            currentOutfit.Save();
+            customizationHandler.SaveCharacterOutfit(currentOutfit);
             player.SendChatMessage("You've purchased new items for your outfit!");
         }
 
-        [RemoteEvent("RequestResyncOfPlayerClothes::Server")]
         public void RequestResyncOfPlayerClothes(Player player)
         {
             if (player == null)

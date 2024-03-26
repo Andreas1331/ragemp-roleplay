@@ -34,27 +34,6 @@ namespace GTARoleplay.ItemSystem.Items
             OwnerID = ownerID;
             OwnerType = ownerType;
         }
-
-        public void DeleteFromDatabase()
-        {
-            var db = DatabaseService.GetDatabaseContext();
-            db.Items.Remove(this);
-            db.SaveChanges();
-        }
-
-        public static void AddItemToDatabase(Item itm)
-        {
-            var db = DatabaseService.GetDatabaseContext();
-            db.Items.Add(itm);
-            db.SaveChanges();
-        }
-
-        public static void AddItemsToDatabase(List<Item> itms)
-        {
-            var db = DatabaseService.GetDatabaseContext();
-            db.Items.AddRange(itms);
-            db.SaveChanges();
-        }
     }
 
     [Flags]
