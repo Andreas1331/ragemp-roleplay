@@ -33,4 +33,4 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet test --configuration Release --verbosity normal ${{ env.Test_Project_Path }}
+      run: dotnet test --consoleLoggerParameters:ErrorsOnly --configuration Release --verbosity normal ${{ env.Test_Project_Path }} 
