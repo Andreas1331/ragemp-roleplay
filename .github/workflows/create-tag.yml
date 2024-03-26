@@ -1,9 +1,6 @@
 name: Create tag and update csproj
 
 on:
-  push:
-    branches:
-      - main  
   workflow_dispatch:
 
 jobs:
@@ -23,7 +20,7 @@ jobs:
         id: new_tag_step
         uses: paulhatch/semantic-version@v5.4.0
         with:
-          tag_prefix: "v"
+          version_format: "${major}.${minor}.${patch}"
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           bump_each_commit: true
@@ -42,7 +39,7 @@ jobs:
       - name: Update csproj version
         if: ${{ steps.compare_tags_step.outputs.tags_changed == 'true' }}
         run: |
-          sed -i "s|<Version>.*</Version>|<Version>${{ steps.new_tag_step.outputs.version_tag }}</Version>|" ./GTARoleplay/GTARoleplay/GTARoleplay.csproj
+          sed -i "s|<Version>.*</Version>|<Version>${{ steps.new_tag_step.outputs.version  }}</Version>|" ./GTARoleplay/GTARoleplay/GTARoleplay.csproj
           
       - name: Commit changes
         if: ${{ steps.compare_tags_step.outputs.tags_changed == 'true' }}
