@@ -30,12 +30,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Bootstrapper">
-      <HintPath>..\..\..\..\..\..\..\GTARoleplay\server-files\dotnet\runtime\Bootstrapper.dll</HintPath>
-    </Reference>
+    <PackageReference Include="RAGEMP-Bootstrapper" Version="1.1.3" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
