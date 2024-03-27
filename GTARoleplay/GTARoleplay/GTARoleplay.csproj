@@ -33,6 +33,21 @@
     <PackageReference Include="RAGEMP-Bootstrapper" Version="1.1.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Admin.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Admin.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Admin.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Admin.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Exec Command=":: Copy the index.js file which tells the server which client files to use&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Client_Misc&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Account\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Account\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Character\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Character\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Vehicles\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of InventorySystem\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\InventorySystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of AdminSystem\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\AdminSystem\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Casino\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Casino\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;:: Include the entire client folder of Library\Attachments\Client&#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Library\Attachments\Client&quot; &quot;$(ServerPath)\client_packages\gtaroleplay\&quot;&#xD;&#xA;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(ServerPath)\dotnet\resources\GTARoleplay\&quot; &#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Configs\meta.xml&quot; &quot;$(ServerPath)\dotnet\resources\GTARoleplay\&quot; &#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Configs\settings.xml&quot; &quot;$(ServerPath)\dotnet\&quot; &#xD;&#xA;xcopy /E /Y /R &quot;$(ProjectDir)\Configs\index.js&quot; &quot;$(ServerPath)\client_packages\&quot; &#xD;&#xA;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\Microsoft.Extensions*.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\Microsoft.Entity*.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\BCrypt.Net-Next.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\System.Diagnostics.DiagnosticSource.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\System.ComponentModel.Annotations.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\System.Collections.Immutable.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;xcopy /E /Y /R &quot;$(TargetDir)\Newtonsoft.Json.dll&quot; &quot;$(ServerPath)\dotnet\runtime\&quot;&#xD;&#xA;" />
   </Target>
