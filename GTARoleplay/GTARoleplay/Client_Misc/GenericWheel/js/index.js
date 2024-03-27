@@ -31,6 +31,7 @@ mp.events.add('browserDomReady', (browser) => {
         wheelWindow.execute(`initWheel('${wheelDataHolder}', ${listenToKey});`);
         mp.game.graphics.transitionToBlurred(250);
         mp.gui.cursor.show(true, true);
+        mp.game.invoke("0xFC695459D4D0E219", 0.5, 0.5); // Center the cursor
     } else {
         destroyWheelBrowser();
 	}

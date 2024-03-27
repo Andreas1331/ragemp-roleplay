@@ -26,6 +26,7 @@ mp.events.add('browserDomReady', (browser) => {
         return;
     inventoryWindow.execute(`addItemsToContainer(${maxWeight}, '${itms}');`);
     mp.gui.cursor.show(true, true);
+    mp.game.invoke("0xFC695459D4D0E219", 0.5, 0.5); // Center the cursor
 });
 
 mp.events.add('DestroyInventory::Client', () => {
