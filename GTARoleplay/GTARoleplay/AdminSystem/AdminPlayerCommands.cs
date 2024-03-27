@@ -5,7 +5,6 @@ using GTARoleplay.Library;
 using GTARoleplay.Library.Chat;
 using GTARoleplay.Library.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GTARoleplay.AdminSystem
@@ -115,7 +114,7 @@ namespace GTARoleplay.AdminSystem
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Developer))
             {
-                WeaponHash weaponHash = NAPI.Util.WeaponNameToModel(weaponName);
+                var weaponHash = NAPI.Util.WeaponNameToModel(weaponName);
                 if (weaponHash > 0)
                 {
                     NAPI.Player.GivePlayerWeapon(player, weaponHash, ammo);

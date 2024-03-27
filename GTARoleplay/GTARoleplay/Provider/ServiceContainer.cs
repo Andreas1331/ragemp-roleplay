@@ -9,6 +9,7 @@ using GTARoleplay.FactionSystem;
 using GTARoleplay.Interactions;
 using GTARoleplay.InventorySystem;
 using GTARoleplay.Library;
+using GTARoleplay.SupportTicket;
 using GTARoleplay.Vehicles;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -38,7 +39,10 @@ namespace GTARoleplay.Provider
                 .AddSingleton<PlayerHandler>()
                 .AddSingleton<CustomizationHandler>()
                 .AddSingleton<FactionHandler>()
+                .AddSingleton<SupportTicketHandler>()
                 .AddSingleton<AdminInventoryCommands>()
+                .AddSingleton<AdminUtilityCommands>()
+                .AddSingleton<AdminVehicleCommands>()
                 .AddSingleton<AdminPlayerCommands>()
                 .AddSingleton<InteractionHandler>();
 

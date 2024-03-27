@@ -1,15 +1,22 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.AdminSystem.Data;
+using GTARoleplay.Library.Extensions;
 using GTARoleplay.Vehicles.Streaming;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GTARoleplay.AdminSystem
 {
-    public class AdminVehicleCommands : Script
+    public class AdminVehicleCommands
     {
-        [Command("spawnadminvehicle", Alias ="acar,aveh")]
+        public AdminVehicleCommands()
+        {
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("spawnadminvehicle")
+                {
+                    Alias = "acar,aveh",
+                    ClassInstance = this
+                }, SpawnAdminVehicle);
+        }
+
         public void SpawnAdminVehicle(Player player, string vehicleName)
         {
             if(AdminAuthorization.HasPermission(player, StaffRank.Level2))
@@ -21,16 +28,6 @@ namespace GTARoleplay.AdminSystem
                     VehicleStreaming.SetEngineState(veh, true);
                     player.SendChatMessage("Vehicle created!");
                 }
-            }
-        }
-
-        [Command("mypos")]
-        public void PrintMyPosition(Player player)
-        {
-            if (AdminAuthorization.HasPermission(player, StaffRank.Level1))
-            {
-                Vector3 pos = player.Position;
-                player.SendChatMessage($"Your position ({pos.X}, {pos.Y}, {pos.Z})");
             }
         }
     }

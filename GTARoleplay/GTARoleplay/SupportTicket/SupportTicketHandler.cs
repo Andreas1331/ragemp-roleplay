@@ -9,18 +9,51 @@ using System.Linq;
 
 namespace GTARoleplay.SupportTicket
 {
-    public class SupportTicketHandler : Script
+    public class SupportTicketHandler 
     {
-        public Dictionary<int, string> helpmes = new Dictionary<int, string>();
+        public Dictionary<int, string> tickets = new Dictionary<int, string>();
 
-        [Command("helpme", "~y~USAGE: ~w~/helpme [question] to submit a ticket to our staff team.", GreedyArg = true)]
-        public void SubmitPlayerHelpme(Player player, string question)
+        public SupportTicketHandler()
+        {
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("ticket", "~y~USAGE: ~w~/ticket [question] to submit a ticket to our staff team.")
+                {
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, SubmitTicket);
+
+            NAPI.Command.Register<Player>(
+                new RuntimeCommandInfo("viewtickets")
+                {
+                    Alias = "vt,tickets",
+                    Group = "Moderator",
+                    ClassInstance = this
+                }, ViewTickets);
+
+            NAPI.Command.Register<Player, int>(
+                new RuntimeCommandInfo("trashticket", "~y~USAGE: ~w~/trashtticket [ticketID]")
+                {
+                    Alias = "tt",
+                    Group = "Moderator",
+                    ClassInstance = this
+                }, TrashTicket);
+
+            NAPI.Command.Register<Player, int>(
+                new RuntimeCommandInfo("acceptticket", "~y~USAGE: ~w~/acceptticket(/tt) [ticketID] to accept a ticket.")
+                {
+                    Alias = "at",
+                    Group = "Moderator",
+                    ClassInstance = this
+                }, AcceptTicket);
+        }
+
+        public void SubmitTicket(Player player, string question)
         {
             if (player == null)
                 return;
 
             int playerID = PlayerHandler.GetIDFromPlayer(player);
-            if (!helpmes.ContainsKey(playerID))
+            if (!tickets.ContainsKey(playerID))
             {
                 if (String.IsNullOrEmpty(question))
                 {
@@ -34,73 +67,70 @@ namespace GTARoleplay.SupportTicket
                     AdminHandler.PrintMessageToAdmins(formattedHelpme);
                 else
                     AdminHandler.PrintMessageToModerators(formattedHelpme);
-                helpmes.Add(playerID, formattedHelpme);
+                tickets.Add(playerID, formattedHelpme);
                 player.SendChatMessage("~y~Your helpme has now been submitted, standby as a staff member responds.");
             }
             else
                 player.SendErrorMessage("You already have a pending helpme.");
         }
 
-        [Command("viewhelpmes", Alias = "vhm", Group = "Moderator")]
-        public void PrintHelpmes(Player player)
+        public void ViewTickets(Player player)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
-                player.SendChatMessage("~y~Displaying avaliable helpme's. Use /accepthelpme(ahm) [helpmeID] to accept, or /trashhelpme [helpmeID] to trash.");
-                helpmes?.Values.ToList().ForEach(helpme =>
+                player.SendChatMessage("~y~Displaying avaliable tickets. Use /acceptticket(at) [ticketID] to accept, or /trashticket(tt) [ticketID] to trash.");
+                tickets?.Values.ToList().ForEach(helpme =>
                 {
                     player.SendChatMessage(helpme);
                 });
-                if (helpmes?.Count <= 0)
+                if (tickets?.Count <= 0)
                 {
-                    player.SendErrorMessage("There's no pending helpme's!");
+                    player.SendErrorMessage("There's no pending tickets");
                 }
             }
         }
 
-        [Command("trashhelpme", "~y~USAGE: ~w~/trashhelpme [HelpmeID]", Group = "Moderator")]
-        public void TrashHelpme(Player player, int helpmeid)
+        public void TrashTicket(Player player, int ticketID)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
-                if (helpmes.ContainsKey(helpmeid))
+                if (tickets.ContainsKey(ticketID))
                 {
-                    helpmes.Remove(helpmeid);
-                    var submittedBy = PlayerHandler.GetPlayer(helpmeid);
+                    tickets.Remove(ticketID);
+                    var submittedBy = PlayerHandler.GetPlayer(ticketID);
 
                     if (submittedBy != null)
                     {
                         Staff staff = player.GetUserData()?.StaffData;
                         if (staff != null)
                         {
-                            submittedBy.SendErrorMessage($"Your helpme has been trashed by {staff.StaffName}", "INFO");
+                            submittedBy.SendErrorMessage($"Your ticket has been trashed by {staff.StaffName}", "INFO");
                         }
                     }
 
-                    player.SendModeratorCommandMessage($"You successfully trashed the helpme with ID: {helpmeid}");
+                    player.SendModeratorCommandMessage($"You successfully trashed the ticket with ID: {ticketID}");
                 }
                 else
-                    player.SendErrorMessage($"There's no helpme with the ID: {helpmeid}");
+                    player.SendErrorMessage($"There's no ticket with the ID: {ticketID}");
             }
         }
 
-        [Command("accepthelpme", "~y~USAGE: ~w~/accepthelpme(/ahm) [HelpmeID] to accept a helpme.", Alias = "ahm", Group = "Moderator")]
-        public void AcceptHelpme(Player player, int helpmeID)
+        public void AcceptTicket(Player player, int ticketID)
         {
             if (AdminAuthorization.HasPermission(player, StaffRank.Moderator))
             {
-                if (helpmes.ContainsKey(helpmeID))
+                if (tickets.ContainsKey(ticketID))
                 {
-                    Player submittedBy = PlayerHandler.GetPlayer(helpmeID);
+                    Player submittedBy = PlayerHandler.GetPlayer(ticketID);
                     if (submittedBy != null)
                     {
                         Staff staffData = player.GetUserData()?.StaffData;
                         if (staffData == null)
                             return;
 
-                        submittedBy.SendChatMessage($"~g~INFO: ~w~Your helpme has been accepted by: {staffData.StaffName} ((ID:{PlayerHandler.GetIDFromPlayer(player)}))");
-                        player.SendModeratorCommandMessage($"Helpme accepted! submitted by: {submittedBy.Name} ((ID:{helpmeID}))");
-                        helpmes.Remove(helpmeID);
+                        submittedBy.SendChatMessage($"~g~INFO: ~w~Your ticket has been accepted by: {staffData.StaffName} ((ID:{PlayerHandler.GetIDFromPlayer(player)}))");
+                        player.SendModeratorCommandMessage($"Ticket accepted! submitted by: {submittedBy.Name} ((ID:{ticketID}))");
+                        tickets.Remove(ticketID);
                     }
                 }
             }
