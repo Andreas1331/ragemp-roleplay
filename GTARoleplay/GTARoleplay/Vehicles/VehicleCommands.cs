@@ -1,24 +1,31 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Events;
-using GTARoleplay.Interactions;
 using GTARoleplay.Library.Chat;
 using GTARoleplay.Library.Extensions;
 using GTARoleplay.Vehicles.Data;
 
 namespace GTARoleplay.Vehicles
 {
-    public class VehicleCommands : Script
+    public class VehicleCommands 
     {
-        [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
+        public VehicleCommands()
         {
-            // When Y is pressed
-            PlayerEvents.YKeyPressed += ToggleVehicleEngine;
-            // When L is pressed
-            PlayerEvents.LKeyPressed += ToggleVehicleLock;
+            NAPI.Command.Register<Player>(new RuntimeCommandInfo("engine")
+            {
+                Alias = "vehengine,vehicleengine,vengine",
+                ClassInstance = this
+            }, ToggleVehicleEngine);
+
+            NAPI.Command.Register<Player>(new RuntimeCommandInfo("vehiclelock")
+            {
+                Alias = "vehlock,vlock",
+                ClassInstance = this
+            }, ToggleVehicleLock);
+
+            EventsHandler.Instance.YKeyPressed += ToggleVehicleEngine;
+            EventsHandler.Instance.LKeyPressed += ToggleVehicleLock;
         }
 
-        [Command("engine", Alias = "vehengine,vehicleengine,vengine")]
         public void ToggleVehicleEngine(Player player)
         {
             if (player.Vehicle != null)
@@ -37,7 +44,6 @@ namespace GTARoleplay.Vehicles
             }
         }
 
-        [Command("vehiclelock", Alias = "vehlock,vlock")]
         public void ToggleVehicleLock(Player player)
         {
             if (player == null)
