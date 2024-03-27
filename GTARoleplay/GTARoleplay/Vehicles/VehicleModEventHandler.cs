@@ -39,7 +39,7 @@ namespace GTARoleplay.Vehicles
 
             if(distance > 0)
             {
-                GTAVehicle vehData = player.Vehicle.GetVehicleData();
+                var vehData = player.Vehicle.GetVehicleData();
                 if(vehData != null)
                 {
                     // Update the vehicles distance travelled, and deduct fuel

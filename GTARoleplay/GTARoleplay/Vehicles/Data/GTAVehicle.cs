@@ -83,7 +83,7 @@ namespace GTARoleplay.Vehicles.Data
                 // The constructor using Color() doesn't work, so set it manually after spawning
                 Vehicle = NAPI.Vehicle.CreateVehicle(vehicleHash, LastKnownPos, LastRotation, 0, 0, Numberplate);
                 Vehicle.SetData<GTAVehicle>(VehicleHandler.VEHICLE_DATA, this);
-                VehicleStreaming.SetEngineState(Vehicle, true);
+                VehicleStreaming.SetEngineState(Vehicle, false);
                 ApplyVehicleMods();
                 IsSpawned = true;
             }
@@ -141,7 +141,6 @@ namespace GTARoleplay.Vehicles.Data
 
             Vehicle.CustomPrimaryColor = PrimaryColor;
             Vehicle.CustomSecondaryColor = SecondaryColor;
-            NAPI.Chat.SendChatMessageToAll("Applied vehicle mods..");
         }
 
         public bool HasVehiclePerms(Player player)

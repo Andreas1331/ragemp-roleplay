@@ -1,6 +1,6 @@
 ﻿let distTimer, distanceTravelled = 0;
-const requiredDistBeforeSave = 2; // in km
-const statsIncreaserInterval = 5000; // in ms
+const requiredDistBeforeSave = 1; // in km
+const statsIncreaserInterval = 2500; // in ms
 
 mp.events.add("playerEnterVehicle", playerEnterVehicleHandler);
 mp.events.add("playerLeaveVehicle", playerLeaveVehicleHandler);
@@ -62,9 +62,10 @@ function startVehicleStatsIncreaser() {
 		// m/s
 		speed = veh.getSpeed();
 		// distance: speed * time
-		distanceTravelled += ((speed * (statsIncreaserInterval/1000)) / 3600);
+		distanceTravelled += ((speed * (statsIncreaserInterval / 1000)) / 3600);
+
 		// if the vehicle has travelled more than x meters
-		if(distanceTravelled >= requiredDistBeforeSave){
+		if (distanceTravelled >= requiredDistBeforeSave) {
 			mp.events.callRemote('VehicleTravelled::Server', distanceTravelled);
 			distanceTravelled = 0;
 		}

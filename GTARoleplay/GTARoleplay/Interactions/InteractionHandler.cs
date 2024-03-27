@@ -99,9 +99,11 @@ namespace GTARoleplay.Interactions
                     var spawnSlice = new WheelSliceAction("icon.palm", () => veh.SpawnVehicle());
                     var despawnSlice = new WheelSliceAction("icon.cross", () => veh.DespawnVehicle());
                     var backSlice = new WheelSliceSubMenu("icon.arrowleft", vehicleWheel.ID);
-                    vehWheel.Slices = new List<object>();
-                    vehWheel.Slices.Add(spawnSlice);
-                    vehWheel.Slices.Add(despawnSlice);
+                    vehWheel.Slices = new List<object>
+                    {
+                        spawnSlice,
+                        despawnSlice
+                    };
 
                     var slice = new WheelSliceSubMenu(veh.VehicleModel, vehicleWheelID);
                     vehicleSlices.Add(slice);
@@ -144,11 +146,9 @@ namespace GTARoleplay.Interactions
                 {
                     new WheelSliceAction("icon.key", () => {
                         veh.Locked = !veh.Locked;
-                        NAPI.Chat.SendChatMessageToAll("Changed lock status of vehicle..");
                     }),
                     new WheelSliceAction("icon.power", () => {
                         VehicleStreaming.SetEngineState(veh, !VehicleStreaming.GetEngineState(veh));
-                        NAPI.Chat.SendChatMessageToAll("Changed engine status of vehicle..");
                     }),
                     new WheelSliceAction("Trunk", () =>
                     {
@@ -157,7 +157,6 @@ namespace GTARoleplay.Interactions
                             VehicleStreaming.SetDoorState(veh, DoorID.DoorTrunk, DoorState.DoorClosed);
                         else
                             VehicleStreaming.SetDoorState(veh, DoorID.DoorTrunk, DoorState.DoorOpen);
-                        NAPI.Chat.SendChatMessageToAll("Changed trunk status of vehicle..");
                     }),
                     new WheelSliceAction("Hood", () =>
                     {
@@ -166,12 +165,10 @@ namespace GTARoleplay.Interactions
                             VehicleStreaming.SetDoorState(veh, DoorID.DoorHood, DoorState.DoorClosed);
                         else
                             VehicleStreaming.SetDoorState(veh, DoorID.DoorHood, DoorState.DoorOpen);
-                        NAPI.Chat.SendChatMessageToAll("Changed hood status of vehicle..");
                     }),
                     new WheelSliceAction("icon.wrench", () =>
                     {
                         VehicleModHandler.ShowModWindow(ply, veh);
-                        NAPI.Chat.SendChatMessageToAll("Opening mod browser for vehicle..");
                     })
                 };
             wheel.Slices = slices;
