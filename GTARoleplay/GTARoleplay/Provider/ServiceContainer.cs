@@ -1,5 +1,7 @@
 ﻿using GTARoleplay.Account;
 using GTARoleplay.AdminSystem;
+using GTARoleplay.Animations;
+using GTARoleplay.Casino;
 using GTARoleplay.Character;
 using GTARoleplay.Character.Customization;
 using GTARoleplay.Database;
@@ -40,10 +42,14 @@ namespace GTARoleplay.Provider
                 .AddSingleton<CustomizationHandler>()
                 .AddSingleton<FactionHandler>()
                 .AddSingleton<SupportTicketHandler>()
+                .AddSingleton<RouletteHandler>()
                 .AddSingleton<AdminInventoryCommands>()
                 .AddSingleton<AdminUtilityCommands>()
                 .AddSingleton<AdminVehicleCommands>()
                 .AddSingleton<AdminPlayerCommands>()
+                .AddSingleton<AnimationCommands>()
+                .AddSingleton<VehicleCommands>()
+                .AddSingleton<FactionCommands>()
                 .AddSingleton<InteractionHandler>();
 
             ServiceProvider = serviceCollection.BuildServiceProvider();

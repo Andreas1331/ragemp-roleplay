@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Account.Data;
+using GTARoleplay.Library.Extensions;
 using System;
 
 namespace GTARoleplay.Events
@@ -15,11 +16,24 @@ namespace GTARoleplay.Events
 
         public event Action<Player, User> OnUserLoggedIn;
 
+        public delegate void KeyPressed(Player player);
+        public delegate void InteractionKeyPressed(Player player, int entityType, int entityHandle);
+
+        public event KeyPressed CKeyPressed;
+        public event KeyPressed YKeyPressed;
+        public event KeyPressed LKeyPressed;
+        public event InteractionKeyPressed EKeyPressed;
+
         public static EventsHandler Instance { get; private set; }
 
         public EventsHandler()
         {
             Instance = this;
+
+            NAPI.ClientEvent.Register<Player>("CKeyPressed::Server", this, OnCKeyPressed);
+            NAPI.ClientEvent.Register<Player>("YKeyPressed::Server", this, OnYKeyPressed);
+            NAPI.ClientEvent.Register<Player>("LKeyPressed::Server", this, OnLKeyPressed);
+            NAPI.ClientEvent.Register<Player, int, int>("EKeyPressed::Server", this, OnEKeyPressed);
         }
 
         public void ResourceStarted()
@@ -54,6 +68,34 @@ namespace GTARoleplay.Events
         public void UserLoggedIn(Player player, User user)
         {
             OnUserLoggedIn?.Invoke(player, user);
+        }
+
+        private void OnCKeyPressed(Player player)
+        {
+            if (player == null)
+                return;
+            CKeyPressed?.Invoke(player);
+        }
+
+        private void OnYKeyPressed(Player player)
+        {
+            if (player == null)
+                return;
+            YKeyPressed?.Invoke(player);
+        }
+
+        private void OnLKeyPressed(Player player)
+        {
+            if (player == null)
+                return;
+            LKeyPressed?.Invoke(player);
+        }
+
+        private void OnEKeyPressed(Player player, int entityType, int entityHandle)
+        {
+            if (player == null)
+                return;
+            EKeyPressed?.Invoke(player, entityType, entityHandle);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using GTARoleplay.Casino.Data;
+using GTARoleplay.Library.Extensions;
 using GTARoleplay.Wheel.Containers;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,17 @@ using System.Linq;
 
 namespace GTARoleplay.Casino
 {
-    public class RouletteHandler : Script
+    public class RouletteHandler
     {
         public static readonly Dictionary<GTANetworkAPI.Object, RouletteTable> AllRouletteTables = new Dictionary<GTANetworkAPI.Object, RouletteTable>();
 
-        [RemoteEvent("OnPlayerBetRoulette::Server")]
+        public RouletteHandler()
+        {
+            NAPI.ClientEvent.Register<Player, string, int, int>("OnPlayerBetRoulette::Server", this, PlayerRouletteBet);
+            NAPI.ClientEvent.Register<Player, string>("OnPlayerRemoveBetRoulette::Server", this, PlayerRemoveRouletteBet);
+            NAPI.ClientEvent.Register<Player>("OnPlayerLeaveRouletteTable::Server", this, PlayerLeaveRouletteTable);
+        }
+
         public void PlayerRouletteBet(Player player, string bettingFields, int _betFlag, int betAmount)
         {
             try
@@ -28,7 +35,6 @@ namespace GTARoleplay.Casino
             }
         }
 
-        [RemoteEvent("OnPlayerRemoveBetRoulette::Server")]
         public void PlayerRemoveRouletteBet(Player player, string bettingFields)
         {
             try
@@ -45,14 +51,10 @@ namespace GTARoleplay.Casino
             }
         }
 
-        [RemoteEvent("OnPlayerLeaveRouletteTable::Server")]
         public void PlayerLeaveRouletteTable(Player player)
         {
-            RouletteTable table = AllRouletteTables.Values.FirstOrDefault(x => x.playersAtTable.ContainsKey(player));
-            if (table != null)
-            {
-                table.LeaveTable(player);
-            }
+            var table = AllRouletteTables.Values.FirstOrDefault(x => x.playersAtTable.ContainsKey(player));
+            table?.LeaveTable(player);
         }
 
         public static void CreateRouletteInteractionWheel(Player player, GTANetworkAPI.Object tableObj)

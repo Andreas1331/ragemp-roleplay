@@ -12,7 +12,7 @@ namespace GTARoleplay.Animations
 {
     public class AnimationHandler : Script
     {
-        public static readonly List<Animation> AllAnimations = new List<Animation>()
+        private static readonly List<Animation> AllAnimations = new List<Animation>()
         {
             new Animation("Fuck you", "fuckyou", "mp_player_intfinger", "mp_player_int_finger", null, AnimationFlags.StopOnLastFrame),
             new Animation("Guitar", "", "anim@mp_player_intcelebrationmale@air_guitar", "air_guitar", null, AnimationFlags.StopOnLastFrame),
@@ -83,7 +83,7 @@ namespace GTARoleplay.Animations
 
         public static bool StartAnimation(Player player, string animName)
         {
-            if (player == null || String.IsNullOrEmpty(animName))
+            if (player == null)
                 return false;
 
             animName = animName.ToLower();

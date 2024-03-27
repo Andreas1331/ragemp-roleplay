@@ -4,9 +4,19 @@ using GTARoleplay.Library.Extensions;
 
 namespace GTARoleplay.FactionSystem
 {
-    public class FactionCommands : Script
+    public class FactionCommands 
     {
-        [Command("faction", Alias = "f,fchat", GreedyArg = true)]
+        public FactionCommands()
+        {
+            NAPI.Command.Register<Player, string>(
+                new RuntimeCommandInfo("faction")
+                {
+                    Alias = "f,fchat",
+                    GreedyArg = true,
+                    ClassInstance = this
+                }, SendFactionMessage);
+        }
+
         public void SendFactionMessage(Player player, string message)
         {
             var charData = player.GetUserData()?.ActiveCharacter;

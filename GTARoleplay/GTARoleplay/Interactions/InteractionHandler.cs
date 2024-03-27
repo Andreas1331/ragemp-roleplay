@@ -21,17 +21,12 @@ namespace GTARoleplay.Interactions
     {
         public InteractionHandler()
         {
-            // When E is pressed
-            PlayerEvents.EKeyPressed += ShowWheelOnE;
-
-            // When C is pressed
-            PlayerEvents.CKeyPressed += ShowGenericWheel;
-
-            // When Y is pressed
-            PlayerEvents.YKeyPressed += DoPlayerAction;
+            EventsHandler.Instance.EKeyPressed += ShowWheelOnE;
+            EventsHandler.Instance.CKeyPressed += ShowGenericWheel;
+            EventsHandler.Instance.YKeyPressed += DoPlayerAction;
         }
 
-        public void DoPlayerAction(Player player)
+        private void DoPlayerAction(Player player)
         {
             if (player == null)
                 return;
@@ -44,7 +39,7 @@ namespace GTARoleplay.Interactions
             }
         }
 
-        public void ShowWheelOnE(Player player, int entityType, int entityValue)
+        private void ShowWheelOnE(Player player, int entityType, int entityValue)
         {
             switch (entityType)
             {
@@ -65,7 +60,7 @@ namespace GTARoleplay.Interactions
             }
         }
 
-        public void ShowGenericWheel(Player player)
+        private void ShowGenericWheel(Player player)
         {
             var character = player.GetUserData()?.ActiveCharacter;
             if (character == null)

@@ -1,5 +1,4 @@
-﻿using GTANetworkAPI;
-using GTARoleplay.Database;
+﻿using GTARoleplay.Database;
 using GTARoleplay.Events;
 using GTARoleplay.FactionSystem.Data;
 using Microsoft.EntityFrameworkCore;
