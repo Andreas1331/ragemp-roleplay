@@ -7,8 +7,10 @@ using GTARoleplay.Events;
 using GTARoleplay.Library;
 using GTARoleplay.Library.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace GTARoleplay.Account
 {
@@ -89,7 +91,9 @@ namespace GTARoleplay.Account
 
             // Enable the HUD
             player.TriggerEvent("EnableHUD::Client", true);
-            player.TriggerEvent("SetVersion::Client", Gamemode.VERSION);
+            // TODO: Put the version into a config class and load everything we need once instead
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            player.TriggerEvent("SetVersion::Client", $"{version.Major}.{version.Minor}.{version.Build}");
 
             _characterHandler.SpawnCharacter(pUser, selectedChar);
             pUser.Characters.Clear();

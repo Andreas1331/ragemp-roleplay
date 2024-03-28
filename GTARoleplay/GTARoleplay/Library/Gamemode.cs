@@ -11,7 +11,6 @@ namespace GTARoleplay.Library
 {
     public class Gamemode 
     {
-        public static readonly string VERSION = "0.0.2-alpha";
         public static readonly CultureInfo ServerCulture = new CultureInfo("en-us");
 
         private Timer hourlyTimer = null;
